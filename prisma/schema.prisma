@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Platform {
+  LEETCODE
+  CODECHEF
+  GFG
+  CODEFORCES
+  HACKERRANK
+  OTHERS
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum Feedback {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  problems  Problem[]
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+}
+
+model Problem {
+  id               String        @id @default(cuid())
+  userId           String
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  platform         Platform
+  tags             String[]
+  nextRevisionDate DateTime      @default(now())
+  intervalDays     Int           @default(1)
+  difficulty       Difficulty
+  easeFactor       Float         @default(2.5)
+  revisionCount    Int           @default(0)
+  createdAt        DateTime      @default(now())
+  note             Note?
+  revisionLogs     RevisionLog[]
+
+  @@index([userId, nextRevisionDate])
+}
+
+model Note {
+  id                   String  @id @default(cuid())
+  problemId            String  @unique
+  problem              Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  bruteForceApproach   String? @db.Text
+  optimizedApproach    String? @db.Text
+  timeComplexity       String?
+  spaceComplexity      String?
+  mistakes             String? @db.Text
+  keyLearning          String  @db.Text
+  intuition            String? @db.Text
+  interviewExplanation String  @db.Text
+}
+
+model RevisionLog {
+  id           String   @id @default(cuid())
+  problemId    String
+  problem      Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  reviewedAt   DateTime @default(now())
+  userFeedback Feedback
+}
