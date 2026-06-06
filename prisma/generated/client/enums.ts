@@ -9,7 +9,31 @@
 * 🟢 You can import this file directly.
 */
 
+export const Platform = {
+  LEETCODE: 'LEETCODE',
+  CODECHEF: 'CODECHEF',
+  GFG: 'GFG',
+  CODEFORCES: 'CODEFORCES',
+  HACKERRANK: 'HACKERRANK',
+  OTHERS: 'OTHERS'
+} as const
+
+export type Platform = (typeof Platform)[keyof typeof Platform]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const Difficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD'
+} as const
+
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
+
+
+export const Feedback = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD'
+} as const
+
+export type Feedback = (typeof Feedback)[keyof typeof Feedback]

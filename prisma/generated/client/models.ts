@@ -8,5 +8,11 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/ConnectionTest'
+export type * from './models/User'
+export type * from './models/Problem'
+export type * from './models/Note'
+export type * from './models/RevisionLog'
+export type * from './models/Session'
+export type * from './models/Account'
+export type * from './models/Verification'
 export type * from './commonInputTypes'

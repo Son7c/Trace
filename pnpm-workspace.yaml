@@ -1,6 +1,8 @@
 allowBuilds:
-  '@prisma/engines': false
-  esbuild: false
-  prisma: false
-  sharp: false
-  unrs-resolver: false
+  '@prisma/engines': true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
+overrides:
+  kysely: "0.28.1"
