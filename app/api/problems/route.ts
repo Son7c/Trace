@@ -1,8 +1,17 @@
 import prisma from "@/lib/prisma";
+import {
+  CreateProblemInput,
+  CreateProblemSchema,
+} from "@/lib/validators/problem";
 
 export async function POST(request: Request) {
   const req = await request.json();
-  const { userId, title, platform, difficulty, url, tags } = req;
+  const parsed = CreateProblemSchema.safeParse(req);
+  if (!parsed.success) {
+    return Response.json({ error: parsed.error.flatten().fieldErrors }, { status: 400 });
+  }
+  const { userId, title, platform, difficulty, url, tags }: CreateProblemInput =
+    parsed.data;
   const res = await prisma.problem.create({
     data: {
       userId,
