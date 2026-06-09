@@ -11,4 +11,7 @@ export const CreateProblemSchema = z.object({
   url:z.url()
 });
 
+export const UpdateProblemSchema = CreateProblemSchema.partial();
+
 export type CreateProblemInput=z.infer<typeof CreateProblemSchema>
+export type UpdateProblemInput=z.infer<typeof UpdateProblemSchema>

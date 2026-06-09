@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { UpdateProblemSchema,UpdateProblemInput } from "@/lib/validators/problem";
 
 export async function GET(
   request: Request,
@@ -22,9 +23,16 @@ export async function PATCH(
   try {
     const { id } = await params;
     const req = await request.json();
+    const parsed = UpdateProblemSchema.safeParse(req);
+    if (!parsed.success) {
+      return Response.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 },
+      );
+    }
     const res = await prisma.problem.update({
       where: { id },
-      data: { ...req },
+      data: { ...parsed.data },
     });
     return Response.json(res, { status: 200 });
   } catch (err) {
