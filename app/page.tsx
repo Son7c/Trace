@@ -1,5 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 export default function Home() {
@@ -7,7 +8,6 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isSignOut, setSignOut] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,21 +56,7 @@ export default function Home() {
   if (isPending) return <div>Loading session...</div>;
 
   if (session) {
-    return (
-      <div style={{ padding: "20px" }}>
-        <h1>Welcome, {session.user.name || session.user.email}</h1>
-        <p>You are successfully authenticated.</p>
-        <button
-          onClick={async () => {
-            setSignOut(true);
-            await authClient.signOut();
-            setSignOut(false);
-          }}
-        >
-          {isSignOut ? "Signing out..." : "Sign Out"}
-        </button>
-      </div>
-    );
+    redirect("/dashboard");
   }
 
   return (
