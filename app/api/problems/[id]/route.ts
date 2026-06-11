@@ -1,11 +1,25 @@
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { UpdateProblemSchema,UpdateProblemInput } from "@/lib/validators/problem";
+import { UpdateProblemSchema } from "@/lib/validators/problem";
+import { headers } from "next/headers";
 
 export async function GET(
   request: Request,
   { params }: RouteContext<"/api/problems/[id]">,
 ) {
   const { id } = await params;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  if (!session) {
+    return Response.json(
+      { message: "Unauthorized" },
+      {
+        status: 401,
+      },
+    );
+  }
+  const userId = session.user.id;
   const problem = await prisma.problem.findUnique({
     where: {
       id: id,
@@ -13,6 +27,14 @@ export async function GET(
   });
   if (!problem)
     return Response.json({ message: "Problem Not Found" }, { status: 404 });
+  if (userId != problem.userId) {
+    return Response.json(
+      {
+        message: "Forbidden",
+      },
+      { status: 403 },
+    );
+  }
   return Response.json(problem);
 }
 
@@ -28,6 +50,32 @@ export async function PATCH(
       return Response.json(
         { error: parsed.error.flatten().fieldErrors },
         { status: 400 },
+      );
+    }
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return Response.json(
+        { message: "Unauthorized" },
+        {
+          status: 401,
+        },
+      );
+    }
+    const userId = session.user.id;
+    const problem = await prisma.problem.findUnique({
+      where: { id },
+    });
+    if (!problem) {
+      return Response.json({ message: "Problem not found" }, { status: 404 });
+    }
+    if (userId != problem.userId) {
+      return Response.json(
+        { message: "Forbidden" },
+        {
+          status: 403,
+        },
       );
     }
     const res = await prisma.problem.update({
@@ -48,6 +96,31 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return Response.json({
+        message:"Unauthorized"
+      }, {
+        status: 401,
+      });
+    }
+    const userId = session.user.id;
+    const problem = await prisma.problem.findUnique({
+      where: { id },
+    });
+    if (!problem) {
+      return Response.json({ message: "Problem not found" }, { status: 404 });
+    }
+    if (userId != problem.userId) {
+      return Response.json(
+        { message: "Forbidden" },
+        {
+          status: 403,
+        },
+      );
+    }
     const res = await prisma.problem.delete({
       where: { id },
     });

@@ -8,6 +8,8 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isSignOut, setSignOut] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -19,27 +21,36 @@ export default function Home() {
   };
 
   const signInGoogle = async () => {
-    const data = await authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
     });
   };
   const signInGithub = async () => {
-    const data = await authClient.signIn.social({
-        provider: "github"
-    })
-}
+    await authClient.signIn.social({
+      provider: "github",
+    });
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     try {
-      const result = await authClient.signUp.email({
-        email,
-        password,
-        name,
-        callbackURL: "/dashboard",
-      });
+      if (isLogin) {
+        await authClient.signIn.email({
+          email,
+          password,
+          callbackURL: "/",
+        });
+      } else {
+        await authClient.signUp.email({
+          email,
+          password,
+          name,
+          callbackURL: "/",
+        });
+      }
     } catch (err) {
-      console.log("caught error", err);
+      console.error(err);
     }
   };
   if (isPending) return <div>Loading session...</div>;
@@ -64,24 +75,29 @@ export default function Home() {
 
   return (
     <div>
+      <h3>{isLogin ? "Login" : "Sign Up"}</h3>
       <form action="" onSubmit={handleSubmit}>
         <label>
           email <br />
           <input
-            type="text"
+            type="email"
             placeholder="Enter email"
             onChange={handleEmail}
           ></input>
         </label>
         <br />
-        <label>
-          name <br />
-          <input
-            type="text"
-            placeholder="Enter name"
-            onChange={handleName}
-          ></input>
-        </label>
+        {!isLogin && (
+          <>
+            <label>
+              name <br />
+              <input
+                type="text"
+                placeholder="Enter name"
+                onChange={handleName}
+              />
+            </label>
+          </>
+        )}
         <br />
         <label>
           password <br />
@@ -93,10 +109,19 @@ export default function Home() {
           ></input>
         </label>
         <br />
-        <button>Submit</button>
+        <button>{isLogin ? "Login" : "Sign Up"}</button>
         <br />
-        <button onClick={signInGoogle} type="button">Login with google</button>
-        <button onClick={signInGithub} type="button">Login with Github</button>
+        <button type="button" onClick={() => setIsLogin(!isLogin)}>
+          {isLogin ? "Create Account" : "Already have an account?"}
+        </button>
+        <br />
+        <button onClick={signInGoogle} type="button">
+          Login with google
+        </button>
+        <br />
+        <button onClick={signInGithub} type="button">
+          Login with Github
+        </button>
       </form>
     </div>
   );
