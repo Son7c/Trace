@@ -17,9 +17,9 @@ export async function POST(request: Request) {
   }
   const { title, platform, difficulty, url, tags }: CreateProblemInput =
     parsed.data;
-
+  const h = await headers();
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: h,
   });
   if (!session) {
     return Response.json(
@@ -40,8 +40,8 @@ export async function POST(request: Request) {
       tags,
     },
   });
-  return Response.json(res,{
-    status:201
+  return Response.json(res, {
+    status: 201,
   });
 }
 export async function GET(request: Request) {
@@ -58,7 +58,7 @@ export async function GET(request: Request) {
   }
   const userId = session.user.id;
   const problems = await prisma.problem.findMany({
-    where:{userId}
+    where: { userId },
   });
   return Response.json(problems);
 }

@@ -121,9 +121,11 @@ export async function DELETE(
         },
       );
     }
+    console.time("delete");
     const res = await prisma.problem.delete({
       where: { id },
     });
+    console.timeEnd("delete");
     return Response.json(
       { message: "Problem deleted successfully" },
       { status: 200 },

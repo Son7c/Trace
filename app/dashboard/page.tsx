@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [url, setUrl] = useState("");
   const [tags, setTags] = useState("");
   const [problems, setProblems] = useState<any[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,23 +20,75 @@ export default function Dashboard() {
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0);
+    if (editingId) {
+      const response = await fetch(`/api/problems/${editingId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          platform,
+          difficulty,
+          url,
+          tags: tagsArray,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+      setProblems((prev) =>
+        prev.map((problem) => (problem.id == editingId ? data : problem)),
+      );
+    } else {
+      const response = await fetch("/api/problems", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          platform,
+          difficulty,
+          url,
+          tags: tagsArray,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+      setProblems((prev) => [...prev, data]);
+    }
+    setTitle("");
+    setPlatform("");
+    setDifficulty("");
+    setUrl("");
+    setTags("");
+    setEditingId(null);
+    setVisible(false);
+  };
 
-    const response = await fetch("/api/problems", {
-      method: "POST",
+  const handleEdit = (problem: any) => {
+    setEditingId(problem.id);
+
+    setTitle(problem.title);
+    setPlatform(problem.platform);
+    setDifficulty(problem.difficulty);
+    setUrl(problem.url);
+    setTags((problem.tags ?? []).join(","));
+
+    setVisible(true);
+  };
+  const handleDelete = async (p: any) => {
+    const res = await fetch(`/api/problems/${p.id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title,
-        platform,
-        difficulty,
-        url,
-        tags: tagsArray,
-      }),
     });
-    const data = await response.json();
-    console.log(data);
+    if (res.ok) {
+      setProblems((prev) => prev.filter((problem) => problem.id !== p.id));
+    }
   };
+
   const toggleVisible = () => {
     setVisible(!isVisible);
   };
@@ -128,10 +181,12 @@ export default function Dashboard() {
           <br />
           <br />
 
-          <button type="submit">Add Problem</button>
+          <button type="submit">
+            {editingId ? "Update Problem" : "Add Problem"}
+          </button>
         </form>
       ) : (
-        ""
+        "editVisible?"
       )}
       <button onClick={toggleVisible} type="button">
         {isVisible ? "Cancel" : "Create Problem"}
@@ -191,6 +246,15 @@ export default function Dashboard() {
           <a href={p.url} target="_blank" rel="noopener noreferrer">
             Solve Problem ↗
           </a>
+          <br />
+          <button type="button" onClick={() => handleEdit(p)}>
+            Edit
+          </button>
+          <br />
+          <button type="button" onClick={() => handleDelete(p)}>
+            {" "}
+            Delete
+          </button>
         </div>
       ))}
     </div>
