@@ -1,6 +1,7 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const { data: session, error, isPending } = authClient.useSession();
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [problems, setProblems] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const tagsArray = tags
@@ -92,6 +94,15 @@ export default function Dashboard() {
   const toggleVisible = () => {
     setVisible(!isVisible);
   };
+  const handleLogout = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          window.location.href = "/";
+        },
+      },
+    });
+  };
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -105,6 +116,9 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Welcome {session?.user.name}</h1>
+      <button type="button" onClick={handleLogout}>
+        Log out
+      </button>
       {isVisible ? (
         <form onSubmit={handleSubmit}>
           <label>
@@ -186,7 +200,7 @@ export default function Dashboard() {
           </button>
         </form>
       ) : (
-        "editVisible?"
+        ""
       )}
       <button onClick={toggleVisible} type="button">
         {isVisible ? "Cancel" : "Create Problem"}
