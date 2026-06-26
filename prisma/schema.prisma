@@ -75,9 +75,9 @@ model Note {
   timeComplexity       String?
   spaceComplexity      String?
   mistakes             String? @db.Text
-  keyLearning          String  @db.Text
+  keyLearning          String?  @db.Text
   intuition            String? @db.Text
-  interviewExplanation String  @db.Text
+  interviewExplanation String?  @db.Text
 }
 
 model RevisionLog {
