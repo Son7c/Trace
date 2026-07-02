@@ -37,7 +37,6 @@ export default function Dashboard() {
         }),
       });
       const data = await response.json();
-      console.log(data);
       setProblems((prev) =>
         prev.map((problem) => (problem.id == editingId ? data : problem)),
       );
@@ -56,7 +55,6 @@ export default function Dashboard() {
         }),
       });
       const data = await response.json();
-      console.log(data);
       setProblems((prev) => [...prev, data]);
     }
     setTitle("");
@@ -216,6 +214,7 @@ export default function Dashboard() {
             marginBottom: "12px",
             boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
           }}
+          onClick={() => router.push(`/problems/${p.id}`)}
         >
           <h3
             style={{
@@ -261,11 +260,23 @@ export default function Dashboard() {
             Solve Problem ↗
           </a>
           <br />
-          <button type="button" onClick={() => handleEdit(p)}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit(p);
+            }}
+          >
             Edit
           </button>
           <br />
-          <button type="button" onClick={() => handleDelete(p)}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(p);
+            }}
+          >
             {" "}
             Delete
           </button>

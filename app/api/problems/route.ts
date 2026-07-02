@@ -5,6 +5,7 @@ import {
 } from "@/lib/validators/problem";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { includes } from "zod";
 
 export async function POST(request: Request) {
   const req = await request.json();
@@ -59,6 +60,9 @@ export async function GET(request: Request) {
   const userId = session.user.id;
   const problems = await prisma.problem.findMany({
     where: { userId },
+    include:{
+      note:true,
+    }
   });
   return Response.json(problems);
 }
