@@ -2,6 +2,7 @@
 
 import { Note } from "@/prisma/generated/client/client";
 import { useEffect, useState } from "react";
+import { set } from "zod";
 
 type FormProps = {
   id: string | null;
@@ -18,6 +19,7 @@ export default function NoteForm({ id }: FormProps) {
   const [interview, setInterview] = useState("");
   const [hasNote, setHasNote] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -82,6 +84,40 @@ export default function NoteForm({ id }: FormProps) {
       console.error(err);
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const formReset = () => {
+    setBrute("");
+    setOptimized("");
+    setTc("");
+    setSc("");
+    setMistakes("");
+    setKeyLearning("");
+    setIntuition("");
+    setInterview("");
+  };
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await fetch(`/api/problems/${id}/note`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(noteData),
+      });
+      if (!response.ok) {
+        console.error("Failed to update note");
+        return;
+      }
+      formReset();
+    } catch (err) {
+      console.error(err);
+      return;
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -180,6 +216,15 @@ export default function NoteForm({ id }: FormProps) {
         </div>
         <button type="submit" disabled={isSaving}>
           {isSaving ? "Saving" : hasNote ? "Update Note" : "Create Note"}
+        </button>
+        <br />
+        <button
+          style={{ display: hasNote ? "" : "none" }}
+          type="button"
+          disabled={isDeleting}
+          onClick={handleDelete}
+        >
+          {isDeleting ? "Deleting..." : "Delete"}
         </button>
       </form>
     </div>

@@ -131,7 +131,7 @@ export default async function ProblemPage({ params }: Props) {
         <p>Next Review: -</p>
       </section>
       <section>
-        <NoteForm id={"cmr3yfuin0000q1erh09oeadx"}/>
+        <NoteForm id={id}/>
       </section>
     </main>
   );
