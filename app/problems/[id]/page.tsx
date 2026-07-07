@@ -1,5 +1,6 @@
 import Note from "@/components/notes/Note";
 import NoteForm from "@/components/notes/NoteForm";
+import ReviewCard from "@/components/ReviewCard";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -101,6 +102,18 @@ export default async function ProblemPage({ params }: Props) {
         ) : (
           <p>No notes yet. Create one!</p>
         )}
+      </section>
+
+      <section
+        style={{
+          marginTop: "30px",
+          border: "1px solid #ddd",
+          borderRadius: "12px",
+          padding: "20px",
+        }}
+      >
+        <h2>Review form</h2>
+        <ReviewCard id={id}/>
       </section>
 
       <section
