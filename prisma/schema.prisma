@@ -28,6 +28,7 @@ enum Difficulty {
 }
 
 enum Feedback {
+  AGAIN
   EASY
   MEDIUM
   HARD

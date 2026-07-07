@@ -5,6 +5,7 @@ import {
   CreateRevisionInput,
   CreateRevisionSchema,
 } from "@/lib/validators/revision";
+import { calculateSM2 } from "@/lib/sm2";
 
 export async function POST(
   request: Request,
@@ -51,13 +52,23 @@ export async function POST(
         { status: 403 },
       );
     }
-    const revision = await prisma.revisionLog.create({
-      data: {
-        problemId: id,
-        userFeedback,
-      },
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.revisionLog.create({
+        data: {
+          problemId: id,
+          userFeedback,
+        },
+      });
+      const updatedProblem = calculateSM2(problem, userFeedback);
+      return await tx.problem.update({
+        where: {
+          id,
+        },
+        data: updatedProblem,
+      });
     });
-    return Response.json(revision, {
+
+    return Response.json(result, {
       status: 201,
     });
   } catch (err) {

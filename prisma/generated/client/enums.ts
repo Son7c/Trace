@@ -31,6 +31,7 @@ export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty]
 
 
 export const Feedback = {
+  AGAIN: 'AGAIN',
   EASY: 'EASY',
   MEDIUM: 'MEDIUM',
   HARD: 'HARD'
