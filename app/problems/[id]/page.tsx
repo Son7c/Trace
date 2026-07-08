@@ -1,6 +1,8 @@
 import Note from "@/components/notes/Note";
 import NoteForm from "@/components/notes/NoteForm";
-import ReviewCard from "@/components/ReviewCard";
+import ReviewCard from "@/components/reviews/ReviewCard";
+import RevisionStats from "@/components/reviews/RevisionStats";
+import RevisionHistory from "@/components/reviews/RevisionHistory";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -20,6 +22,7 @@ export default async function ProblemPage({ params }: Props) {
     },
     include: {
       note: true,
+      revisionLogs: true,
     },
   });
 
@@ -113,7 +116,7 @@ export default async function ProblemPage({ params }: Props) {
         }}
       >
         <h2>Review form</h2>
-        <ReviewCard id={id}/>
+        <ReviewCard id={id} />
       </section>
 
       <section
@@ -124,9 +127,14 @@ export default async function ProblemPage({ params }: Props) {
           padding: "20px",
         }}
       >
-        <h2>📅 Revision History</h2>
-
-        <p>No revisions yet.</p>
+        <h2>Revision History</h2>
+        {problem.revisionLogs.length > 0 ? (
+          problem.revisionLogs.map((revision) => (
+            <RevisionHistory key={revision.id} revision={revision} />
+          ))
+        ) : (
+          <p>No Revisions Yet!</p>
+        )}
       </section>
 
       <section
@@ -137,14 +145,10 @@ export default async function ProblemPage({ params }: Props) {
           padding: "20px",
         }}
       >
-        <h2>📊 Review Statistics</h2>
-
-        <p>Reviews: 0</p>
-        <p>Ease Factor: -</p>
-        <p>Next Review: -</p>
+        <RevisionStats problem={problem} />
       </section>
       <section>
-        <NoteForm id={id}/>
+        <NoteForm id={id} />
       </section>
     </main>
   );

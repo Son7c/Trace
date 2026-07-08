@@ -1,12 +1,14 @@
 "use client";
 import { Feedback } from "@/prisma/generated/client/client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type FormProps = {
   id: string | null;
 };
 
 export default function ReviewCard({ id }: FormProps) {
+  const router = useRouter();
   const [feedback, setFeedback] = useState<Feedback>("AGAIN");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,6 +27,7 @@ export default function ReviewCard({ id }: FormProps) {
         console.error("Coudn't publish revisionLog");
         return;
       }
+      router.refresh();
     } catch (err) {
       console.error(err);
     } finally {
