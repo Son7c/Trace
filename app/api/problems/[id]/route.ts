@@ -4,7 +4,7 @@ import { UpdateProblemSchema } from "@/lib/validators/problem";
 import { headers } from "next/headers";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: RouteContext<"/api/problems/[id]">,
 ) {
   const { id } = await params;
@@ -122,7 +122,7 @@ export async function DELETE(
       );
     }
     console.time("delete");
-    const res = await prisma.problem.delete({
+    await prisma.problem.delete({
       where: { id },
     });
     console.timeEnd("delete");

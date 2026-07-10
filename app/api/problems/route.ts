@@ -60,7 +60,7 @@ export async function GET(request: Request) {
   const problems = await prisma.problem.findMany({
     where: { userId },
     include:{
-      note:true,
+      revisionLogs:true,
     }
   });
   return Response.json(problems);

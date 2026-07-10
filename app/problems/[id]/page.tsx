@@ -1,6 +1,6 @@
 import Note from "@/components/notes/Note";
 import NoteForm from "@/components/notes/NoteForm";
-import ReviewCard from "@/components/reviews/ReviewCard";
+import ReviewCard from "@/components/reviews/ReviewForm";
 import RevisionStats from "@/components/reviews/RevisionStats";
 import RevisionHistory from "@/components/reviews/RevisionHistory";
 import prisma from "@/lib/prisma";
@@ -38,7 +38,7 @@ export default async function ProblemPage({ params }: Props) {
         padding: "20px",
       }}
     >
-      <Link href="/dashboard">← Back to Dashboard</Link>
+      <Link href="/problems">← Back to Dashboard</Link>
 
       <div
         style={{

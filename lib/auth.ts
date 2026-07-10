@@ -8,6 +8,15 @@ export const auth = betterAuth({
   session: {
     disableSessionRefresh: true,
     deferSessionRefresh: true,
+    cookieCache: {
+      enabled: true,
+      maxAge: 7 * 24 * 60 * 60, // 7 days cache duration
+      strategy: "jwt", // can be "jwt" or "compact"
+    },
+    account: {
+      storeStateStrategy: "cookie",
+      storeAccountCookie: true, // Store provider account data after OAuth flow in an encrypted cookie
+    },
   },
   emailAndPassword: {
     enabled: true,
