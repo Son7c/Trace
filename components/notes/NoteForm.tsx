@@ -2,7 +2,7 @@
 
 import { Note } from "@/prisma/generated/client/client";
 import { useEffect, useState } from "react";
-import { set } from "zod";
+import { useRouter } from "next/navigation";
 
 type FormProps = {
   id: string | null;
@@ -20,6 +20,8 @@ export default function NoteForm({ id }: FormProps) {
   const [hasNote, setHasNote] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -129,6 +131,7 @@ export default function NoteForm({ id }: FormProps) {
     }
     if (hasNote) {
       await handleEditNote();
+      router.push(`/problems/${id}`)
     } else {
       setIsSaving(true);
       try {
@@ -151,6 +154,7 @@ export default function NoteForm({ id }: FormProps) {
         return;
       } finally {
         setIsSaving(false);
+        router.push(`/problems/${id}`)
       }
     }
   };

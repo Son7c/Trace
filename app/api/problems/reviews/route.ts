@@ -27,6 +27,9 @@ export async function GET(request: Request) {
         userId,
       nextRevisionDate: { gte: startOfDay, lte: endOfDay },
     },
+    include:{
+      note:true,
+    }
   });
   return Response.json(problems);
 }

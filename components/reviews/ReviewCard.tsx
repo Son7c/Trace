@@ -1,15 +1,17 @@
 "use client";
 
 import { Problem } from "@/prisma/generated/client/client";
+import { useRouter } from "next/navigation";
 
 type Props = {
-  review: Problem;
+  problem: Problem;
 };
 
-export default function ReviewCard({ review }: Props) {
+export default function ReviewCard({ problem }: Props) {
+  const router=useRouter();
   return (
     <div>
-      <p>{review.title}</p>
+      <p>{problem.title}</p>
     </div>
   );
 }

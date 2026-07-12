@@ -50,11 +50,16 @@ export default function Dashboard() {
       </div>
       <div>
         <h2>Due Today</h2>
-        {reviews.length != 0
-          ? reviews.map((r: Problem) => <ReviewCard review={r} key={r.id} />)
-          : "No dues for today!!"}
+        <div>
+          {reviews.length != 0
+            ? reviews.map((p: Problem) => <ReviewCard problem={p} key={p.id} />)
+            : "No dues for today!!"}
+        </div>
+        <div>
+          <button onClick={()=>router.push(`/review`)}>Start Review Session</button>
+        </div>
       </div>
-      <div style={{border:"2px solid black"}}>
+      <div style={{ border: "2px solid black" }}>
         <p>No of total problems:{problems.length}</p>
         <p>No of reviews {reviewCount > 0 ? reviewCount : 0}</p>
       </div>

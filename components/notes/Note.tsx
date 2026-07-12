@@ -5,6 +5,7 @@ type NoteProps = {
 };
 
 export default function Note({ note }: NoteProps) {
+  if(!note) return <>No notes yet</>
   return (
     <div
       style={{
