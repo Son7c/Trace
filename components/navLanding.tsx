@@ -1,6 +1,5 @@
 "use client";
 
-
 export default function NavLanding() {
   return (
     <nav className="flex items-center justify-between px-12 py-3">
@@ -25,7 +24,7 @@ export default function NavLanding() {
 
       <div className="text-white text-md">
         <button className="text-white text-md">Log in</button>
-        <button className="text-black text-md ml-5 bg-[#82c379] p-2 rounded-lg">
+        <button className="text-black text-sm ml-5 bg-[#a6e795] px-4 py-2 rounded-lg">
           Start Training
         </button>
       </div>

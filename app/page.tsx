@@ -4,11 +4,11 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import AuthForm from "@/components/AuthForm";
 import NavLanding from "@/components/navLanding";
-
+import HeroSection from "@/components/HeroSection";
 
 export default function Home() {
   // const { data: session, error, isPending } = authClient.useSession();
-  
+
   // if (isPending) return <div>Loading session...</div>;
 
   // if (session) {
@@ -18,6 +18,7 @@ export default function Home() {
   return (
     <div className="bg-[#0A0A0B] min-h-screen w-full">
       <NavLanding />
+      <HeroSection />
     </div>
   );
 }
