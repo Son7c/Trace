@@ -9,6 +9,9 @@ import {
   SealCheckIcon,
 } from "@phosphor-icons/react";
 import IconCircle from "./IconCircle";
+import TimelineLine from "./TimeLineLine";
+import GlowNode from "./GlowNode";
+import TimelineParticles from "./TimeLineParticles";
 
 export default function HeroSection() {
   return (
@@ -52,48 +55,63 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center gap-14 mt-4">
-        <div className="flex flex-col items-center justify-center p-4">
-          <IconCircle>
-            <BookOpenIcon size={28} weight="light" />
-          </IconCircle>
-          <h3 className="text-white text-sm mt-2">1.Learn</h3>
-          <div className="flex flex-col justify-center items-center mt-1">
-            <p className="text-[#A8A8B0] text-xs">Solve Problems and</p>
-            <p className="text-[#A8A8B0] text-xs">Add notes that matter.</p>
+
+      {/* About section */}
+      <section className="relative">
+        {/* Timeline */}
+        <div className="absolute left-0 right-0 top-10 -translate-y-1/2">
+          <TimelineLine />
+          <TimelineParticles />
+        </div>
+
+        <div className="flex justify-center gap-14 mt-4">
+          <div className="flex flex-col items-center justify-center p-4">
+            <IconCircle>
+              <BookOpenIcon size={28} weight="light" />
+            </IconCircle>
+            <h3 className="text-white text-sm mt-2">1.Learn</h3>
+            <div className="flex flex-col justify-center items-center mt-1">
+              <p className="text-[#A8A8B0] text-xs">Solve Problems and</p>
+              <p className="text-[#A8A8B0] text-xs">Add notes that matter.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center p-4">
+            <IconCircle>
+              <NotebookIcon size={28} weight="light" />
+            </IconCircle>
+            <h3 className="text-white text-sm mt-2">2.Review</h3>
+            <div className="flex flex-col justify-center items-center mt-1">
+              <p className="text-[#A8A8B0] text-xs">We remind you at the</p>
+              <p className="text-[#A8A8B0] text-xs">perfect time.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center p-4">
+            <IconCircle>
+              <BrainIcon size={28} weight="light" />
+            </IconCircle>
+            <h3 className="text-white text-sm mt-2">3.Recall</h3>
+            <div className="flex flex-col justify-center items-center mt-1">
+              <p className="text-[#A8A8B0] text-xs">
+                Active recall strengthens
+              </p>
+              <p className="text-[#A8A8B0] text-xs">your understanding.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center p-4">
+            <IconCircle>
+              <SealCheckIcon size={28} weight="light" />
+            </IconCircle>
+            <h3 className="text-white text-sm mt-2">4.Master</h3>
+            <div className="flex flex-col justify-center items-center mt-1">
+              <p className="text-[#A8A8B0] text-xs">Knowledge you build</p>
+              <p className="text-[#A8A8B0] text-xs">today, stays forever</p>
+            </div>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center p-4">
-          <IconCircle>
-            <NotebookIcon size={28} weight="light" />
-          </IconCircle>
-          <h3 className="text-white text-sm mt-2">2.Review</h3>
-          <div className="flex flex-col justify-center items-center mt-1">
-            <p className="text-[#A8A8B0] text-xs">We remind you at the</p>
-            <p className="text-[#A8A8B0] text-xs">perfect time.</p>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-center p-4">
-          <IconCircle>
-            <BrainIcon size={28} weight="light" />
-          </IconCircle>
-          <h3 className="text-white text-sm mt-2">3.Recall</h3>
-          <div className="flex flex-col justify-center items-center mt-1">
-            <p className="text-[#A8A8B0] text-xs">Active recall strengthens</p>
-            <p className="text-[#A8A8B0] text-xs">your understanding.</p>
-          </div>
-        </div>
-        <div className="flex flex-col items-center justify-center p-4">
-          <IconCircle>
-            <SealCheckIcon size={28} weight="light" />
-          </IconCircle>
-          <h3 className="text-white text-sm mt-2">4.Master</h3>
-          <div className="flex flex-col justify-center items-center mt-1">
-            <p className="text-[#A8A8B0] text-xs">Knowledge you build</p>
-            <p className="text-[#A8A8B0] text-xs">today, stays forever</p>
-          </div>
-        </div>
-      </div>
+      </section>
     </main>
   );
 }
