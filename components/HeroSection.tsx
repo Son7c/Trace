@@ -5,12 +5,12 @@ import {
   BookOpenIcon,
   BrainIcon,
   CircleIcon,
+  MouseSimpleIcon,
   NotebookIcon,
   SealCheckIcon,
 } from "@phosphor-icons/react";
 import IconCircle from "./IconCircle";
 import TimelineLine from "./TimeLineLine";
-import GlowNode from "./GlowNode";
 import TimelineParticles from "./TimeLineParticles";
 
 export default function HeroSection() {
@@ -64,7 +64,7 @@ export default function HeroSection() {
           <TimelineParticles />
         </div>
 
-        <div className="flex justify-center gap-14 mt-4">
+        <div className="flex justify-center gap-14  ">
           <div className="flex flex-col items-center justify-center p-4">
             <IconCircle>
               <BookOpenIcon size={28} weight="light" />
@@ -112,6 +112,12 @@ export default function HeroSection() {
           </div>
         </div>
       </section>
+      <div className="flex justify-center items-center gap-2 mt-5 text-[#99e372] opacity-70">
+        <MouseSimpleIcon weight="thin" size={32} />
+        <span className="text-[10px] text-[#A8A8B0] tracking-[0.18em] opacity-70">
+          SCROLL TO EXPLORE
+        </span>
+      </div>
     </main>
   );
 }

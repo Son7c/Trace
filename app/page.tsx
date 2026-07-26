@@ -16,7 +16,7 @@ export default function Home() {
   // }
 
   return (
-    <div className="bg-[#0A0A0B] min-h-screen w-full">
+    <div className="bg-[#020507] min-h-screen w-full">
       <NavLanding />
       <HeroSection />
     </div>
