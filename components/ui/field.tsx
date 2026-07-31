@@ -155,24 +155,25 @@ function FieldSeparator({
       data-slot="field-separator"
       data-content={!!children}
       className={cn(
-        "relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2",
+        "relative -my-2 flex h-5 items-center text-sm group-data-[variant=outline]/field-group:-mb-2",
         className,
       )}
       {...props}
     >
-      <Separator className="absolute inset-0 top-1/2 bg-[#333438]" />
-      {children && (
-        <span
-          className="relative mx-auto block w-fit bg-[#111214] px-2 text-[#90909A]"
-          data-slot="field-separator-content"
-        >
-          {children}
-        </span>
+      {children ? (
+        <>
+          <Separator className="flex-1 bg-[#333438]" />
+          <span className="mx-2 shrink-0" data-slot="field-separator-content">
+            {children}
+          </span>
+          <Separator className="flex-1 bg-[#333438]" />
+        </>
+      ) : (
+        <Separator className="absolute inset-0 top-1/2 bg-[#333438]" />
       )}
     </div>
   );
 }
-
 function FieldError({
   className,
   children,

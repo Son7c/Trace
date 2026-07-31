@@ -78,6 +78,18 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <div
+        className="
+    absolute
+    inset-x-0
+    top-0
+    h-px
+    bg-gradient-to-r
+    from-transparent
+    via-white/15
+    to-transparent
+  "
+      />
       <form onSubmit={handleSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -163,7 +175,7 @@ export function LoginForm({
 
           <Field>
             <Button
-              className="h-11 w-full bg-[#a6e795] text-black hover:bg-[#93d382] disabled:opacity-60"
+              className="h-11 w-full bg-[#a6e795] hover:brightness-105 text-black hover:bg-[#93d382] disabled:opacity-60"
               type="submit"
               disabled={isSubmitting}
             >
@@ -178,7 +190,7 @@ export function LoginForm({
             </Button>
           </Field>
 
-          <FieldSeparator className="text-[#000]">or</FieldSeparator>
+          <FieldSeparator className="text-[#fff]">or</FieldSeparator>
 
           <Field className="grid gap-3 sm:grid-cols-2">
             <Button
