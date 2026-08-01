@@ -15,7 +15,7 @@ export default function NavLanding() {
     }, 300);
   };
   return (
-    <nav className={`flex items-center justify-between px-12 py-3`}>
+    <nav className="flex items-center justify-between px-12 py-3 sticky top-0 z-10">
       <div className="text-white text-3xl font-bold tracking-tight">Trace</div>
       <div>
         <a href="#product" className="text-white text-md">

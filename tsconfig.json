@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/ColorBends/ColorBends.tsx"
+    "components/ColorBends-login/ColorBends.tsx"
   ],
   "exclude": ["node_modules"]
 }

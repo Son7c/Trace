@@ -1,6 +1,6 @@
 "use client";
 
-import ColorBends from "@/components/ColorBends/ColorBends";
+import ColorBends from "@/components/ColorBends-login/ColorBends";
 import { LoginForm } from "@/components/login-form";
 
 export default function LoginPage() {
