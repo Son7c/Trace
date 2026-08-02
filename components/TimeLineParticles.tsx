@@ -41,7 +41,7 @@ export default function TimelineParticles() {
   }, []);
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[53%] h-8 z-0 pointer-events-none">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[53%] h-full z-0 pointer-events-none">
       {particles.map((p, i) => (
         <span
           key={i}

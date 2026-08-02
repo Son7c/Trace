@@ -11,7 +11,7 @@ export default function LoginPage() {
         <ColorBends
           rotation={90}
           speed={0.2}
-          colors={["#A6E795"]} // Adding complementary gradient tones works best
+          colors={["#99E372"]} // Adding complementary gradient tones works best
           transparent={true} // Set to true so background blends cleanly
           autoRotate={0}
           scale={1}
