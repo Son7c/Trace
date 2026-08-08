@@ -1,7 +1,7 @@
 import { Note as PrismaNote } from "@/prisma/generated/client/client";
 
 type NoteProps = {
-  note: PrismaNote;
+  note: PrismaNote | null | undefined;
 };
 
 export default function Note({ note }: NoteProps) {

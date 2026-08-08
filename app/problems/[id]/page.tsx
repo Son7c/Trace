@@ -6,6 +6,8 @@ import RevisionHistory from "@/components/reviews/RevisionHistory";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 type Props = {
   params: Promise<{
@@ -14,6 +16,14 @@ type Props = {
 };
 
 export default async function ProblemPage({ params }: Props) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    notFound();
+  }
+
   const { id } = await params;
   const problem = await prisma.problem.findUnique({
     where: {
@@ -25,7 +35,7 @@ export default async function ProblemPage({ params }: Props) {
     },
   });
 
-  if (!problem) {
+  if (!problem || problem.userId !== session.user.id) {
     notFound();
   }
 

@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     status: 201,
   });
 }
-export async function GET(request: Request) {
+export async function GET() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

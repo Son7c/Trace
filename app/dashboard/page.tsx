@@ -6,11 +6,15 @@ import { Problem } from "@/prisma/generated/client/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+type ProblemWithLogs = Problem & {
+  revisionLogs: unknown[];
+};
+
 export default function Dashboard() {
-  const { data: session, error, isPending } = authClient.useSession();
+  const { data: session } = authClient.useSession();
   const router = useRouter();
-  const [problems, setProblems] = useState<any[]>([]);
-  const [reviews, setReviews] = useState<[]>([]);
+  const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
+  const [reviews, setReviews] = useState<Problem[]>([]);
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -38,11 +42,11 @@ export default function Dashboard() {
     fetchReviews();
   }, []);
   const reviewCount = problems.reduce((acc, cur) => {
-    return acc + cur.revisionLogs.length;
+    return acc + (cur.revisionLogs?.length || 0);
   }, 0);
   return (
     <div>
-      <div style={{ display: "flex", gap: "full" }}>
+      <div style={{ display: "flex", gap: "1rem" }}>
         <h1>Welcome {session?.user.name}</h1>
         <button type="button" onClick={handleLogout}>
           Log out
@@ -51,12 +55,14 @@ export default function Dashboard() {
       <div>
         <h2>Due Today</h2>
         <div>
-          {reviews.length != 0
+          {reviews.length !== 0
             ? reviews.map((p: Problem) => <ReviewCard problem={p} key={p.id} />)
             : "No dues for today!!"}
         </div>
         <div>
-          <button onClick={()=>router.push(`/review`)}>Start Review Session</button>
+          <button onClick={() => router.push(`/review`)}>
+            Start Review Session
+          </button>
         </div>
       </div>
       <div style={{ border: "2px solid black" }}>

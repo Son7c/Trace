@@ -2,11 +2,16 @@
 
 import { useState } from "react";
 import Note from "@/components/notes/Note";
+import { Problem, Note as NoteModel } from "@/prisma/generated/client/client";
 import { Feedback } from "@/prisma/generated/client/enums";
 import ReviewCompleted from "./ReviewCompleted";
 
+type ProblemWithNote = Problem & {
+  note?: NoteModel | null;
+};
+
 type ReviewSessionProps = {
-  problems: any[];
+  problems: ProblemWithNote[];
 };
 
 export default function ReviewSession({ problems }: ReviewSessionProps) {
@@ -14,7 +19,6 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isReviewCompleted, setIsReviewCompleted] = useState(false);
 
-  
   if (problems.length === 0) {
     return <h1 className="text-center text-xl">No problems due today.</h1>;
   }
@@ -22,7 +26,7 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
     return <ReviewCompleted />;
   }
   const currentProblem = problems[currentIndex];
-  
+
   const handleNext = () => {
     setCurrentIndex((prev) => {
       if (prev === problems.length - 1) return prev;

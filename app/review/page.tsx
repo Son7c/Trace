@@ -5,7 +5,7 @@ import { Problem } from "@/prisma/generated/client/client";
 import { useState, useEffect } from "react";
 
 export default function Review() {
-  const [problems, setProblems] = useState<[]>([]);
+  const [problems, setProblems] = useState<Problem[]>([]);
 
   useEffect(() => {
     const fetchProblems = async () => {

@@ -3,16 +3,17 @@ import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Dashboard() {
-  const { data: session, error, isPending } = authClient.useSession();
-  const [isSignOut, setSignOut] = useState(false);
+import { Problem } from "@/prisma/generated/client/client";
+
+export default function ProblemsPage() {
+  const { data: session } = authClient.useSession();
   const [isVisible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [platform, setPlatform] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [url, setUrl] = useState("");
   const [tags, setTags] = useState("");
-  const [problems, setProblems] = useState<any[]>([]);
+  const [problems, setProblems] = useState<Problem[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const router = useRouter();
@@ -38,7 +39,7 @@ export default function Dashboard() {
       });
       const data = await response.json();
       setProblems((prev) =>
-        prev.map((problem) => (problem.id == editingId ? data : problem)),
+        prev.map((problem) => (problem.id === editingId ? data : problem)),
       );
     } else {
       const response = await fetch("/api/problems", {
@@ -66,7 +67,7 @@ export default function Dashboard() {
     setVisible(false);
   };
 
-  const handleEdit = (problem: any) => {
+  const handleEdit = (problem: Problem) => {
     setEditingId(problem.id);
 
     setTitle(problem.title);
@@ -77,7 +78,7 @@ export default function Dashboard() {
 
     setVisible(true);
   };
-  const handleDelete = async (p: any) => {
+  const handleDelete = async (p: Problem) => {
     const res = await fetch(`/api/problems/${p.id}`, {
       method: "DELETE",
       headers: {

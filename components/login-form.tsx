@@ -14,12 +14,14 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { Eye, EyeSlash, SpinnerGap } from "@phosphor-icons/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,20 +41,26 @@ export function LoginForm({
         const { error } = await authClient.signIn.email({
           email,
           password,
-          callbackURL: "/",
+          callbackURL: "/dashboard",
         });
         if (error) throw error;
+        router.push("/dashboard");
       } else {
         const { error } = await authClient.signUp.email({
           email,
           password,
           name,
-          callbackURL: "/",
+          callbackURL: "/dashboard",
         });
         if (error) throw error;
+        router.push("/dashboard");
       }
-    } catch (err: any) {
-      setError(err?.message ?? "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "message" in err
+          ? String(err.message)
+          : "Something went wrong. Please try again.";
+      setError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -61,18 +69,32 @@ export function LoginForm({
   const signInGoogle = async () => {
     setError(null);
     try {
-      await authClient.signIn.social({ provider: "google" });
-    } catch (err: any) {
-      setError(err?.message ?? "Google sign-in failed.");
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+      });
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "message" in err
+          ? String(err.message)
+          : "Google sign-in failed.";
+      setError(message);
     }
   };
 
   const signInGithub = async () => {
     setError(null);
     try {
-      await authClient.signIn.social({ provider: "github" });
-    } catch (err: any) {
-      setError(err?.message ?? "GitHub sign-in failed.");
+      await authClient.signIn.social({
+        provider: "github",
+        callbackURL: "/dashboard",
+      });
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === "object" && "message" in err
+          ? String(err.message)
+          : "GitHub sign-in failed.";
+      setError(message);
     }
   };
 
