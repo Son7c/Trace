@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useLenis } from "@/components/providers/lenis-provider";
 import {
-  Question,
-  ClockAfternoon,
-  Brain,
-  WarningCircle,
-  Lightning,
   CheckCircle,
+  WarningCircle,
+  XCircle,
+  ArrowRight,
+  ShieldCheck,
+  Brain,
 } from "@phosphor-icons/react";
 
 export default function ProblemHook() {
@@ -33,109 +33,172 @@ export default function ProblemHook() {
     return () => lenis.off("scroll", updateProgress);
   }, [lenis]);
 
-  const cardsParallax = (progress - 0.5) * -30;
+  const cardsParallax = (progress - 0.5) * -20;
 
   return (
     <section
       id="problem-hook"
       ref={sectionRef}
-      className="relative py-28 px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden"
+      className="relative py-28 px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden font-sans"
     >
-      {/* Hairline Top Divider */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      {/* Subtle Hairline Top Divider */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-      {/* Ambient Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#99E372]/5 rounded-full blur-[180px] pointer-events-none" />
+      {/* Contained Top Center Ambient Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[300px] bg-[#a6e795]/[0.03] rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Question Header */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-xl mb-6">
-          <Question className="w-3.5 h-3.5 text-[#99E372]" weight="bold" />
-          <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-300">
-            The Developer Dilemma
+      {/* Header */}
+      <div className="relative z-10 text-center max-w-3xl mx-auto mb-16 space-y-5">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#a6e795]/20 bg-[#a6e795]/10 backdrop-blur-xl">
+          <Brain className="w-4 h-4 text-[#a6e795]" weight="bold" />
+          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#a6e795] font-bold">
+            The LeetCode Blank Stare
           </span>
         </div>
 
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-white leading-tight">
-          Have you ever solved a LeetCode problem...{" "}
-          <span className="text-[#99E372] block mt-1">
-            only to completely forget it 2 weeks later?
+        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+          You solve 100+ LeetCode problems.{" "}
+          <span className="block text-[#a6e795] mt-2">
+            Then 2 weeks later, you draw a blank.
           </span>
         </h2>
-        <p className="mt-4 text-base text-zinc-400 leading-relaxed max-w-xl mx-auto font-normal">
-          You spend hours mastering a tricky pattern, but without scheduled
-          recall, 80% of that knowledge silently decays.
+        <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mx-auto font-normal">
+          That gut-wrenching feeling when an interviewer asks a pattern you{" "}
+          <em className="text-zinc-200 not-italic font-semibold">know</em> you
+          solved last month, but your memory freezes up. Trace eliminates the
+          panic by prompting 2-minute active recall reviews right before memory
+          decay strikes.
         </p>
       </div>
 
-      {/* 3 Relatable Pain Point Cards */}
+      {/* 3-Stage Timeline Grid */}
       <div
-        className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 transition-all duration-300 ease-out"
+        className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 transition-all duration-300 ease-out"
         style={{ transform: `translateY(${cardsParallax}px)` }}
       >
-        {/* Pain 1 */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#07090E] p-6 backdrop-blur-2xl shadow-xl">
-          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-amber-400 mb-4">
-            <ClockAfternoon className="w-5 h-5" />
+        {/* Stage 1: Day 1 */}
+        <div className="group relative rounded-2xl border border-white/[0.08] bg-[#07090E] p-7 backdrop-blur-2xl transition-all duration-300 hover:border-[#a6e795]/40 hover:shadow-[0_10px_30px_-15px_rgba(166,231,149,0.15)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-6">
+              <span className="text-[10px] font-mono text-[#a6e795] bg-[#a6e795]/10 border border-[#a6e795]/20 px-2.5 py-1 rounded-md font-bold tracking-wider uppercase">
+                DAY 1 • FRESH IN MIND
+              </span>
+              <span className="text-[11px] font-mono text-[#a6e795] font-semibold">
+                100% Recall
+              </span>
+            </div>
+
+            <div className="w-11 h-11 rounded-xl bg-[#a6e795]/10 border border-[#a6e795]/20 flex items-center justify-center text-[#a6e795] mb-5 group-hover:scale-105 transition-transform">
+              <CheckCircle className="w-5.5 h-5.5" weight="fill" />
+            </div>
+
+            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#a6e795] transition-colors">
+              High-Energy Breakthrough
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal">
+              You debug a tricky Sliding Window problem, get green checks on
+              LeetCode, and feel on top of the world.
+            </p>
           </div>
-          <h3 className="text-base font-medium text-white mb-1.5">
-            1. The 2-Hour Grind
-          </h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            You debug a Hard sliding window solution, finally get it accepted,
-            and feel great.
-          </p>
+
+          <div className="pt-5 mt-5 border-t border-white/[0.04] flex items-center justify-between text-xs font-mono text-zinc-500">
+            <span>Pattern: Crisp</span>
+            <span className="text-[#a6e795] flex items-center gap-1 font-semibold">
+              Peak Recall <ArrowRight className="w-3.5 h-3.5" />
+            </span>
+          </div>
         </div>
 
-        {/* Pain 2 */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#07090E] p-6 backdrop-blur-2xl shadow-xl">
-          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-red-400 mb-4">
-            <WarningCircle className="w-5 h-5" />
+        {/* Stage 2: Day 7 */}
+        <div className="group relative rounded-2xl border border-white/[0.08] bg-[#07090E] p-7 backdrop-blur-2xl transition-all duration-300 hover:border-amber-500/40 hover:shadow-[0_10px_30px_-15px_rgba(245,158,11,0.15)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-6">
+              <span className="text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-md font-bold tracking-wider uppercase">
+                DAY 7 • SILENT DECAY
+              </span>
+              <span className="text-[11px] font-mono text-amber-400 font-semibold">
+                45% Recall
+              </span>
+            </div>
+
+            <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5 group-hover:scale-105 transition-transform">
+              <WarningCircle className="w-5.5 h-5.5" weight="fill" />
+            </div>
+
+            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-amber-400 transition-colors">
+              Fading Conviction
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal">
+              Without structured review, key pointer boundaries and window
+              contraction tricks start blurring into memory fog.
+            </p>
           </div>
-          <h3 className="text-base font-medium text-white mb-1.5">
-            2. Silent Memory Decay
-          </h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            Without structured review, key edge cases and optimal pointer logic
-            vanish from memory within days.
-          </p>
+
+          <div className="pt-5 mt-5 border-t border-white/[0.04] flex items-center justify-between text-xs font-mono text-zinc-500">
+            <span>Pattern: Slipping</span>
+            <span className="text-amber-400 font-semibold">Needs Review</span>
+          </div>
         </div>
 
-        {/* Pain 3 */}
-        <div className="rounded-2xl border border-white/[0.08] bg-[#07090E] p-6 backdrop-blur-2xl shadow-xl">
-          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-[#99E372] mb-4">
-            <Brain className="w-5 h-5" />
+        {/* Stage 3: Day 14 */}
+        <div className="group relative rounded-2xl border border-white/[0.08] bg-[#07090E] p-7 backdrop-blur-2xl transition-all duration-300 hover:border-red-500/40 hover:shadow-[0_10px_30px_-15px_rgba(239,68,68,0.15)] flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-6">
+              <span className="text-[10px] font-mono text-red-400 bg-red-500/10 border border-red-500/20 px-2.5 py-1 rounded-md font-bold tracking-wider uppercase">
+                DAY 14 • PANIC & FREEZE
+              </span>
+              <span className="text-[11px] font-mono text-red-400 font-semibold">
+                0% Recall
+              </span>
+            </div>
+
+            <div className="w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-5 group-hover:scale-105 transition-transform">
+              <XCircle className="w-5.5 h-5.5" weight="fill" />
+            </div>
+
+            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">
+              Interview Screen Freeze
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-normal">
+              Under live pressure with an interviewer watching, your mind draws
+              a complete blank on the core algorithm trick.
+            </p>
           </div>
-          <h3 className="text-base font-medium text-white mb-1.5">
-            3. The Interview Blank
-          </h3>
-          <p className="text-xs text-zinc-400 leading-relaxed">
-            In a live technical interview, the problem looks familiar... but
-            your mind freezes on the core trick.
-          </p>
+
+          <div className="pt-5 mt-5 border-t border-white/[0.04] flex items-center justify-between text-xs font-mono text-zinc-500">
+            <span>Pattern: Forgotten</span>
+            <span className="text-red-400 font-semibold">Total Lockout</span>
+          </div>
         </div>
       </div>
 
-      {/* Solution Banner */}
-      <div className="relative z-10 max-w-4xl mx-auto rounded-2xl border border-[#99E372]/30 bg-[#07090E] p-6 text-center backdrop-blur-2xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3 text-left">
-          <div className="p-2.5 rounded-xl bg-[#99E372]/10 text-[#99E372] shrink-0">
-            <Lightning className="w-5 h-5" weight="fill" />
+      {/* Solution Banner Callout */}
+      <div className="relative z-10 max-w-4xl mx-auto rounded-2xl border border-[#a6e795]/20 bg-[#07090E] p-6 sm:p-7 backdrop-blur-2xl shadow-[0_15px_40px_-15px_rgba(166,231,149,0.1)] flex flex-col sm:flex-row items-center justify-between gap-5 hover:border-[#a6e795]/40 transition-all duration-300">
+        <div className="flex items-center gap-4 text-left">
+          <div className="w-12 h-12 rounded-xl bg-[#a6e795]/10 border border-[#a6e795]/20 text-[#a6e795] flex items-center justify-center shrink-0">
+            <ShieldCheck className="w-6 h-6" weight="fill" />
           </div>
           <div>
-            <div className="text-sm font-semibold text-white">
-              Trace stops the memory leak.
-            </div>
-            <div className="text-xs text-zinc-400">
-              We remind you to review each problem right before you forget
-              it...in 2 minutes flat.
-            </div>
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              Walk into technical interviews with complete clarity.
+            </h4>
+            <p className="text-xs sm:text-sm text-zinc-400 mt-0.5 leading-relaxed max-w-xl font-normal">
+              Spaced active recall prompts 2-minute refresher cards right before
+              memory decay happens—so solution logic stays permanently fresh in
+              your mind.
+            </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-[#99E372] bg-[#99E372]/10 border border-[#99E372]/20 px-3.5 py-1.5 rounded-lg shrink-0">
-          <CheckCircle className="w-4 h-4" weight="fill" />
-          100% Solution Retention
+        <div className="flex items-center gap-6 sm:border-l sm:border-white/[0.08] sm:pl-6 shrink-0">
+          <div className="text-left sm:text-right font-mono">
+            <div className="text-xl font-extrabold text-[#a6e795] tracking-tight">
+              100%
+            </div>
+            <div className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
+              Pattern Retention
+            </div>
+          </div>
         </div>
       </div>
     </section>

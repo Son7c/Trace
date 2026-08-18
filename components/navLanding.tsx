@@ -24,7 +24,7 @@ export default function NavLanding() {
   "
     >
       <div className="text-white text-2xl sm:text-3xl font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none">
-        Trace
+        <a href="#">Trace</a>
       </div>
       <div className="hidden sm:flex items-center">
         <a
