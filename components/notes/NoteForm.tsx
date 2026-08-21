@@ -131,7 +131,7 @@ export default function NoteForm({ id }: FormProps) {
     }
     if (hasNote) {
       await handleEditNote();
-      router.push(`/problems/${id}`)
+      router.push(`/problems/${id}`);
     } else {
       setIsSaving(true);
       try {
@@ -154,7 +154,7 @@ export default function NoteForm({ id }: FormProps) {
         return;
       } finally {
         setIsSaving(false);
-        router.push(`/problems/${id}`)
+        router.push(`/problems/${id}`);
       }
     }
   };

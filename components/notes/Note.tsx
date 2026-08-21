@@ -5,7 +5,7 @@ type NoteProps = {
 };
 
 export default function Note({ note }: NoteProps) {
-  if(!note) return <>No notes yet</>
+  if (!note) return <>No notes yet</>;
   return (
     <div
       style={{
@@ -14,15 +14,9 @@ export default function Note({ note }: NoteProps) {
         gap: "24px",
       }}
     >
-      <Section
-        title="Brute Force Approach"
-        content={note.bruteForceApproach}
-      />
+      <Section title="Brute Force Approach" content={note.bruteForceApproach} />
 
-      <Section
-        title="Optimized Approach"
-        content={note.optimizedApproach}
-      />
+      <Section title="Optimized Approach" content={note.optimizedApproach} />
 
       <div
         style={{
@@ -30,31 +24,16 @@ export default function Note({ note }: NoteProps) {
           gap: "40px",
         }}
       >
-        <Section
-          title="Time Complexity"
-          content={note.timeComplexity}
-        />
+        <Section title="Time Complexity" content={note.timeComplexity} />
 
-        <Section
-          title="Space Complexity"
-          content={note.spaceComplexity}
-        />
+        <Section title="Space Complexity" content={note.spaceComplexity} />
       </div>
 
-      <Section
-        title="Mistakes"
-        content={note.mistakes}
-      />
+      <Section title="Mistakes" content={note.mistakes} />
 
-      <Section
-        title="Key Learning"
-        content={note.keyLearning}
-      />
+      <Section title="Key Learning" content={note.keyLearning} />
 
-      <Section
-        title="Intuition"
-        content={note.intuition}
-      />
+      <Section title="Intuition" content={note.intuition} />
 
       <Section
         title="Interview Explanation"
@@ -90,11 +69,7 @@ function Section({
           whiteSpace: "pre-wrap",
         }}
       >
-        {content || (
-          <span style={{ color: "#888" }}>
-            Not provided
-          </span>
-        )}
+        {content || <span style={{ color: "#888" }}>Not provided</span>}
       </div>
     </div>
   );

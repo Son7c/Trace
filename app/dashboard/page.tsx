@@ -1,10 +1,18 @@
 "use client";
 
+import Dock from "@/components/Dock";
 import ReviewCard from "@/components/reviews/ReviewCard";
 import { authClient } from "@/lib/auth-client";
 import { Problem } from "@/prisma/generated/client/client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  VscHome,
+  VscPlay,
+  VscAdd,
+  VscArchive,
+  VscAccount,
+} from "react-icons/vsc";
 
 type ProblemWithLogs = Problem & {
   revisionLogs: unknown[];
@@ -15,6 +23,43 @@ export default function Dashboard() {
   const router = useRouter();
   const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
   const [reviews, setReviews] = useState<Problem[]>([]);
+
+  const items = [
+    {
+      icon: <VscHome size={20} />,
+      label: "Dashboard",
+      onClick: () => router.push("/dashboard"),
+    },
+    {
+      icon: (
+        <div className="relative flex items-center justify-center">
+          <VscPlay size={20} />
+          {reviews.length > 0 && (
+            <span className="absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow">
+              {reviews.length}
+            </span>
+          )}
+        </div>
+      ),
+      label: reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
+      onClick: () => router.push("/review"),
+    },
+    {
+      icon: <VscAdd size={20} />,
+      label: "Add Problem",
+      onClick: () => router.push("/problems/new"),
+    },
+    {
+      icon: <VscArchive size={20} />,
+      label: "Problem Archive",
+      onClick: () => router.push("/problems"),
+    },
+    {
+      icon: <VscAccount size={20} />,
+      label: "Profile",
+      onClick: () => router.push("/profile"),
+    },
+  ];
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -69,6 +114,12 @@ export default function Dashboard() {
         <p>No of total problems:{problems.length}</p>
         <p>No of reviews {reviewCount > 0 ? reviewCount : 0}</p>
       </div>
+      <Dock
+        items={items}
+        panelHeight={70}
+        baseItemSize={50}
+        magnification={70}
+      />
     </div>
   );
 }

@@ -15,7 +15,9 @@ export default function Review() {
     };
     fetchProblems();
   }, []);
-  return <div>
-    <ReviewSession problems={problems}/>
-  </div>;
+  return (
+    <div>
+      <ReviewSession problems={problems} />
+    </div>
+  );
 }
