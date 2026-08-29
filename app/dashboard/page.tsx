@@ -19,6 +19,7 @@ import {
   SignOut,
   CheckCircle,
   Archive,
+  Fire,
 } from "@phosphor-icons/react";
 
 type ProblemWithLogs = Problem & {
@@ -168,11 +169,11 @@ export default function Dashboard() {
     };
   }, [problems]);
 
-  const userName = session?.user?.name || "Engineer";
+  const firstName = session?.user?.name
+    ? session.user.name.trim().split(" ")[0]
+    : "Engineer";
   const userAvatarUrl = session?.user?.image;
 
-  // Estimated review time (~3 mins per problem)
-  const estimatedMins = Math.max(3, reviews.length * 3);
 
   // 6. React Bits Dock items configuration
   const dockItems = [
@@ -229,62 +230,52 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* User Profile Pill & Dropdown */}
-        <div className="relative">
+        {/* User Profile Pill & Quick Actions */}
+        <div className="flex items-center gap-2">
+          {/* Profile Pill (Navigates to /profile) */}
           <div
-            onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-            className="bg-[#10131B] border border-zinc-800/80 rounded-full px-3.5 py-1.5 flex items-center gap-3 text-xs text-zinc-200 shadow-lg cursor-pointer hover:border-zinc-700 transition-all"
+            onClick={() => router.push("/profile")}
+            className="bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-zinc-700/90 rounded-full p-1.5 pr-3.5 flex items-center gap-2.5 text-xs text-zinc-200 shadow-[0_4px_20px_rgba(0,0,0,0.4)] cursor-pointer transition-all duration-300 group hover:-translate-y-0.5"
+            title="View Profile"
           >
-            <div className="w-6 h-6 rounded-full bg-zinc-800 overflow-hidden border border-zinc-700 shrink-0 flex items-center justify-center font-bold text-white text-[10px]">
-              {userAvatarUrl ? (
-                <img
-                  src={userAvatarUrl}
-                  alt={userName}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                userName[0]?.toUpperCase()
-              )}
+            {/* Avatar with subtle glow ring */}
+            <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#a6e795]/50 via-emerald-500/20 to-transparent shrink-0">
+              <div className="w-6 h-6 rounded-full bg-zinc-900 overflow-hidden flex items-center justify-center font-bold text-white text-[10px]">
+                {userAvatarUrl ? (
+                  <img
+                    src={userAvatarUrl}
+                    alt={firstName}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  firstName[0]?.toUpperCase()
+                )}
+              </div>
             </div>
-            <span className="font-semibold text-white truncate max-w-[100px]">
-              {userName}
+
+            {/* Username */}
+            <span className="font-bold text-zinc-100 tracking-tight truncate max-w-[90px] group-hover:text-white transition-colors">
+              {firstName}
             </span>
-            <span className="text-zinc-400 text-[11px] font-medium flex items-center gap-1">
-              {currentStreak}d streak <span className="text-amber-500">🔥</span>
-            </span>
-            <CaretDown
-              size={12}
-              className={`text-zinc-400 ml-0.5 transition-transform ${
-                userDropdownOpen ? "rotate-180" : ""
-              }`}
-            />
+
+            {/* Vertical Separator */}
+            <span className="h-3.5 w-px bg-zinc-800/90" />
+
+            {/* Streak Badge */}
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold">
+              <Fire size={12} weight="fill" className="text-amber-400 animate-pulse" />
+              <span>{currentStreak}d</span>
+            </div>
           </div>
 
-          {/* Profile Dropdown Menu */}
-          {userDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-48 rounded-xl border border-zinc-800 bg-[#0F121A] p-1.5 shadow-2xl z-50 text-xs">
-              <button
-                onClick={() => {
-                  setUserDropdownOpen(false);
-                  router.push("/profile");
-                }}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-zinc-300 hover:bg-zinc-800/70 hover:text-white transition-colors text-left cursor-pointer"
-              >
-                <User size={15} />
-                <span>View Profile</span>
-              </button>
-              <button
-                onClick={() => {
-                  setUserDropdownOpen(false);
-                  handleLogout();
-                }}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors text-left cursor-pointer"
-              >
-                <SignOut size={15} />
-                <span>Sign Out</span>
-              </button>
-            </div>
-          )}
+          {/* Quick Sign Out Button */}
+          <button
+            onClick={handleLogout}
+            title="Sign Out"
+            className="w-8 h-8 rounded-full bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-rose-500/40 hover:bg-rose-500/10 text-zinc-400 hover:text-rose-400 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-md hover:-translate-y-0.5"
+          >
+            <SignOut size={14} weight="bold" />
+          </button>
         </div>
       </header>
 
@@ -295,13 +286,13 @@ export default function Dashboard() {
         {/* 2. GREETING HERO SECTION */}
         <section className="space-y-1.5">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
-            {greeting} <span className="text-[#a6e795]">{userName}.</span>
+            {greeting} <span className="text-[#a6e795]">{firstName}.</span>
           </h1>
           <p className="text-zinc-400 text-sm font-normal tracking-wide">
             {reviews.length > 0
               ? `You have ${reviews.length} problem${
                   reviews.length === 1 ? "" : "s"
-                } due for review today · Estimated ~${estimatedMins} mins`
+                } due for review today.`
               : "All caught up for today! No problems due for review."}
           </p>
         </section>
