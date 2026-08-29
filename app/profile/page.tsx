@@ -139,27 +139,35 @@ export default function ProfilePage() {
   const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
   const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
+  const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
   const userAvatarUrl = session?.user?.image;
 
   useEffect(() => {
-    const fetchProblems = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch("/api/problems");
-        if (response.ok) {
-          const data = await response.json();
+        const [problemsRes, reviewsRes] = await Promise.all([
+          fetch("/api/problems"),
+          fetch("/api/problems/reviews"),
+        ]);
+        if (problemsRes.ok) {
+          const data = await problemsRes.json();
           setProblems(data);
         }
+        if (reviewsRes.ok) {
+          const reviewsData = await reviewsRes.json();
+          setReviews(reviewsData);
+        }
       } catch (error) {
-        console.error("Failed to fetch user problems:", error);
+        console.error("Failed to fetch user data:", error);
       } finally {
         setLoading(false);
       }
     };
 
     if (session?.user) {
-      fetchProblems();
+      fetchData();
     }
   }, [session]);
 
@@ -1050,8 +1058,18 @@ export default function ProfilePage() {
             onClick: () => router.push("/dashboard"),
           },
           {
-            icon: <Play size={18} />,
-            label: "Start Review",
+            icon: (
+              <div className="relative flex items-center justify-center">
+                <Play size={18} />
+                {reviews.length > 0 && (
+                  <span className="absolute -top-1.5 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(244,63,94,0.5)]">
+                    {reviews.length}
+                  </span>
+                )}
+              </div>
+            ),
+            label:
+              reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
             onClick: () => router.push("/review"),
           },
           {
