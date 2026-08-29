@@ -1,10 +1,11 @@
 "use client";
 
 import Dock from "@/components/Dock";
+import AddProblemModal from "@/components/problems/AddProblemModal";
 import { authClient } from "@/lib/auth-client";
 import { Problem, RevisionLog } from "@/prisma/generated/client/client";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   House,
   Play,
@@ -142,34 +143,35 @@ export default function ProfilePage() {
   const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const userAvatarUrl = session?.user?.image;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [problemsRes, reviewsRes] = await Promise.all([
-          fetch("/api/problems"),
-          fetch("/api/problems/reviews"),
-        ]);
-        if (problemsRes.ok) {
-          const data = await problemsRes.json();
-          setProblems(data);
-        }
-        if (reviewsRes.ok) {
-          const reviewsData = await reviewsRes.json();
-          setReviews(reviewsData);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      } finally {
-        setLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const [problemsRes, reviewsRes] = await Promise.all([
+        fetch("/api/problems"),
+        fetch("/api/problems/reviews"),
+      ]);
+      if (problemsRes.ok) {
+        const data = await problemsRes.json();
+        setProblems(data);
       }
-    };
+      if (reviewsRes.ok) {
+        const reviewsData = await reviewsRes.json();
+        setReviews(reviewsData);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
+  useEffect(() => {
     if (session?.user) {
       fetchData();
     }
-  }, [session]);
+  }, [session, fetchData]);
 
   useEffect(() => {
     const raf = requestAnimationFrame(() => setMounted(true));
@@ -1075,7 +1077,7 @@ export default function ProfilePage() {
           {
             icon: <Plus size={18} />,
             label: "Add Problem",
-            onClick: () => router.push("/problems"),
+            onClick: () => setIsAddModalOpen(true),
           },
           {
             icon: <Archive size={18} />,
@@ -1088,6 +1090,15 @@ export default function ProfilePage() {
             onClick: () => router.push("/profile"),
           },
         ]}
+      />
+
+      {/* Pop-out Glass Add Problem Modal */}
+      <AddProblemModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={() => {
+          fetchData();
+        }}
       />
     </div>
   );

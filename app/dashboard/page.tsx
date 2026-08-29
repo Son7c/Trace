@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Dock from "@/components/Dock";
+import AddProblemModal from "@/components/problems/AddProblemModal";
 import { authClient } from "@/lib/auth-client";
 import { Problem, RevisionLog } from "@/prisma/generated/client/client";
 import {
@@ -40,35 +41,36 @@ export default function Dashboard() {
   const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
   const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   // 1. Fetch data from backend API
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [problemsRes, reviewsRes] = await Promise.all([
-          fetch("/api/problems"),
-          fetch("/api/problems/reviews"),
-        ]);
+  const fetchData = useCallback(async () => {
+    try {
+      const [problemsRes, reviewsRes] = await Promise.all([
+        fetch("/api/problems"),
+        fetch("/api/problems/reviews"),
+      ]);
 
-        if (problemsRes.ok) {
-          const problemsData = await problemsRes.json();
-          setProblems(problemsData);
-        }
-
-        if (reviewsRes.ok) {
-          const reviewsData = await reviewsRes.json();
-          setReviews(reviewsData);
-        }
-      } catch (error) {
-        console.error("Failed to load dashboard data:", error);
-      } finally {
-        setLoading(false);
+      if (problemsRes.ok) {
+        const problemsData = await problemsRes.json();
+        setProblems(problemsData);
       }
-    };
 
-    fetchData();
+      if (reviewsRes.ok) {
+        const reviewsData = await reviewsRes.json();
+        setReviews(reviewsData);
+      }
+    } catch (error) {
+      console.error("Failed to load dashboard data:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handleLogout = async () => {
     await authClient.signOut({
@@ -200,7 +202,7 @@ export default function Dashboard() {
     {
       icon: <Plus size={20} />,
       label: "Add Problem",
-      onClick: () => router.push("/problems"),
+      onClick: () => setIsAddModalOpen(true),
     },
     {
       icon: <Archive size={20} />,
@@ -462,6 +464,21 @@ export default function Dashboard() {
         panelHeight={68}
         baseItemSize={48}
         magnification={68}
+      />
+
+      {/* Pop-out Glass Add Problem Modal */}
+      <AddProblemModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={(newProblem: any) => {
+          const problemWithLogs: ProblemWithLogs = {
+            ...newProblem,
+            revisionLogs: newProblem.revisionLogs || [],
+          };
+          setProblems((prev) => [problemWithLogs, ...prev]);
+          setReviews((prev) => [newProblem, ...prev]);
+          fetchData();
+        }}
       />
     </div>
   );
