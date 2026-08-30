@@ -5,7 +5,7 @@ import AddProblemModal from "@/components/problems/AddProblemModal";
 import { authClient } from "@/lib/auth-client";
 import { Problem, RevisionLog } from "@/prisma/generated/client/client";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   House,
   Play,

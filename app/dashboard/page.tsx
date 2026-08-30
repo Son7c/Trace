@@ -42,7 +42,6 @@ export default function Dashboard() {
   const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
   // 1. Fetch data from backend API
   const fetchData = useCallback(async () => {

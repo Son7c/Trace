@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { X, ArrowRight, Link as LinkIcon, Plus, CircleNotch, WarningCircle } from "@phosphor-icons/react";
 
 export type PlatformType =
@@ -15,7 +16,6 @@ export type AddProblemModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: (newProblem: any) => void;
-  onSubmit?: (data: { input: string; platform: PlatformType }) => void;
 };
 
 const PLATFORMS: { id: PlatformType; label: string }[] = [
@@ -42,8 +42,8 @@ export default function AddProblemModal({
   isOpen,
   onClose,
   onSuccess,
-  onSubmit,
 }: AddProblemModalProps) {
+  const router = useRouter();
   const [urlOrTitle, setUrlOrTitle] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState<PlatformType>("LEETCODE");
   const [isAutoDetected, setIsAutoDetected] = useState(false);
@@ -89,20 +89,13 @@ export default function AddProblemModal({
     e.preventDefault();
     if (!urlOrTitle.trim() || loading) return;
 
-    if (onSubmit) {
-      onSubmit({ input: urlOrTitle.trim(), platform: selectedPlatform });
-      setUrlOrTitle("");
-      onClose();
-      return;
-    }
-
     setLoading(true);
     setError(null);
 
     try {
       let problemPayload: any = null;
 
-      // 1. LEETCODE AUTO-FETCH
+      // 1. LeetCode Auto-Fetch
       if (selectedPlatform === "LEETCODE") {
         const fetchRes = await fetch("/api/leetcode", {
           method: "POST",
@@ -113,7 +106,6 @@ export default function AddProblemModal({
         if (fetchRes.ok) {
           problemPayload = await fetchRes.json();
         } else {
-          // Fallback if search misses
           problemPayload = {
             title: urlOrTitle.trim(),
             platform: "LEETCODE",
@@ -123,7 +115,7 @@ export default function AddProblemModal({
           };
         }
       } else {
-        // 2. NON-LEETCODE PLATFORMS
+        // 2. Non-LeetCode Platforms
         problemPayload = {
           title: urlOrTitle.trim(),
           platform: selectedPlatform,
@@ -150,6 +142,7 @@ export default function AddProblemModal({
       setSelectedPlatform("LEETCODE");
       onSuccess?.(created);
       onClose();
+      router.push(`/problems/${created.id}`); 
     } catch (err: any) {
       setError(err.message || "Failed to add problem");
     } finally {
@@ -159,13 +152,13 @@ export default function AddProblemModal({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 font-sans">
-      {/* Instant Backdrop */}
+      {/* Backdrop */}
       <div
         onClick={() => !loading && onClose()}
         className="fixed inset-0 bg-black/80 transition-opacity duration-75"
       />
 
-      {/* Lightweight Instant Pop-out Window */}
+      {/* Glass Modal Window */}
       <div className="relative w-full max-w-md bg-[#0C0E15] border border-zinc-800 rounded-2xl p-5 sm:p-6 shadow-2xl z-10 space-y-4 text-zinc-100">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -201,7 +194,7 @@ export default function AddProblemModal({
           </div>
         )}
 
-        {/* Input Form */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-zinc-300">
@@ -225,7 +218,7 @@ export default function AddProblemModal({
             </div>
           </div>
 
-          {/* Platform Selector Chips */}
+          {/* Platform Chips */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-[11px]">
               <span className="font-semibold text-zinc-400">Platform</span>
@@ -261,7 +254,7 @@ export default function AddProblemModal({
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Actions */}
           <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-zinc-800/80">
             <button
               type="button"
