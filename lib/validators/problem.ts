@@ -4,6 +4,7 @@ import * as z from "zod";
 
 export const CreateProblemSchema = z.object({
   title: z.string().min(1),
+  questNo: z.string().optional(),
   platform:z.enum(Platform),
   tags:z.array(z.string()).min(1),
   difficulty:z.enum(Difficulty),

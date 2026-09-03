@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { X, ArrowRight, Link as LinkIcon, Plus, CircleNotch, WarningCircle } from "@phosphor-icons/react";
+import {
+  X,
+  ArrowRight,
+  Link as LinkIcon,
+  Plus,
+  CircleNotch,
+  WarningCircle,
+} from "@phosphor-icons/react";
 
 export type PlatformType =
   | "LEETCODE"
@@ -34,7 +41,8 @@ function detectPlatform(val: string): PlatformType | null {
   if (lower.includes("codeforces.com")) return "CODEFORCES";
   if (lower.includes("codechef.com")) return "CODECHEF";
   if (lower.includes("hackerrank.com")) return "HACKERRANK";
-  if (lower.startsWith("http://") || lower.startsWith("https://")) return "OTHERS";
+  if (lower.startsWith("http://") || lower.startsWith("https://"))
+    return "OTHERS";
   return null;
 }
 
@@ -45,7 +53,8 @@ export default function AddProblemModal({
 }: AddProblemModalProps) {
   const router = useRouter();
   const [urlOrTitle, setUrlOrTitle] = useState("");
-  const [selectedPlatform, setSelectedPlatform] = useState<PlatformType>("LEETCODE");
+  const [selectedPlatform, setSelectedPlatform] =
+    useState<PlatformType>("LEETCODE");
   const [isAutoDetected, setIsAutoDetected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -104,7 +113,15 @@ export default function AddProblemModal({
         });
 
         if (fetchRes.ok) {
-          problemPayload = await fetchRes.json();
+          const leetcodeData = await fetchRes.json();
+          problemPayload = {
+            title: leetcodeData.title,
+            platform: "LEETCODE",
+            difficulty: leetcodeData.difficulty.toUpperCase(),
+            url: leetcodeData.url,
+            tags: leetcodeData.tags,
+            questNo: leetcodeData.questionId,
+          };
         } else {
           problemPayload = {
             title: urlOrTitle.trim(),
@@ -112,6 +129,9 @@ export default function AddProblemModal({
             difficulty: "EASY",
             url: urlOrTitle.startsWith("http") ? urlOrTitle.trim() : "#",
             tags: ["General"],
+            questNo: /^\d+$/.test(urlOrTitle.trim())
+              ? urlOrTitle.trim()
+              : undefined,
           };
         }
       } else {
@@ -122,6 +142,7 @@ export default function AddProblemModal({
           difficulty: "MEDIUM",
           url: urlOrTitle.startsWith("http") ? urlOrTitle.trim() : "#",
           tags: ["General"],
+          questNo: undefined,
         };
       }
 
@@ -142,7 +163,7 @@ export default function AddProblemModal({
       setSelectedPlatform("LEETCODE");
       onSuccess?.(created);
       onClose();
-      router.push(`/problems/${created.id}`); 
+      router.push(`/problems/${created.id}`);
     } catch (err: any) {
       setError(err.message || "Failed to add problem");
     } finally {

@@ -42,6 +42,7 @@ export type ProblemMinAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  questNo: string | null
   platform: $Enums.Platform | null
   url: string | null
   nextRevisionDate: Date | null
@@ -56,6 +57,7 @@ export type ProblemMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   title: string | null
+  questNo: string | null
   platform: $Enums.Platform | null
   url: string | null
   nextRevisionDate: Date | null
@@ -70,6 +72,7 @@ export type ProblemCountAggregateOutputType = {
   id: number
   userId: number
   title: number
+  questNo: number
   platform: number
   url: number
   tags: number
@@ -99,6 +102,7 @@ export type ProblemMinAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  questNo?: true
   platform?: true
   url?: true
   nextRevisionDate?: true
@@ -113,6 +117,7 @@ export type ProblemMaxAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  questNo?: true
   platform?: true
   url?: true
   nextRevisionDate?: true
@@ -127,6 +132,7 @@ export type ProblemCountAggregateInputType = {
   id?: true
   userId?: true
   title?: true
+  questNo?: true
   platform?: true
   url?: true
   tags?: true
@@ -229,6 +235,7 @@ export type ProblemGroupByOutputType = {
   id: string
   userId: string
   title: string
+  questNo: string | null
   platform: $Enums.Platform
   url: string
   tags: string[]
@@ -267,6 +274,7 @@ export type ProblemWhereInput = {
   id?: Prisma.StringFilter<"Problem"> | string
   userId?: Prisma.StringFilter<"Problem"> | string
   title?: Prisma.StringFilter<"Problem"> | string
+  questNo?: Prisma.StringNullableFilter<"Problem"> | string | null
   platform?: Prisma.EnumPlatformFilter<"Problem"> | $Enums.Platform
   url?: Prisma.StringFilter<"Problem"> | string
   tags?: Prisma.StringNullableListFilter<"Problem">
@@ -285,6 +293,7 @@ export type ProblemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  questNo?: Prisma.SortOrderInput | Prisma.SortOrder
   platform?: Prisma.SortOrder
   url?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -306,6 +315,7 @@ export type ProblemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProblemWhereInput | Prisma.ProblemWhereInput[]
   userId?: Prisma.StringFilter<"Problem"> | string
   title?: Prisma.StringFilter<"Problem"> | string
+  questNo?: Prisma.StringNullableFilter<"Problem"> | string | null
   platform?: Prisma.EnumPlatformFilter<"Problem"> | $Enums.Platform
   url?: Prisma.StringFilter<"Problem"> | string
   tags?: Prisma.StringNullableListFilter<"Problem">
@@ -324,6 +334,7 @@ export type ProblemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  questNo?: Prisma.SortOrderInput | Prisma.SortOrder
   platform?: Prisma.SortOrder
   url?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -347,6 +358,7 @@ export type ProblemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Problem"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Problem"> | string
   title?: Prisma.StringWithAggregatesFilter<"Problem"> | string
+  questNo?: Prisma.StringNullableWithAggregatesFilter<"Problem"> | string | null
   platform?: Prisma.EnumPlatformWithAggregatesFilter<"Problem"> | $Enums.Platform
   url?: Prisma.StringWithAggregatesFilter<"Problem"> | string
   tags?: Prisma.StringNullableListFilter<"Problem">
@@ -361,6 +373,7 @@ export type ProblemScalarWhereWithAggregatesInput = {
 export type ProblemCreateInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -379,6 +392,7 @@ export type ProblemUncheckedCreateInput = {
   id?: string
   userId: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -395,6 +409,7 @@ export type ProblemUncheckedCreateInput = {
 export type ProblemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -413,6 +428,7 @@ export type ProblemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -430,6 +446,7 @@ export type ProblemCreateManyInput = {
   id?: string
   userId: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -444,6 +461,7 @@ export type ProblemCreateManyInput = {
 export type ProblemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -459,6 +477,7 @@ export type ProblemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -492,6 +511,7 @@ export type ProblemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  questNo?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   url?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -513,6 +533,7 @@ export type ProblemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  questNo?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   url?: Prisma.SortOrder
   nextRevisionDate?: Prisma.SortOrder
@@ -527,6 +548,7 @@ export type ProblemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  questNo?: Prisma.SortOrder
   platform?: Prisma.SortOrder
   url?: Prisma.SortOrder
   nextRevisionDate?: Prisma.SortOrder
@@ -654,6 +676,7 @@ export type ProblemUpdateOneRequiredWithoutRevisionLogsNestedInput = {
 export type ProblemCreateWithoutUserInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -670,6 +693,7 @@ export type ProblemCreateWithoutUserInput = {
 export type ProblemUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -716,6 +740,7 @@ export type ProblemScalarWhereInput = {
   id?: Prisma.StringFilter<"Problem"> | string
   userId?: Prisma.StringFilter<"Problem"> | string
   title?: Prisma.StringFilter<"Problem"> | string
+  questNo?: Prisma.StringNullableFilter<"Problem"> | string | null
   platform?: Prisma.EnumPlatformFilter<"Problem"> | $Enums.Platform
   url?: Prisma.StringFilter<"Problem"> | string
   tags?: Prisma.StringNullableListFilter<"Problem">
@@ -730,6 +755,7 @@ export type ProblemScalarWhereInput = {
 export type ProblemCreateWithoutNoteInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -747,6 +773,7 @@ export type ProblemUncheckedCreateWithoutNoteInput = {
   id?: string
   userId: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -778,6 +805,7 @@ export type ProblemUpdateToOneWithWhereWithoutNoteInput = {
 export type ProblemUpdateWithoutNoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -795,6 +823,7 @@ export type ProblemUncheckedUpdateWithoutNoteInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -810,6 +839,7 @@ export type ProblemUncheckedUpdateWithoutNoteInput = {
 export type ProblemCreateWithoutRevisionLogsInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -827,6 +857,7 @@ export type ProblemUncheckedCreateWithoutRevisionLogsInput = {
   id?: string
   userId: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -858,6 +889,7 @@ export type ProblemUpdateToOneWithWhereWithoutRevisionLogsInput = {
 export type ProblemUpdateWithoutRevisionLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -875,6 +907,7 @@ export type ProblemUncheckedUpdateWithoutRevisionLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -890,6 +923,7 @@ export type ProblemUncheckedUpdateWithoutRevisionLogsInput = {
 export type ProblemCreateManyUserInput = {
   id?: string
   title: string
+  questNo?: string | null
   platform: $Enums.Platform
   url: string
   tags?: Prisma.ProblemCreatetagsInput | string[]
@@ -904,6 +938,7 @@ export type ProblemCreateManyUserInput = {
 export type ProblemUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -920,6 +955,7 @@ export type ProblemUpdateWithoutUserInput = {
 export type ProblemUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -936,6 +972,7 @@ export type ProblemUncheckedUpdateWithoutUserInput = {
 export type ProblemUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  questNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   platform?: Prisma.EnumPlatformFieldUpdateOperationsInput | $Enums.Platform
   url?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProblemUpdatetagsInput | string[]
@@ -982,6 +1019,7 @@ export type ProblemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   userId?: boolean
   title?: boolean
+  questNo?: boolean
   platform?: boolean
   url?: boolean
   tags?: boolean
@@ -1001,6 +1039,7 @@ export type ProblemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   title?: boolean
+  questNo?: boolean
   platform?: boolean
   url?: boolean
   tags?: boolean
@@ -1017,6 +1056,7 @@ export type ProblemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   title?: boolean
+  questNo?: boolean
   platform?: boolean
   url?: boolean
   tags?: boolean
@@ -1033,6 +1073,7 @@ export type ProblemSelectScalar = {
   id?: boolean
   userId?: boolean
   title?: boolean
+  questNo?: boolean
   platform?: boolean
   url?: boolean
   tags?: boolean
@@ -1044,7 +1085,7 @@ export type ProblemSelectScalar = {
   createdAt?: boolean
 }
 
-export type ProblemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "platform" | "url" | "tags" | "nextRevisionDate" | "intervalDays" | "difficulty" | "easeFactor" | "revisionCount" | "createdAt", ExtArgs["result"]["problem"]>
+export type ProblemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "questNo" | "platform" | "url" | "tags" | "nextRevisionDate" | "intervalDays" | "difficulty" | "easeFactor" | "revisionCount" | "createdAt", ExtArgs["result"]["problem"]>
 export type ProblemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   note?: boolean | Prisma.Problem$noteArgs<ExtArgs>
@@ -1069,6 +1110,7 @@ export type $ProblemPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     userId: string
     title: string
+    questNo: string | null
     platform: $Enums.Platform
     url: string
     tags: string[]
@@ -1507,6 +1549,7 @@ export interface ProblemFieldRefs {
   readonly id: Prisma.FieldRef<"Problem", 'String'>
   readonly userId: Prisma.FieldRef<"Problem", 'String'>
   readonly title: Prisma.FieldRef<"Problem", 'String'>
+  readonly questNo: Prisma.FieldRef<"Problem", 'String'>
   readonly platform: Prisma.FieldRef<"Problem", 'Platform'>
   readonly url: Prisma.FieldRef<"Problem", 'String'>
   readonly tags: Prisma.FieldRef<"Problem", 'String[]'>

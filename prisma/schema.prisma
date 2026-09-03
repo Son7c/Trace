@@ -52,6 +52,7 @@ model Problem {
   userId           String
   user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   title            String
+  questNo         String?
   platform         Platform
   url              String
   tags             String[]

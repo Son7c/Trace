@@ -93,6 +93,7 @@ export const ProblemScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   title: 'title',
+  questNo: 'questNo',
   platform: 'platform',
   url: 'url',
   tags: 'tags',
