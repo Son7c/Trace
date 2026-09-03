@@ -8,6 +8,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import PlatformLogo from "@/components/problems/PlatformLogo";
+import { ArrowLeftIcon, PencilSimpleLineIcon, PlayIcon } from "@phosphor-icons/react/dist/ssr";
 
 type Props = {
   params: Promise<{
@@ -40,14 +42,38 @@ export default async function ProblemPage({ params }: Props) {
   }
 
   return (
-    <main
-      style={{
-        maxWidth: "900px",
-        margin: "40px auto",
-        padding: "20px",
-      }}
-    >
-      <Link href="/problems">← Back to Dashboard</Link>
+    <main style={{}} className="px-6 py-6">
+      {/* top row */}
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <Link href="/problems" className="flex items-center gap-3 text-sm">
+            <ArrowLeftIcon size={16} /> Back to Problems
+          </Link>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2 cursor-pointer text-sm border border-gray rounded-md p-2">
+            <PencilSimpleLineIcon size={16} />
+            Edit problem
+          </div>
+          <div className="flex items-center gap-2 cursor-pointer text-sm border border-gray rounded-md p-2 bg-[#a6e795] text-black">
+            <PlayIcon size={16} />
+            Start Review
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div>
+        {/* Left half */}
+        <div>
+
+        </div>
+
+        {/* Right half */}
+        <div>
+
+        </div>
+      </div>
 
       <div
         style={{
