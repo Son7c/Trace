@@ -1,6 +1,4 @@
-"use client";
-
-import { RevisionLog } from "@/prisma/generated/client/client";
+import type { RevisionLog } from "@/prisma/generated/client/client";
 import { Clock } from "@phosphor-icons/react";
 
 type Prop = {
@@ -37,10 +35,9 @@ export default function RevisionHistory({ revision }: Prop) {
       </div>
 
       <span
-        className={`rounded-md border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${
-          feedbackColors[revision.userFeedback] ||
+        className={`rounded-md border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${feedbackColors[revision.userFeedback] ||
           "border-zinc-700 bg-zinc-800 text-zinc-300"
-        }`}
+          }`}
       >
         {revision.userFeedback}
       </span>

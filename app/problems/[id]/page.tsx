@@ -4,13 +4,14 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import type { Problem, Note as PrismaNote, RevisionLog } from "@/prisma/generated/client/client";
+import type { Problem, Note as PrismaNote, RevisionLog, Feedback } from "@/prisma/generated/client/client";
 
 import RevisionStats from "@/components/reviews/RevisionStats";
 import RevisionHistory from "@/components/reviews/RevisionHistory";
 import PlatformLogo from "@/components/problems/PlatformLogo";
 import CodeEditor from "@/components/problems/CodeEditor";
 import EditProblemModal from "@/components/problems/EditProblemModal";
+import { calculateSM2 } from "@/lib/sm2";
 
 import {
   ArrowLeft,
@@ -252,15 +253,11 @@ export default function ProblemPage() {
       });
       if (res.ok) {
         const updated = await res.json();
-        const intervals: Record<string, string> = {
-          AGAIN: "< 1 min",
-          HARD: "1 day",
-          MEDIUM: "3 days",
-          EASY: "7 days",
-        };
+        const intervalDays = updated.intervalDays ?? 1;
+        const intervalLabel = intervalDays <= 1 ? `${intervalDays} day` : `${intervalDays} days`;
         const capitalized = feedback.charAt(0) + feedback.slice(1).toLowerCase();
         setReviewNotification(
-          `Recall logged as "${capitalized}"! Next repetition scheduled in ${intervals[feedback]}.`
+          `Recall logged as "${capitalized}"! Next repetition scheduled in ${intervalLabel}.`
         );
         setTimeout(() => setReviewNotification(null), 4500);
 
@@ -269,7 +266,6 @@ export default function ProblemPage() {
             ? {
               ...prev,
               ...updated,
-              revisionCount: (prev.revisionCount || 0) + 1,
               revisionLogs: [
                 {
                   id: "temp-" + Date.now(),
@@ -298,6 +294,14 @@ export default function ProblemPage() {
     approach === "brute"
       ? problem.note?.bruteForceApproach || "// No brute force code yet"
       : problem.note?.optimizedApproach || "// No optimized code yet";
+
+
+  // next dates SM2
+  const calcNextInterval = (problem: Problem | null, feedback: Feedback) => {
+    if (!problem) return "Error";
+    const { intervalDays } = calculateSM2(problem, feedback);
+    return intervalDays <= 1 ? `${intervalDays} day` : `${intervalDays} days`;
+  }
 
   return (
     <main className="px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-4 lg:py-6 max-w-[1560px] mx-auto min-h-screen">
@@ -586,7 +590,7 @@ export default function ProblemPage() {
                   title="Repeat recall in < 1 minute"
                 >
                   <span>Again</span>
-                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">&lt;1m</span>
+                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">{calcNextInterval(problem, "AGAIN")}</span>
                 </button>
 
                 <button
@@ -597,7 +601,7 @@ export default function ProblemPage() {
                   title="Hard recall - review again in 1 day"
                 >
                   <span>Hard</span>
-                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">1d</span>
+                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">{calcNextInterval(problem, "HARD")}</span>
                 </button>
 
                 <button
@@ -608,7 +612,7 @@ export default function ProblemPage() {
                   title="Good recall - review again in 3 days"
                 >
                   <span>Medium</span>
-                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">3d</span>
+                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">{calcNextInterval(problem, "MEDIUM")}</span>
                 </button>
 
                 <button
@@ -619,7 +623,7 @@ export default function ProblemPage() {
                   title="Effortless recall - review again in 7 days"
                 >
                   <span>Easy</span>
-                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">7d</span>
+                  <span className="text-[10px] font-mono opacity-70 group-hover:opacity-100">{calcNextInterval(problem, "EASY")}</span>
                 </button>
               </div>
             </div>
@@ -701,7 +705,7 @@ export default function ProblemPage() {
                       {
                         key: "AGAIN",
                         label: "Again",
-                        interval: "< 1 min",
+                        interval: calcNextInterval(problem, "AGAIN"),
                         desc: "Reset interval",
                         color:
                           "border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/60",
@@ -709,7 +713,7 @@ export default function ProblemPage() {
                       {
                         key: "HARD",
                         label: "Hard",
-                        interval: "1 day",
+                        interval: calcNextInterval(problem, "HARD"),
                         desc: "Small interval",
                         color:
                           "border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60",
@@ -717,7 +721,7 @@ export default function ProblemPage() {
                       {
                         key: "MEDIUM",
                         label: "Medium",
-                        interval: "3 days",
+                        interval: calcNextInterval(problem, "MEDIUM"),
                         desc: "Normal interval",
                         color:
                           "border-sky-500/30 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 hover:border-sky-500/60",
@@ -725,7 +729,7 @@ export default function ProblemPage() {
                       {
                         key: "EASY",
                         label: "Easy",
-                        interval: "7 days",
+                        interval: calcNextInterval(problem, "EASY"),
                         desc: "Long interval",
                         color:
                           "border-[#A6E795]/40 bg-[#A6E795]/15 text-[#A6E795] hover:bg-[#A6E795]/25 hover:border-[#A6E795]/70",
@@ -792,13 +796,12 @@ export default function ProblemPage() {
               type="button"
               disabled={isSavingNotes || !hasNotesChanges}
               onClick={handleSaveAllNotes}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                notesSavedStatus === "saved"
-                  ? "bg-[#A6E795]/20 text-[#A6E795] border border-[#A6E795]/50 shadow-xs"
-                  : hasNotesChanges
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${notesSavedStatus === "saved"
+                ? "bg-[#A6E795]/20 text-[#A6E795] border border-[#A6E795]/50 shadow-xs"
+                : hasNotesChanges
                   ? "bg-[#A6E795] text-black hover:bg-[#93d382] shadow-[0_0_15px_rgba(166,231,149,0.35)] active:scale-95"
                   : "bg-zinc-900 text-zinc-500 border border-zinc-800/80 opacity-60 cursor-not-allowed"
-              }`}
+                }`}
               title="Save all notes"
             >
               {isSavingNotes ? (
@@ -955,9 +958,8 @@ function WritableComplexityCard({
 
   return (
     <div
-      className={`rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-xl backdrop-blur-md space-y-3.5 transition-all focus-within:border-[#A6E795]/50 focus-within:bg-zinc-900/80 group ${
-        openDropdown ? "relative z-40" : "relative z-20"
-      }`}
+      className={`rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-5 shadow-xl backdrop-blur-md space-y-3.5 transition-all focus-within:border-[#A6E795]/50 focus-within:bg-zinc-900/80 group ${openDropdown ? "relative z-40" : "relative z-20"
+        }`}
     >
       {/* Header: Left is Icon + Title */}
       <div className="flex items-center justify-between">
@@ -1045,9 +1047,8 @@ function ComplexityOptionSelector({
         <CaretDown
           size={11}
           weight="bold"
-          className={`text-zinc-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-[#A6E795]" : ""
-          }`}
+          className={`text-zinc-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-[#A6E795]" : ""
+            }`}
         />
       </button>
 
@@ -1066,11 +1067,10 @@ function ComplexityOptionSelector({
                   key={opt}
                   type="button"
                   onClick={() => onSelect(opt)}
-                  className={`px-2 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
-                    isSelected
-                      ? "bg-[#A6E795]/20 text-[#A6E795] border border-[#A6E795]/50 shadow-xs"
-                      : "text-zinc-300 hover:bg-zinc-800 hover:text-white border border-zinc-800/80 bg-zinc-900/80"
-                  }`}
+                  className={`px-2 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${isSelected
+                    ? "bg-[#A6E795]/20 text-[#A6E795] border border-[#A6E795]/50 shadow-xs"
+                    : "text-zinc-300 hover:bg-zinc-800 hover:text-white border border-zinc-800/80 bg-zinc-900/80"
+                    }`}
                 >
                   {opt}
                 </button>

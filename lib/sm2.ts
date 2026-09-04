@@ -1,18 +1,18 @@
-import { Feedback, Problem } from "@/prisma/generated/client/client";
+import type { Feedback, Problem } from "@/prisma/generated/client/client";
 
 export function calculateSM2(problem: Problem, feedback: Feedback) {
   let Q: number;
   switch (feedback) {
-    case Feedback.AGAIN:
+    case "AGAIN":
       Q = 0;
       break;
-    case Feedback.HARD:
+    case "HARD":
       Q = 3;
       break;
-    case Feedback.MEDIUM:
+    case "MEDIUM":
       Q = 4;
       break;
-    case Feedback.EASY:
+    case "EASY":
       Q = 5;
       break;
   }

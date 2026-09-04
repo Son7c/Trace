@@ -1,5 +1,4 @@
-"use client";
-import { Problem } from "@/prisma/generated/client/client";
+import type { Problem } from "@/prisma/generated/client/client";
 import { ClockCounterClockwise, TrendUp, CalendarCheck } from "@phosphor-icons/react";
 
 type Props = {
@@ -13,10 +12,10 @@ export default function RevisionStats({ problem }: Props) {
 
   const nextDate = problem.nextRevisionDate
     ? new Date(problem.nextRevisionDate).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      })
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
     : "Not scheduled";
 
   return (
