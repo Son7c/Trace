@@ -34,6 +34,7 @@ export type NoteMinAggregateOutputType = {
   mistakes: string | null
   keyLearning: string | null
   intuition: string | null
+  language: string | null
   interviewExplanation: string | null
 }
 
@@ -47,6 +48,7 @@ export type NoteMaxAggregateOutputType = {
   mistakes: string | null
   keyLearning: string | null
   intuition: string | null
+  language: string | null
   interviewExplanation: string | null
 }
 
@@ -60,6 +62,7 @@ export type NoteCountAggregateOutputType = {
   mistakes: number
   keyLearning: number
   intuition: number
+  language: number
   interviewExplanation: number
   _all: number
 }
@@ -75,6 +78,7 @@ export type NoteMinAggregateInputType = {
   mistakes?: true
   keyLearning?: true
   intuition?: true
+  language?: true
   interviewExplanation?: true
 }
 
@@ -88,6 +92,7 @@ export type NoteMaxAggregateInputType = {
   mistakes?: true
   keyLearning?: true
   intuition?: true
+  language?: true
   interviewExplanation?: true
 }
 
@@ -101,6 +106,7 @@ export type NoteCountAggregateInputType = {
   mistakes?: true
   keyLearning?: true
   intuition?: true
+  language?: true
   interviewExplanation?: true
   _all?: true
 }
@@ -187,6 +193,7 @@ export type NoteGroupByOutputType = {
   mistakes: string | null
   keyLearning: string | null
   intuition: string | null
+  language: string | null
   interviewExplanation: string | null
   _count: NoteCountAggregateOutputType | null
   _min: NoteMinAggregateOutputType | null
@@ -221,6 +228,7 @@ export type NoteWhereInput = {
   mistakes?: Prisma.StringNullableFilter<"Note"> | string | null
   keyLearning?: Prisma.StringNullableFilter<"Note"> | string | null
   intuition?: Prisma.StringNullableFilter<"Note"> | string | null
+  language?: Prisma.StringNullableFilter<"Note"> | string | null
   interviewExplanation?: Prisma.StringNullableFilter<"Note"> | string | null
   problem?: Prisma.XOR<Prisma.ProblemScalarRelationFilter, Prisma.ProblemWhereInput>
 }
@@ -235,6 +243,7 @@ export type NoteOrderByWithRelationInput = {
   mistakes?: Prisma.SortOrderInput | Prisma.SortOrder
   keyLearning?: Prisma.SortOrderInput | Prisma.SortOrder
   intuition?: Prisma.SortOrderInput | Prisma.SortOrder
+  language?: Prisma.SortOrderInput | Prisma.SortOrder
   interviewExplanation?: Prisma.SortOrderInput | Prisma.SortOrder
   problem?: Prisma.ProblemOrderByWithRelationInput
 }
@@ -252,6 +261,7 @@ export type NoteWhereUniqueInput = Prisma.AtLeast<{
   mistakes?: Prisma.StringNullableFilter<"Note"> | string | null
   keyLearning?: Prisma.StringNullableFilter<"Note"> | string | null
   intuition?: Prisma.StringNullableFilter<"Note"> | string | null
+  language?: Prisma.StringNullableFilter<"Note"> | string | null
   interviewExplanation?: Prisma.StringNullableFilter<"Note"> | string | null
   problem?: Prisma.XOR<Prisma.ProblemScalarRelationFilter, Prisma.ProblemWhereInput>
 }, "id" | "problemId">
@@ -266,6 +276,7 @@ export type NoteOrderByWithAggregationInput = {
   mistakes?: Prisma.SortOrderInput | Prisma.SortOrder
   keyLearning?: Prisma.SortOrderInput | Prisma.SortOrder
   intuition?: Prisma.SortOrderInput | Prisma.SortOrder
+  language?: Prisma.SortOrderInput | Prisma.SortOrder
   interviewExplanation?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.NoteCountOrderByAggregateInput
   _max?: Prisma.NoteMaxOrderByAggregateInput
@@ -285,6 +296,7 @@ export type NoteScalarWhereWithAggregatesInput = {
   mistakes?: Prisma.StringNullableWithAggregatesFilter<"Note"> | string | null
   keyLearning?: Prisma.StringNullableWithAggregatesFilter<"Note"> | string | null
   intuition?: Prisma.StringNullableWithAggregatesFilter<"Note"> | string | null
+  language?: Prisma.StringNullableWithAggregatesFilter<"Note"> | string | null
   interviewExplanation?: Prisma.StringNullableWithAggregatesFilter<"Note"> | string | null
 }
 
@@ -297,6 +309,7 @@ export type NoteCreateInput = {
   mistakes?: string | null
   keyLearning?: string | null
   intuition?: string | null
+  language?: string | null
   interviewExplanation?: string | null
   problem: Prisma.ProblemCreateNestedOneWithoutNoteInput
 }
@@ -311,6 +324,7 @@ export type NoteUncheckedCreateInput = {
   mistakes?: string | null
   keyLearning?: string | null
   intuition?: string | null
+  language?: string | null
   interviewExplanation?: string | null
 }
 
@@ -323,6 +337,7 @@ export type NoteUpdateInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   problem?: Prisma.ProblemUpdateOneRequiredWithoutNoteNestedInput
 }
@@ -337,6 +352,7 @@ export type NoteUncheckedUpdateInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -350,6 +366,7 @@ export type NoteCreateManyInput = {
   mistakes?: string | null
   keyLearning?: string | null
   intuition?: string | null
+  language?: string | null
   interviewExplanation?: string | null
 }
 
@@ -362,6 +379,7 @@ export type NoteUpdateManyMutationInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -375,6 +393,7 @@ export type NoteUncheckedUpdateManyInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -393,6 +412,7 @@ export type NoteCountOrderByAggregateInput = {
   mistakes?: Prisma.SortOrder
   keyLearning?: Prisma.SortOrder
   intuition?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   interviewExplanation?: Prisma.SortOrder
 }
 
@@ -406,6 +426,7 @@ export type NoteMaxOrderByAggregateInput = {
   mistakes?: Prisma.SortOrder
   keyLearning?: Prisma.SortOrder
   intuition?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   interviewExplanation?: Prisma.SortOrder
 }
 
@@ -419,6 +440,7 @@ export type NoteMinOrderByAggregateInput = {
   mistakes?: Prisma.SortOrder
   keyLearning?: Prisma.SortOrder
   intuition?: Prisma.SortOrder
+  language?: Prisma.SortOrder
   interviewExplanation?: Prisma.SortOrder
 }
 
@@ -463,6 +485,7 @@ export type NoteCreateWithoutProblemInput = {
   mistakes?: string | null
   keyLearning?: string | null
   intuition?: string | null
+  language?: string | null
   interviewExplanation?: string | null
 }
 
@@ -475,6 +498,7 @@ export type NoteUncheckedCreateWithoutProblemInput = {
   mistakes?: string | null
   keyLearning?: string | null
   intuition?: string | null
+  language?: string | null
   interviewExplanation?: string | null
 }
 
@@ -503,6 +527,7 @@ export type NoteUpdateWithoutProblemInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -515,6 +540,7 @@ export type NoteUncheckedUpdateWithoutProblemInput = {
   mistakes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keyLearning?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intuition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  language?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interviewExplanation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -530,6 +556,7 @@ export type NoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   mistakes?: boolean
   keyLearning?: boolean
   intuition?: boolean
+  language?: boolean
   interviewExplanation?: boolean
   problem?: boolean | Prisma.ProblemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
@@ -544,6 +571,7 @@ export type NoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mistakes?: boolean
   keyLearning?: boolean
   intuition?: boolean
+  language?: boolean
   interviewExplanation?: boolean
   problem?: boolean | Prisma.ProblemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
@@ -558,6 +586,7 @@ export type NoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   mistakes?: boolean
   keyLearning?: boolean
   intuition?: boolean
+  language?: boolean
   interviewExplanation?: boolean
   problem?: boolean | Prisma.ProblemDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
@@ -572,10 +601,11 @@ export type NoteSelectScalar = {
   mistakes?: boolean
   keyLearning?: boolean
   intuition?: boolean
+  language?: boolean
   interviewExplanation?: boolean
 }
 
-export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "problemId" | "bruteForceApproach" | "optimizedApproach" | "timeComplexity" | "spaceComplexity" | "mistakes" | "keyLearning" | "intuition" | "interviewExplanation", ExtArgs["result"]["note"]>
+export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "problemId" | "bruteForceApproach" | "optimizedApproach" | "timeComplexity" | "spaceComplexity" | "mistakes" | "keyLearning" | "intuition" | "language" | "interviewExplanation", ExtArgs["result"]["note"]>
 export type NoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   problem?: boolean | Prisma.ProblemDefaultArgs<ExtArgs>
 }
@@ -601,6 +631,7 @@ export type $NotePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     mistakes: string | null
     keyLearning: string | null
     intuition: string | null
+    language: string | null
     interviewExplanation: string | null
   }, ExtArgs["result"]["note"]>
   composites: {}
@@ -1035,6 +1066,7 @@ export interface NoteFieldRefs {
   readonly mistakes: Prisma.FieldRef<"Note", 'String'>
   readonly keyLearning: Prisma.FieldRef<"Note", 'String'>
   readonly intuition: Prisma.FieldRef<"Note", 'String'>
+  readonly language: Prisma.FieldRef<"Note", 'String'>
   readonly interviewExplanation: Prisma.FieldRef<"Note", 'String'>
 }
     

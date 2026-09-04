@@ -24,6 +24,10 @@ export async function GET(
     where: {
       id: id,
     },
+    include: {
+      note: true,
+      revisionLogs: true,
+    },
   });
   if (!problem)
     return Response.json({ message: "Problem Not Found" }, { status: 404 });

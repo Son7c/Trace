@@ -8,6 +8,7 @@ export const CreateNoteSchema = z.object({
   mistakes: z.string().trim().optional(),
   keyLearning: z.string().trim().optional(),
   intuition: z.string().trim().optional(),
+  language: z.string().trim().optional(),
   interviewExplanation: z.string().trim().optional(),
 });
 export const UpdateNoteSchema = CreateNoteSchema.partial();

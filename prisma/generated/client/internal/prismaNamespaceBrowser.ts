@@ -118,6 +118,7 @@ export const NoteScalarFieldEnum = {
   mistakes: 'mistakes',
   keyLearning: 'keyLearning',
   intuition: 'intuition',
+  language: 'language',
   interviewExplanation: 'interviewExplanation'
 } as const
 

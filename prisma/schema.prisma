@@ -79,6 +79,7 @@ model Note {
   mistakes             String? @db.Text
   keyLearning          String?  @db.Text
   intuition            String? @db.Text
+  language             String? @db.Text
   interviewExplanation String?  @db.Text
 }
 

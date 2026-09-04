@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Editor from "@monaco-editor/react";
-import { CaretDown, Copy, Check } from "@phosphor-icons/react";
+import { CaretDown, Copy, Check, FloppyDisk, CircleNotch } from "@phosphor-icons/react";
 import { FaPaste } from "react-icons/fa";
 
 const LANGUAGES = [
@@ -13,13 +13,77 @@ const LANGUAGES = [
   { id: "typescript", label: "TypeScript" },
 ];
 
-function CodeEditor() {
-  const [language, setLanguage] = useState<string>("cpp");
+type CodeEditorProps = {
+  code?: string;
+  approach?: "brute" | "optimal";
+  setApproach: (approach: "brute" | "optimal") => void;
+  problemId?: string;
+  hasNote?: boolean;
+  language?: string;
+  setLanguage?: (language: string) => void;
+  onSaved?: (approach: "brute" | "optimal", savedCode: string) => void;
+};
+
+
+function CodeEditor({
+  code,
+  approach = "brute",
+  setApproach,
+  problemId,
+  hasNote,
+  onSaved,
+  language,
+  setLanguage
+}: CodeEditorProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [pasted, setPasted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saved" | "error">("idle");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<any>(null);
+
+  const handleSaveCode = useCallback(async () => {
+    if (!problemId || isSaving) return;
+
+    const currentText = editorRef.current ? editorRef.current.getValue() : code || "";
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    const payload =
+      approach === "brute"
+        ? { bruteForceApproach: currentText, language }
+        : { optimizedApproach: currentText, language };
+
+    try {
+      // If note already exists, use PATCH; otherwise create it with POST
+      const method = hasNote ? "PATCH" : "POST";
+      const res = await fetch(`/api/problems/${problemId}/note`, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok && res.status === 409) {
+        // If conflict (e.g. note was created elsewhere), retry as PATCH
+        await fetch(`/api/problems/${problemId}/note`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      setSaveStatus("saved");
+      onSaved?.(approach, currentText);
+      setTimeout(() => setSaveStatus("idle"), 2500);
+    } catch (err) {
+      console.error("Failed to save code:", err);
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 2500);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [problemId, isSaving, code, approach, language, hasNote, onSaved]);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -41,7 +105,7 @@ function CodeEditor() {
     }
   };
 
-  const handlePasteCode =  () => {
+  const handlePasteCode = () => {
     navigator.clipboard.readText().then((text) => {
       if (editorRef.current) {
         editorRef.current.setValue(text);
@@ -91,20 +155,50 @@ function CodeEditor() {
     });
 
     monaco.editor.setTheme("trace-dark");
+
+    // Add Ctrl+S / Cmd+S shortcut inside Monaco editor
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+      handleSaveCode();
+    });
   };
 
   return (
     <div className="w-[50vw] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70">
       {/* Mac-style header */}
       <div className="flex h-12 items-center justify-between border-b border-zinc-800 bg-zinc-900/70 px-4">
-        {/* Traffic lights */}
-        <div className="flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+        {/* Left: Traffic lights & Approach Buttons */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+            <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+            <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+          </div>
+
+          <div className="flex items-center gap-1 rounded-lg border border-zinc-700/60 bg-zinc-800/80 p-0.5 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setApproach("brute")}
+              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${approach === "brute"
+                ? "bg-[#A6E795]/15 text-[#A6E795] shadow-xs"
+                : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/40"
+                }`}
+            >
+              Brute Force
+            </button>
+            <button
+              type="button"
+              onClick={() => setApproach("optimal")}
+              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${approach === "optimal"
+                ? "bg-[#A6E795]/15 text-[#A6E795] shadow-xs"
+                : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/40"
+                }`}
+            >
+              Optimal
+            </button>
+          </div>
         </div>
 
-        {/* Language Dropdown & Copy Button */}
+        {/* Right Toolbar: Language Dropdown, Copy, Paste & Save */}
         <div className="flex items-center gap-2">
           {/* Custom Dark Theme Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -117,9 +211,8 @@ function CodeEditor() {
               <CaretDown
                 size={11}
                 weight="bold"
-                className={`text-zinc-400 transition-transform duration-200 ${
-                  isDropdownOpen ? "rotate-180 text-[#A6E795]" : ""
-                }`}
+                className={`text-zinc-400 transition-transform duration-200 ${isDropdownOpen ? "rotate-180 text-[#A6E795]" : ""
+                  }`}
               />
             </button>
 
@@ -133,14 +226,13 @@ function CodeEditor() {
                       key={lang.id}
                       type="button"
                       onClick={() => {
-                        setLanguage(lang.id);
+                        setLanguage?.(lang.id);
                         setIsDropdownOpen(false);
                       }}
-                      className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
-                        isSelected
-                          ? "bg-[#A6E795]/15 text-[#A6E795] font-semibold"
-                          : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
-                      }`}
+                      className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${isSelected
+                        ? "bg-[#A6E795]/15 text-[#A6E795] font-semibold"
+                        : "text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+                        }`}
                     >
                       <span>{lang.label}</span>
                       {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-[#A6E795]" />}
@@ -190,6 +282,41 @@ function CodeEditor() {
               </>
             )}
           </button>
+
+          {/* Save Button (Ctrl+S / Cmd+S) */}
+          <button
+            type="button"
+            onClick={handleSaveCode}
+            disabled={isSaving}
+            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${saveStatus === "saved"
+              ? "border-[#A6E795]/50 bg-[#A6E795]/15 text-[#A6E795]"
+              : saveStatus === "error"
+                ? "border-rose-500/50 bg-rose-500/10 text-rose-400"
+                : isSaving
+                  ? "border-zinc-700 bg-zinc-800/60 text-zinc-400 cursor-not-allowed"
+                  : "border-[#A6E795]/30 bg-[#A6E795]/10 text-[#A6E795] hover:bg-[#A6E795]/20 hover:border-[#A6E795]/60"
+              }`}
+            title="Save code to database (Ctrl+S)"
+          >
+            {isSaving ? (
+              <>
+                <CircleNotch size={12} className="animate-spin text-[#A6E795]" />
+                <span className="text-[11px]">Saving...</span>
+              </>
+            ) : saveStatus === "saved" ? (
+              <>
+                <Check size={12} weight="bold" className="text-[#A6E795]" />
+                <span className="text-[11px]">Saved!</span>
+              </>
+            ) : saveStatus === "error" ? (
+              <span className="text-[11px]">Error</span>
+            ) : (
+              <>
+                <FloppyDisk size={12} weight="bold" />
+                <span className="text-[11px]">Save</span>
+              </>
+            )}
+          </button>
         </div>
       </div>
 
@@ -199,19 +326,7 @@ function CodeEditor() {
         width="100%"
         language={language}
         onMount={handleEditorDidMount}
-        defaultValue={`function twoSum(nums, target) {
-  const map = new Map();
-
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-
-    map.set(nums[i], i);
-  }
-}`}
+        value={code ? code : ''}
         theme="trace-dark"
         options={{
           minimap: {
