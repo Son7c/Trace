@@ -161,75 +161,116 @@ export default function NoteForm({ id }: FormProps) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Brute Force Approach</label>
-          <textarea
-            value={brute}
-            onChange={(e) => setBrute(e.target.value)}
-          ></textarea>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-zinc-300">Time Complexity</label>
+            <input
+              type="text"
+              placeholder="e.g. O(N) or O(log N)"
+              value={tc}
+              onChange={(e) => setTc(e.target.value)}
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 px-3 py-2 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-zinc-300">Space Complexity</label>
+            <input
+              type="text"
+              placeholder="e.g. O(1) or O(N)"
+              value={sc}
+              onChange={(e) => setSc(e.target.value)}
+              className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 px-3 py-2 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+            />
+          </div>
         </div>
-        <div>
-          <label>Optimized Approach</label>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Core Intuition</label>
           <textarea
-            value={optimized}
-            onChange={(e) => setOptimized(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Time Complexity</label>
-          <textarea
-            value={tc}
-            onChange={(e) => setTc(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Space Complexity</label>
-          <textarea
-            value={sc}
-            onChange={(e) => setSc(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Mistakes</label>
-          <textarea
-            value={mistakes}
-            onChange={(e) => setMistakes(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Key Learning</label>
-          <textarea
-            value={keyLearning}
-            onChange={(e) => setKeyLearning(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Intuition</label>
-          <textarea
+            rows={3}
+            placeholder="Mental model and core insight behind the solution..."
             value={intuition}
             onChange={(e) => setIntuition(e.target.value)}
-          ></textarea>
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
         </div>
-        <div>
-          <label>Interview Explanation</label>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Key Learning</label>
           <textarea
+            rows={2}
+            placeholder="Key takeaway or concept to remember..."
+            value={keyLearning}
+            onChange={(e) => setKeyLearning(e.target.value)}
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Mistakes & Edge Cases</label>
+          <textarea
+            rows={3}
+            placeholder="Edge cases to consider (one per line)..."
+            value={mistakes}
+            onChange={(e) => setMistakes(e.target.value)}
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Interview Pitch / Walkthrough</label>
+          <textarea
+            rows={3}
+            placeholder="How you would explain this solution in an interview..."
             value={interview}
             onChange={(e) => setInterview(e.target.value)}
-          ></textarea>
+            className="w-full rounded-xl border border-zinc-800 bg-zinc-900/80 p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
         </div>
-        <button type="submit" disabled={isSaving}>
-          {isSaving ? "Saving" : hasNote ? "Update Note" : "Create Note"}
-        </button>
-        <br />
-        <button
-          style={{ display: hasNote ? "" : "none" }}
-          type="button"
-          disabled={isDeleting}
-          onClick={handleDelete}
-        >
-          {isDeleting ? "Deleting..." : "Delete"}
-        </button>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Brute Force Approach Code</label>
+          <textarea
+            rows={4}
+            placeholder="Brute force code snippet..."
+            value={brute}
+            onChange={(e) => setBrute(e.target.value)}
+            className="w-full font-mono rounded-xl border border-zinc-800 bg-[#0C0E15] p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-zinc-300">Optimized Approach Code</label>
+          <textarea
+            rows={4}
+            placeholder="Optimized approach code snippet..."
+            value={optimized}
+            onChange={(e) => setOptimized(e.target.value)}
+            className="w-full font-mono rounded-xl border border-zinc-800 bg-[#0C0E15] p-3 text-xs text-zinc-200 placeholder-zinc-600 focus:border-[#A6E795]/60 focus:outline-none"
+          />
+        </div>
+
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-zinc-800/80">
+          {hasNote && (
+            <button
+              type="button"
+              disabled={isDeleting}
+              onClick={handleDelete}
+              className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/20 transition-all cursor-pointer disabled:opacity-50"
+            >
+              {isDeleting ? "Deleting..." : "Delete Notes"}
+            </button>
+          )}
+
+          <button
+            type="submit"
+            disabled={isSaving}
+            className="rounded-xl bg-[#A6E795] hover:bg-[#93d382] px-5 py-2 text-xs font-semibold text-black transition-all shadow-[0_0_15px_rgba(166,231,149,0.2)] cursor-pointer disabled:opacity-50"
+          >
+            {isSaving ? "Saving..." : hasNote ? "Update Notes" : "Create Notes"}
+          </button>
+        </div>
       </form>
     </div>
   );

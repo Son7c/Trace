@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import { CaretDown, Copy, Check, FloppyDisk, CircleNotch } from "@phosphor-icons/react";
 import { FaPaste } from "react-icons/fa";
@@ -43,7 +43,7 @@ function CodeEditor({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const editorRef = useRef<any>(null);
 
-  const handleSaveCode = useCallback(async () => {
+  const handleSaveCode = async () => {
     if (!problemId || isSaving) return;
 
     const currentText = editorRef.current ? editorRef.current.getValue() : code || "";
@@ -73,9 +73,14 @@ function CodeEditor({
         });
       }
 
-      setSaveStatus("saved");
-      onSaved?.(approach, currentText);
-      setTimeout(() => setSaveStatus("idle"), 2500);
+      if (res.ok) {
+        setSaveStatus("saved");
+        onSaved?.(approach, currentText);
+        setTimeout(() => setSaveStatus("idle"), 2500);
+      } else {
+        setSaveStatus("error");
+        setTimeout(() => setSaveStatus("idle"), 2500);
+      }
     } catch (err) {
       console.error("Failed to save code:", err);
       setSaveStatus("error");
@@ -83,7 +88,7 @@ function CodeEditor({
     } finally {
       setIsSaving(false);
     }
-  }, [problemId, isSaving, code, approach, language, hasNote, onSaved]);
+  };
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -155,15 +160,10 @@ function CodeEditor({
     });
 
     monaco.editor.setTheme("trace-dark");
-
-    // Add Ctrl+S / Cmd+S shortcut inside Monaco editor
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
-      handleSaveCode();
-    });
   };
 
   return (
-    <div className="w-[50vw] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70">
+    <div className="w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70">
       {/* Mac-style header */}
       <div className="flex h-12 items-center justify-between border-b border-zinc-800 bg-zinc-900/70 px-4">
         {/* Left: Traffic lights & Approach Buttons */}
