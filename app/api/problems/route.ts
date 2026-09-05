@@ -68,6 +68,10 @@ export async function GET() {
     where: { userId },
     include: {
       revisionLogs: true,
+      note: true,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
   return Response.json(problems);
