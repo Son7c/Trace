@@ -2,8 +2,6 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import Dock from "@/components/Dock";
-import AddProblemModal from "@/components/problems/AddProblemModal";
 import { authClient } from "@/lib/auth-client";
 import { Problem, RevisionLog } from "@/prisma/generated/client/client";
 import {
@@ -41,7 +39,6 @@ export default function Dashboard() {
   const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
   const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // 1. Fetch data from backend API
   const fetchData = useCallback(async () => {
@@ -174,46 +171,6 @@ export default function Dashboard() {
     ? session.user.name.trim().split(" ")[0]
     : "Engineer";
   const userAvatarUrl = session?.user?.image;
-
-
-  // 6. React Bits Dock items configuration
-  const dockItems = [
-    {
-      icon: <House size={20} />,
-      label: "Home",
-      onClick: () => router.push("/dashboard"),
-    },
-    {
-      icon: (
-        <div className="relative flex items-center justify-center">
-          <Play size={20} />
-          {reviews.length > 0 && (
-            <span className="absolute -top-1.5 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(244,63,94,0.5)]">
-              {reviews.length}
-            </span>
-          )}
-        </div>
-      ),
-      label:
-        reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
-      onClick: () => router.push("/review"),
-    },
-    {
-      icon: <Plus size={20} />,
-      label: "Add Problem",
-      onClick: () => setIsAddModalOpen(true),
-    },
-    {
-      icon: <Archive size={20} />,
-      label: "Progress Archive",
-      onClick: () => router.push("/problems"),
-    },
-    {
-      icon: <User size={20} />,
-      label: "Profile",
-      onClick: () => router.push("/profile"),
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-[#07080C] text-zinc-100 font-sans selection:bg-[#a6e795]/20 selection:text-[#a6e795] pb-32 relative overflow-x-hidden">
@@ -454,31 +411,6 @@ export default function Dashboard() {
           )}
         </section>
       </main>
-
-      {/* ═══════════════════════════════════════════════════════════
-          5. REACT BITS ANIMATED DOCK
-      ═══════════════════════════════════════════════════════════ */}
-      <Dock
-        items={dockItems}
-        panelHeight={68}
-        baseItemSize={48}
-        magnification={68}
-      />
-
-      {/* Pop-out Glass Add Problem Modal */}
-      <AddProblemModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSuccess={(newProblem: any) => {
-          const problemWithLogs: ProblemWithLogs = {
-            ...newProblem,
-            revisionLogs: newProblem.revisionLogs || [],
-          };
-          setProblems((prev) => [problemWithLogs, ...prev]);
-          setReviews((prev) => [newProblem, ...prev]);
-          fetchData();
-        }}
-      />
     </div>
   );
 }

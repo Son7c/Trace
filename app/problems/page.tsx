@@ -2,8 +2,7 @@
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
-import { Problem } from "@/prisma/generated/client/client";
+import type { Problem } from "@/prisma/generated/client/client";
 
 export default function ProblemsPage() {
   const { data: session } = authClient.useSession();
@@ -103,17 +102,18 @@ export default function ProblemsPage() {
     });
   };
 
+  const fetchProblems = async () => {
+    const response = await fetch("/api/problems");
+    const data = await response.json();
+    setProblems(data);
+  };
+
   useEffect(() => {
-    const fetchProblems = async () => {
-      const response = await fetch("/api/problems");
-      const data = await response.json();
-      setProblems(data);
-    };
     fetchProblems();
   }, []);
 
   return (
-    <div>
+    <div className="pb-32">
       <h1>Welcome {session?.user.name}</h1>
       <button type="button" onClick={handleLogout}>
         Log out

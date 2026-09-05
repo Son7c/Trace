@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "lenis/dist/lenis.css";
 import { LenisProvider } from "@/components/providers/lenis-provider";
+import DockWrapper from "@/components/DockWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#020507] text-white selection:bg-[#a6e795]/20 selection:text-[#a6e795]`}
       >
-        <LenisProvider>{children}</LenisProvider>
+        <LenisProvider>
+          {children}
+          <DockWrapper />
+        </LenisProvider>
       </body>
     </html>
   );

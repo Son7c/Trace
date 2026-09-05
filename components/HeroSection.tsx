@@ -14,12 +14,14 @@ import ColorBends from "./ColorBends-landing/ColorBends";
 import { useRouter } from "next/navigation";
 import SpecularButton from "./Spectacular-btn/SpecularButton";
 import { handleLogin } from "@/utils/handleLogin";
+import { authClient } from "@/lib/auth-client";
 import { useEffect, useRef } from "react";
 import { useLenis } from "@/components/providers/lenis-provider";
 
 export default function HeroSection() {
   const router = useRouter();
   const lenis = useLenis();
+  const { data: session } = authClient.useSession();
 
   // Direct DOM refs to avoid React state re-render jitter
   const contentRef = useRef<HTMLDivElement>(null);
@@ -122,7 +124,13 @@ export default function HeroSection() {
                 followMouse
                 proximity={250}
                 autoAnimate={false}
-                onClick={() => handleLogin(router)}
+                onClick={() => {
+                  if (session?.user) {
+                    router.push("/dashboard");
+                  } else {
+                    handleLogin(router);
+                  }
+                }}
               >
                 Get Started
               </SpecularButton>

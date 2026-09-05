@@ -1,7 +1,5 @@
 "use client";
 
-import Dock from "@/components/Dock";
-import AddProblemModal from "@/components/problems/AddProblemModal";
 import { authClient } from "@/lib/auth-client";
 import { Problem, RevisionLog } from "@/prisma/generated/client/client";
 import { useRouter } from "next/navigation";
@@ -140,25 +138,16 @@ export default function ProfilePage() {
   const { data: session, isPending } = authClient.useSession();
   const router = useRouter();
   const [problems, setProblems] = useState<ProblemWithLogs[]>([]);
-  const [reviews, setReviews] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const userAvatarUrl = session?.user?.image;
 
   const fetchData = useCallback(async () => {
     try {
-      const [problemsRes, reviewsRes] = await Promise.all([
-        fetch("/api/problems"),
-        fetch("/api/problems/reviews"),
-      ]);
+      const problemsRes = await fetch("/api/problems");
       if (problemsRes.ok) {
         const data = await problemsRes.json();
         setProblems(data);
-      }
-      if (reviewsRes.ok) {
-        const reviewsData = await reviewsRes.json();
-        setReviews(reviewsData);
       }
     } catch (error) {
       console.error("Failed to fetch user data:", error);
@@ -1048,58 +1037,6 @@ export default function ProfilePage() {
           </div>
         </section>
       </main>
-
-
-
-      {/* Dock Navigation */}
-      <Dock
-        items={[
-          {
-            icon: <House size={18} />,
-            label: "Dashboard",
-            onClick: () => router.push("/dashboard"),
-          },
-          {
-            icon: (
-              <div className="relative flex items-center justify-center">
-                <Play size={18} />
-                {reviews.length > 0 && (
-                  <span className="absolute -top-1.5 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(244,63,94,0.5)]">
-                    {reviews.length}
-                  </span>
-                )}
-              </div>
-            ),
-            label:
-              reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
-            onClick: () => router.push("/review"),
-          },
-          {
-            icon: <Plus size={18} />,
-            label: "Add Problem",
-            onClick: () => setIsAddModalOpen(true),
-          },
-          {
-            icon: <Archive size={18} />,
-            label: "Archive",
-            onClick: () => router.push("/problems"),
-          },
-          {
-            icon: <User size={18} />,
-            label: "Profile",
-            onClick: () => router.push("/profile"),
-          },
-        ]}
-      />
-
-      {/* Pop-out Glass Add Problem Modal */}
-      <AddProblemModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSuccess={() => {
-          fetchData();
-        }}
-      />
     </div>
   );
 }

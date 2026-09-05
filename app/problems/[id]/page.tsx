@@ -37,6 +37,10 @@ import {
   CaretDown,
   FloppyDisk,
   CircleNotch,
+  House,
+  Plus,
+  Archive,
+  User,
 } from "@phosphor-icons/react";
 
 const PLATFORM_NAMES: Record<string, string> = {
@@ -304,7 +308,7 @@ export default function ProblemPage() {
   }
 
   return (
-    <main className="px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-4 lg:py-6 max-w-[1560px] mx-auto min-h-screen">
+    <main className="px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-4 lg:py-6 max-w-[1560px] mx-auto min-h-screen pb-32">
       {/* Top Navigation Row */}
       <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
         <div>
