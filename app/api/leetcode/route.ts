@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 // Helper to extract slug from URL if user pastes a URL
 function extractSlugFromUrl(input: string): string | null {
@@ -24,6 +26,13 @@ function slugify(text: string): string {
 
 export async function POST(req: Request) {
   try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
     const rawInput = body?.urlOrSlug;
 

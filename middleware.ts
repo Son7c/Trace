@@ -10,7 +10,8 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/problems") ||
-    pathname.startsWith("/review");
+    pathname.startsWith("/review") ||
+    pathname.startsWith("/profile");
 
   if (isProtectedRoute && !sessionToken) {
     const loginUrl = new URL("/login", request.url);
@@ -26,5 +27,11 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/problems/:path*", "/review/:path*", "/login"],
+  matcher: [
+    "/dashboard",
+    "/problems/:path*",
+    "/review/:path*",
+    "/profile/:path*",
+    "/login",
+  ],
 };
