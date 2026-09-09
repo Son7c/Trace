@@ -226,24 +226,24 @@ export default function ProblemsPage() {
   return (
     <div className="min-h-screen bg-[#07090C] text-zinc-100 font-sans selection:bg-[#a6e795]/20 selection:text-[#a6e795]">
       {/* Main Content Area */}
-      <main className="px-6 sm:px-10 py-10 pb-32 max-w-7xl mx-auto w-full">
+      <main className="px-4 sm:px-10 py-6 sm:py-10 pb-32 max-w-7xl mx-auto w-full">
         {/* PAGE HERO: Title, Subtitle, & Add Button */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 sm:pb-6">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
               Problems
             </h1>
-            <p className="text-sm font-medium text-zinc-300 mt-1">
+            <p className="text-xs sm:text-sm font-medium text-zinc-300 mt-1">
               Your problem library.
             </p>
-            <p className="text-xs text-zinc-500 mt-0.5">
+            <p className="text-[11px] sm:text-xs text-zinc-500 mt-0.5">
               Every problem you solve becomes another trace in memory.
             </p>
           </div>
 
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#a6e795] hover:bg-[#93d382] text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(166,231,149,0.25)] hover:shadow-[0_0_25px_rgba(166,231,149,0.35)] transition-all cursor-pointer self-start sm:self-auto shrink-0"
+            className="flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-lg bg-[#a6e795] hover:bg-[#93d382] text-zinc-950 font-bold text-xs shadow-[0_0_20px_rgba(166,231,149,0.25)] hover:shadow-[0_0_25px_rgba(166,231,149,0.35)] transition-all cursor-pointer self-start sm:self-auto shrink-0"
           >
             <Plus size={16} weight="bold" />
             <span>Add Problem</span>
@@ -253,9 +253,9 @@ export default function ProblemsPage() {
         {/* ═══════════════════════════════════════════════════════════
               FILTER & SEARCH TOOLBAR (Matches Screenshot)
           ═══════════════════════════════════════════════════════════ */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 pb-4">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 pt-2 pb-4">
           {/* Search Input */}
-          <div className="relative w-full sm:w-80">
+          <div className="relative w-full lg:w-80">
             <MagnifyingGlass
               size={16}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500"
@@ -272,11 +272,11 @@ export default function ProblemsPage() {
           {/* Dropdowns */}
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {/* Platform Dropdown */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-none min-w-[100px]">
               <select
                 value={selectedPlatform}
                 onChange={(e) => setSelectedPlatform(e.target.value)}
-                className="appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
+                className="w-full appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
               >
                 <option value="ALL">Platform</option>
                 <option value="LEETCODE">LeetCode</option>
@@ -290,11 +290,11 @@ export default function ProblemsPage() {
             </div>
 
             {/* Difficulty Dropdown */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-none min-w-[95px]">
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
+                className="w-full appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
               >
                 <option value="ALL">Difficulty</option>
                 <option value="EASY">Easy</option>
@@ -305,11 +305,11 @@ export default function ProblemsPage() {
             </div>
 
             {/* Status Dropdown */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-none min-w-[90px]">
               <select
                 value={selectedStatus}
                 onChange={(e) => handleStatusChange(e.target.value)}
-                className="appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
+                className="w-full appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
               >
                 <option value="ALL">Status</option>
                 <option value="DUE_TODAY">Due Today</option>
@@ -321,11 +321,11 @@ export default function ProblemsPage() {
             </div>
 
             {/* Sort by Dropdown */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-none min-w-[125px]">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
+                className="w-full appearance-none bg-[#0d1015] border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg px-3 py-2 pr-7 text-xs focus:outline-none cursor-pointer transition-colors"
               >
                 <option value="NEWEST">Sort by: Newest</option>
                 <option value="OLDEST">Sort by: Oldest</option>
@@ -353,7 +353,7 @@ export default function ProblemsPage() {
         {/* ═══════════════════════════════════════════════════════════
               STATUS TABS BAR (All, Due Today, Overdue, Mastered)
           ═══════════════════════════════════════════════════════════ */}
-        <div className="border-b border-zinc-850 flex items-center gap-6 mt-1 mb-6 text-xs">
+        <div className="border-b border-zinc-850 flex items-center gap-4 sm:gap-6 mt-1 mb-6 text-xs overflow-x-auto whitespace-nowrap pb-px">
           <button
             onClick={() => handleTabChange("all")}
             className={`pb-3 font-medium transition-all relative ${activeTab === "all"

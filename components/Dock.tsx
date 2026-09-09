@@ -100,7 +100,7 @@ function DockItem({
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`relative inline-flex items-center justify-center rounded-xl bg-[#120F17] border-neutral-700 border-2 shadow-md ${className}`}
+      className={`relative inline-flex items-center justify-center rounded-xl bg-[#120F17] border-neutral-700 border-2 shadow-md shrink-0 touch-manipulation select-none ${className}`}
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -184,8 +184,20 @@ export default function Dock({
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
   const [isDockVisible, setIsDockVisible] = useState(true);
+  const [isTouchOrMobile, setIsTouchOrMobile] = useState(false);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isMouseInDockRef = useRef(false);
+
+  useEffect(() => {
+    const checkTouchOrMobile = () => {
+      const isMobileWidth = window.innerWidth <= 768;
+      const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      setIsTouchOrMobile(isMobileWidth || hasTouch);
+    };
+    checkTouchOrMobile();
+    window.addEventListener("resize", checkTouchOrMobile);
+    return () => window.removeEventListener("resize", checkTouchOrMobile);
+  }, []);
 
   const maxHeight = useMemo(
     () => Math.max(dockHeight, magnification + magnification / 2 + 4),
@@ -203,7 +215,7 @@ export default function Dock({
   };
 
   const hideDock = (delay = autoHideDelay) => {
-    if (!autoHide || isMouseInDockRef.current) return;
+    if (!autoHide || isTouchOrMobile || isMouseInDockRef.current) return;
     if (hideTimerRef.current) {
       clearTimeout(hideTimerRef.current);
     }
@@ -215,7 +227,7 @@ export default function Dock({
   };
 
   useEffect(() => {
-    if (!autoHide) {
+    if (!autoHide || isTouchOrMobile) {
       setIsDockVisible(true);
       return;
     }
@@ -241,7 +253,7 @@ export default function Dock({
       window.removeEventListener("mousemove", handleMouseMove);
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
     };
-  }, [autoHide, autoHideDelay, triggerDistance]);
+  }, [autoHide, autoHideDelay, triggerDistance, isTouchOrMobile]);
 
   return (
     <>
@@ -274,7 +286,7 @@ export default function Dock({
           opacity: isDockVisible ? 1 : 0,
         }}
         transition={{ type: "spring", stiffness: 350, damping: 28 }}
-        className={`fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-end justify-center ${
+        className={`fixed bottom-2 sm:bottom-4 pb-[env(safe-area-inset-bottom)] left-1/2 -translate-x-1/2 z-50 flex items-end justify-center max-w-[96vw] ${
           isDockVisible ? "pointer-events-auto" : "pointer-events-none"
         }`}
         onMouseEnter={() => {
@@ -308,7 +320,7 @@ export default function Dock({
               isHovered.set(0);
               mouseX.set(Infinity);
             }}
-            className={`${className} relative flex items-end w-fit gap-4 rounded-2xl border-neutral-700 border-2 pb-2 px-4 bg-[#120F17]/90 backdrop-blur-md shadow-2xl`}
+            className={`${className} relative flex items-end w-fit gap-2 sm:gap-4 rounded-2xl border-neutral-700 border-2 pb-1.5 sm:pb-2 px-2 sm:px-4 bg-[#120F17]/95 backdrop-blur-xl shadow-2xl max-w-full`}
             style={{ height: panelHeight }}
             role="toolbar"
             aria-label="Application dock"

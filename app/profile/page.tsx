@@ -527,15 +527,15 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-zinc-100 antialiased selection:bg-emerald-500/20 selection:text-emerald-300 pb-32 relative overflow-hidden">
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10 space-y-6 relative z-10">
+      <main className="max-w-6xl mx-auto px-3.5 sm:px-6 pt-6 sm:pt-10 space-y-6 relative z-10">
         {/* ═══════════════════════════════════════════════════════════
             1. TOP SECTION: SHORT PROFILE BANNER + SOLVED PROBLEMS BREAKDOWN
         ═══════════════════════════════════════════════════════════ */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
           {/* Short Profile Banner */}
           <div
             style={revealStyle(0)}
-            className={`${revealClass} lg:col-span-5 rounded-2xl border border-zinc-800/90 bg-[#0D0D0D]/90 backdrop-blur-xl p-6 shadow-2xl flex flex-col justify-between space-y-6`}
+            className={`${revealClass} lg:col-span-5 rounded-2xl border border-zinc-800/90 bg-[#0D0D0D]/90 backdrop-blur-xl p-4 sm:p-6 shadow-2xl flex flex-col justify-between space-y-4 sm:space-y-6`}
           >
             {/* User Info & Sign Out */}
             <div className="flex items-start justify-between gap-4">
@@ -605,7 +605,7 @@ export default function ProfilePage() {
           {/* Solved Problems Breakdown */}
           <div
             style={revealStyle(40)}
-            className={`${revealClass} lg:col-span-7 rounded-2xl border border-zinc-800/80 bg-[#0D0D0D]/90 backdrop-blur-md p-6 shadow-xl space-y-5 flex flex-col justify-between`}
+            className={`${revealClass} lg:col-span-7 rounded-2xl border border-zinc-800/80 bg-[#0D0D0D]/90 backdrop-blur-md p-4 sm:p-6 shadow-xl space-y-4 sm:space-y-5 flex flex-col justify-between`}
           >
             <div className="flex items-center justify-between border-b border-zinc-800/60 pb-3">
               <h2 className="text-md tracking-wide text-zinc-300 font-bold flex items-center gap-2">
@@ -745,21 +745,21 @@ export default function ProfilePage() {
         ═══════════════════════════════════════════════════════════ */}
         <section
           style={revealStyle(20)}
-          className={`${revealClass} rounded-2xl border border-zinc-800/90 bg-[#0D0D0D]/90 backdrop-blur-xl p-5 sm:p-6 shadow-2xl space-y-5`}
+          className={`${revealClass} rounded-2xl border border-zinc-800/90 bg-[#0D0D0D]/90 backdrop-blur-xl p-4 sm:p-6 shadow-2xl space-y-4 sm:space-y-5`}
         >
           {/* Heatmap Card Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs border-b border-zinc-800/60 pb-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xl sm:text-2xl font-extrabold text-zinc-100 tracking-tight">
                 {animatedSubmissions.toLocaleString()}
               </span>
-              <span className="text-zinc-400 font-medium">
+              <span className="text-zinc-400 font-medium text-xs">
                 submissions since August 2026
               </span>
-              <Info size={14} className="text-zinc-500 cursor-pointer" />
+              <Info size={14} className="text-zinc-500 cursor-pointer shrink-0" />
             </div>
 
-            <div className="flex items-center gap-5 text-zinc-400 text-xs">
+            <div className="flex items-center gap-3 sm:gap-5 text-zinc-400 text-xs flex-wrap">
               <div>
                 <span>Total active days: </span>
                 <span className="text-zinc-100 font-bold">
@@ -772,7 +772,7 @@ export default function ProfilePage() {
                 <span className="text-zinc-100 font-bold">{maxStreak}</span>
               </div>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-zinc-800 bg-zinc-900/80 text-zinc-200 text-xs font-medium cursor-pointer hover:border-zinc-700 transition-colors">
+              <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-lg border border-zinc-800 bg-zinc-900/80 text-zinc-200 text-xs font-medium cursor-pointer hover:border-zinc-700 transition-colors">
                 <span>Current</span>
                 <CaretDown size={12} className="text-zinc-400" />
               </div>
@@ -780,7 +780,7 @@ export default function ProfilePage() {
           </div>
 
           {/* 12 HORIZONTAL MONTH BLOCKS WITH GAPS & LABELS BELOW */}
-          <div className="overflow-x-auto pb-2 pt-1">
+          <div className="overflow-x-auto pb-3 pt-1 -mx-2 px-2 sm:mx-0 sm:px-0 overscroll-x-contain touch-pan-x">
             <div className="flex items-start gap-2.5 sm:gap-3.5 min-w-max">
               {heatmapData.months.map((m) => (
                 <div

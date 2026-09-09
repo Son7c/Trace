@@ -292,15 +292,15 @@ export default function ColorBends({
       const v =
         h.length === 3
           ? [
-              parseInt(h[0] + h[0], 16),
-              parseInt(h[1] + h[1], 16),
-              parseInt(h[2] + h[2], 16),
-            ]
+            parseInt(h[0] + h[0], 16),
+            parseInt(h[1] + h[1], 16),
+            parseInt(h[2] + h[2], 16),
+          ]
           : [
-              parseInt(h.slice(0, 2), 16),
-              parseInt(h.slice(2, 4), 16),
-              parseInt(h.slice(4, 6), 16),
-            ];
+            parseInt(h.slice(0, 2), 16),
+            parseInt(h.slice(2, 4), 16),
+            parseInt(h.slice(4, 6), 16),
+          ];
       return new THREE.Vector3(v[0] / 255, v[1] / 255, v[2] / 255);
     };
 

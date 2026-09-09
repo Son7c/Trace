@@ -20,18 +20,18 @@ export default function NavLanding() {
       className="
     fixed top-3 left-1/2 -translate-x-1/2
     z-50
-    flex h-14 w-[92vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-7xl
+    flex h-14 w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[60vw] max-w-7xl
     items-center justify-between
     rounded-full
     border border-white/8
-    bg-[#0B0F14]/45
-    px-6 sm:px-8 lg:px-10
+    bg-[#0B0F14]/65
+    px-4 sm:px-8 lg:px-10
     backdrop-blur-2xl
     shadow-[0_8px_40px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.04)]
     transition-all duration-300
   "
     >
-      <div className="text-white text-2xl sm:text-3xl font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none">
+      <div className="text-white text-xl sm:text-2xl md:text-3xl font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] select-none">
         <a href="#">Trace</a>
       </div>
       <div className="hidden sm:flex items-center">
@@ -55,11 +55,11 @@ export default function NavLanding() {
         </a>
       </div>
 
-      <div className="text-white text-sm md:text-lg flex items-center gap-3">
+      <div className="text-white text-sm md:text-lg flex items-center gap-2 sm:gap-3">
         {session?.user ? (
           <>
             {firstName && (
-              <span className="text-xs sm:text-sm text-zinc-300 font-medium">
+              <span className="hidden md:inline text-xs sm:text-sm text-zinc-300 font-medium">
                 Yo, <span className="text-[#a6e795] font-semibold">{firstName}</span>
               </span>
             )}

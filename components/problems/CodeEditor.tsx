@@ -165,10 +165,10 @@ function CodeEditor({
   return (
     <div className="w-full overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/70">
       {/* Mac-style header */}
-      <div className="flex h-12 items-center justify-between border-b border-zinc-800 bg-zinc-900/70 px-4">
+      <div className="flex min-h-12 py-1.5 items-center justify-between border-b border-zinc-800 bg-zinc-900/70 px-3 sm:px-4 flex-wrap gap-2">
         {/* Left: Traffic lights & Approach Buttons */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="hidden sm:flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
             <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
             <span className="h-3 w-3 rounded-full bg-[#28c840]" />
@@ -178,7 +178,7 @@ function CodeEditor({
             <button
               type="button"
               onClick={() => setApproach("brute")}
-              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${approach === "brute"
+              className={`rounded-md px-2 sm:px-2.5 py-1 text-xs font-semibold transition-all ${approach === "brute"
                 ? "bg-[#A6E795]/15 text-[#A6E795] shadow-xs"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/40"
                 }`}
@@ -188,7 +188,7 @@ function CodeEditor({
             <button
               type="button"
               onClick={() => setApproach("optimal")}
-              className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-all ${approach === "optimal"
+              className={`rounded-md px-2 sm:px-2.5 py-1 text-xs font-semibold transition-all ${approach === "optimal"
                 ? "bg-[#A6E795]/15 text-[#A6E795] shadow-xs"
                 : "text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/40"
                 }`}
@@ -199,13 +199,13 @@ function CodeEditor({
         </div>
 
         {/* Right Toolbar: Language Dropdown, Copy, Paste & Save */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
           {/* Custom Dark Theme Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
               onClick={() => setIsDropdownOpen((prev) => !prev)}
-              className="flex items-center gap-1.5 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-zinc-600 hover:bg-zinc-800 focus:border-[#A6E795]/60 shadow-sm"
+              className="flex items-center gap-1 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2 sm:px-2.5 py-1 text-xs font-semibold text-zinc-200 transition-colors hover:border-zinc-600 hover:bg-zinc-800 focus:border-[#A6E795]/60 shadow-sm"
             >
               <span>{LANGUAGES.find((l) => l.id === language)?.label || "C++"}</span>
               <CaretDown
@@ -247,7 +247,7 @@ function CodeEditor({
           <button
             type="button"
             onClick={handleCopyCode}
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2.5 py-1 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
+            className="flex items-center gap-1 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2 sm:px-2.5 py-1 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
             title="Copy code"
           >
             {copied ? (
@@ -258,7 +258,7 @@ function CodeEditor({
             ) : (
               <>
                 <Copy size={12} className="text-zinc-400" />
-                <span className="text-[11px]">Copy</span>
+                <span className="text-[11px] hidden sm:inline">Copy</span>
               </>
             )}
           </button>
@@ -267,7 +267,7 @@ function CodeEditor({
           <button
             type="button"
             onClick={handlePasteCode}
-            className="flex items-center gap-1.5 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2.5 py-1 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
+            className="flex items-center gap-1 rounded-lg border border-zinc-700/60 bg-zinc-800/80 px-2 sm:px-2.5 py-1 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:bg-zinc-800 hover:text-white"
             title="Paste code"
           >
             {pasted ? (
@@ -278,7 +278,7 @@ function CodeEditor({
             ) : (
               <>
                 <FaPaste size={12} className="text-zinc-400" />
-                <span className="text-[11px]">Paste</span>
+                <span className="text-[11px] hidden sm:inline">Paste</span>
               </>
             )}
           </button>
@@ -288,7 +288,7 @@ function CodeEditor({
             type="button"
             onClick={handleSaveCode}
             disabled={isSaving}
-            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${saveStatus === "saved"
+            className={`flex items-center gap-1 rounded-lg border px-2 sm:px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${saveStatus === "saved"
               ? "border-[#A6E795]/50 bg-[#A6E795]/15 text-[#A6E795]"
               : saveStatus === "error"
                 ? "border-rose-500/50 bg-rose-500/10 text-rose-400"

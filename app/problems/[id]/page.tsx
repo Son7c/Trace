@@ -308,9 +308,9 @@ export default function ProblemPage() {
   }
 
   return (
-    <main className="px-6 sm:px-12 md:px-16 lg:px-20 xl:px-24 py-4 lg:py-6 max-w-[1560px] mx-auto min-h-screen pb-32">
+    <main className="px-3.5 sm:px-8 md:px-12 lg:px-20 xl:px-24 py-4 lg:py-6 max-w-[1560px] mx-auto min-h-screen pb-32">
       {/* Top Navigation Row */}
-      <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-5">
         <div>
           <Link
             href="/problems"
@@ -321,14 +321,14 @@ export default function ProblemPage() {
           </Link>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 flex-wrap">
           {/* Edit Problem Button */}
           <button
             type="button"
             onClick={() => setIsEditModalOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-zinc-800/80 bg-zinc-900/70 hover:bg-zinc-800/80 text-xs font-semibold text-zinc-300 hover:text-white transition-all shadow-sm cursor-pointer active:scale-95"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl border border-zinc-800/80 bg-zinc-900/70 hover:bg-zinc-800/80 text-xs font-semibold text-zinc-300 hover:text-white transition-all shadow-sm cursor-pointer active:scale-95"
           >
-            <PencilSimple size={15} />
+            <PencilSimple size={14} />
             <span>Edit Problem</span>
           </button>
 
@@ -340,10 +340,10 @@ export default function ProblemPage() {
               reviewBarRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
               setTimeout(() => setHighlightReviewBar(false), 2200);
             }}
-            className="flex items-center gap-2 text-xs font-bold rounded-xl px-4 py-2 transition-all shadow-[0_0_15px_rgba(166,231,149,0.25)] bg-[#a6e795] hover:bg-[#93d382] text-black cursor-pointer active:scale-95"
+            className="flex items-center gap-1.5 sm:gap-2 text-xs font-bold rounded-xl px-3.5 sm:px-4 py-1.5 sm:py-2 transition-all shadow-[0_0_15px_rgba(166,231,149,0.25)] bg-[#a6e795] hover:bg-[#93d382] text-black cursor-pointer active:scale-95"
             title="Jump to recall feedback ratings"
           >
-            <Play size={15} weight="bold" />
+            <Play size={14} weight="bold" />
             <span>Start Review</span>
           </button>
 
@@ -352,7 +352,7 @@ export default function ProblemPage() {
             <button
               type="button"
               onClick={() => setIsOptionsMenuOpen((prev) => !prev)}
-              className="p-2 rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl border border-zinc-800/80 bg-zinc-900/60 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors cursor-pointer"
               title="Options"
             >
               <DotsThreeVertical size={16} weight="bold" />
@@ -575,22 +575,23 @@ export default function ProblemPage() {
 
             {/* Quick Recall Rating Bar */}
             <div
-              className={`inline-flex items-center gap-2 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800/80 shadow-inner backdrop-blur-md transition-all duration-300 self-start lg:self-auto ${highlightReviewBar
-                ? "ring-2 ring-[#A6E795] shadow-[0_0_20px_rgba(166,231,149,0.35)] scale-[1.02]"
+              ref={reviewBarRef}
+              className={`flex flex-col sm:flex-row items-start sm:items-center gap-2 p-1.5 sm:p-1 rounded-xl bg-zinc-900/90 border border-zinc-800/80 shadow-inner backdrop-blur-md transition-all duration-300 w-full sm:w-auto self-start lg:self-auto ${highlightReviewBar
+                ? "ring-2 ring-[#A6E795] shadow-[0_0_20px_rgba(166,231,149,0.35)] scale-[1.01]"
                 : ""
                 }`}
             >
-              <div className="flex items-center gap-1.5 pl-2.5 pr-1 text-[11px] font-semibold text-zinc-400">
+              <div className="flex items-center gap-1.5 pl-2 pr-1 text-[11px] font-semibold text-zinc-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#A6E795] animate-pulse" />
-                <span className="hidden sm:inline">Recall:</span>
+                <span>Recall rating:</span>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="grid grid-cols-2 sm:flex sm:items-center gap-1.5 sm:gap-1 w-full sm:w-auto">
                 <button
                   type="button"
                   disabled={isSubmittingReview}
                   onClick={() => handleLogFeedback("AGAIN")}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                  className="group flex items-center justify-between sm:justify-start gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-rose-500/30 bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
                   title="Repeat recall in < 1 minute"
                 >
                   <span>Again</span>
@@ -601,7 +602,7 @@ export default function ProblemPage() {
                   type="button"
                   disabled={isSubmittingReview}
                   onClick={() => handleLogFeedback("HARD")}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                  className="group flex items-center justify-between sm:justify-start gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
                   title="Hard recall - review again in 1 day"
                 >
                   <span>Hard</span>
@@ -612,7 +613,7 @@ export default function ProblemPage() {
                   type="button"
                   disabled={isSubmittingReview}
                   onClick={() => handleLogFeedback("MEDIUM")}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-sky-500/30 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 hover:border-sky-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                  className="group flex items-center justify-between sm:justify-start gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-sky-500/30 bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 hover:border-sky-500/60 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
                   title="Good recall - review again in 3 days"
                 >
                   <span>Medium</span>
@@ -623,7 +624,7 @@ export default function ProblemPage() {
                   type="button"
                   disabled={isSubmittingReview}
                   onClick={() => handleLogFeedback("EASY")}
-                  className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#A6E795]/40 bg-[#A6E795]/15 text-[#A6E795] hover:bg-[#A6E795]/25 hover:border-[#A6E795]/70 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
+                  className="group flex items-center justify-between sm:justify-start gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border border-[#A6E795]/40 bg-[#A6E795]/15 text-[#A6E795] hover:bg-[#A6E795]/25 hover:border-[#A6E795]/70 transition-all cursor-pointer disabled:opacity-50 active:scale-95"
                   title="Effortless recall - review again in 7 days"
                 >
                   <span>Easy</span>

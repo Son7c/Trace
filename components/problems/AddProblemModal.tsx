@@ -25,24 +25,18 @@ export type AddProblemModalProps = {
   onSuccess?: (newProblem: any) => void;
 };
 
-const PLATFORMS: { id: PlatformType; label: string }[] = [
+const PLATFORMS: { id: PlatformType; label: string; disabled?: boolean }[] = [
   { id: "LEETCODE", label: "LeetCode" },
-  { id: "GFG", label: "GFG" },
-  { id: "CODEFORCES", label: "Codeforces" },
-  { id: "CODECHEF", label: "CodeChef" },
-  { id: "HACKERRANK", label: "HackerRank" },
-  { id: "OTHERS", label: "Other" },
+  { id: "GFG", label: "GFG", disabled: true },
+  { id: "CODEFORCES", label: "Codeforces", disabled: true },
+  { id: "CODECHEF", label: "CodeChef", disabled: true },
+  { id: "HACKERRANK", label: "HackerRank", disabled: true },
+  { id: "OTHERS", label: "Other", disabled: true },
 ];
 
 function detectPlatform(val: string): PlatformType | null {
   const lower = val.toLowerCase();
   if (lower.includes("leetcode.com")) return "LEETCODE";
-  if (lower.includes("geeksforgeeks.org")) return "GFG";
-  if (lower.includes("codeforces.com")) return "CODEFORCES";
-  if (lower.includes("codechef.com")) return "CODECHEF";
-  if (lower.includes("hackerrank.com")) return "HACKERRANK";
-  if (lower.startsWith("http://") || lower.startsWith("https://"))
-    return "OTHERS";
   return null;
 }
 
@@ -84,11 +78,12 @@ export default function AddProblemModal({
   // Platform auto-detection on typing/pasting
   useEffect(() => {
     const detected = detectPlatform(urlOrTitle);
-    if (detected) {
-      setSelectedPlatform(detected);
+    if (detected === "LEETCODE") {
+      setSelectedPlatform("LEETCODE");
       setIsAutoDetected(true);
     } else {
       setIsAutoDetected(false);
+      setSelectedPlatform("LEETCODE");
     }
   }, [urlOrTitle]);
 
@@ -253,22 +248,32 @@ export default function AddProblemModal({
             <div className="flex flex-wrap gap-1.5">
               {PLATFORMS.map((p) => {
                 const isActive = selectedPlatform === p.id;
+                const isDisabled = loading || !!p.disabled;
                 return (
                   <button
                     key={p.id}
                     type="button"
-                    disabled={loading}
+                    disabled={isDisabled}
                     onClick={() => {
+                      if (p.disabled) return;
                       setSelectedPlatform(p.id);
                       setIsAutoDetected(false);
                     }}
-                    className={`px-3 py-1.5 rounded-lg text-xs transition-colors cursor-pointer border ${
-                      isActive
-                        ? "bg-[#a6e795]/15 border-[#a6e795] text-[#a6e795] font-extrabold shadow-[0_0_10px_rgba(166,231,149,0.15)]"
-                        : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 font-medium"
+                    title={p.disabled ? `${p.label} coming soon` : undefined}
+                    className={`px-3 py-1.5 rounded-lg text-xs transition-all border flex items-center gap-1.5 ${
+                      p.disabled
+                        ? "bg-zinc-900/30 border-zinc-800/40 text-zinc-600 cursor-not-allowed opacity-50 select-none"
+                        : isActive
+                        ? "bg-[#a6e795]/15 border-[#a6e795] text-[#a6e795] font-extrabold shadow-[0_0_10px_rgba(166,231,149,0.15)] cursor-pointer"
+                        : "bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 font-medium cursor-pointer"
                     }`}
                   >
-                    {p.label}
+                    <span>{p.label}</span>
+                    {p.disabled && (
+                      <span className="text-[9px] px-1 py-0.5 rounded bg-zinc-800/60 text-zinc-500 font-normal leading-none">
+                        Soon
+                      </span>
+                    )}
                   </button>
                 );
               })}

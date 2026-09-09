@@ -177,12 +177,12 @@ export default function Dashboard() {
       {/* ═══════════════════════════════════════════════════════════
           1. TOP NAVIGATION BAR
       ═══════════════════════════════════════════════════════════ */}
-      <header className="max-w-7xl mx-auto px-6 sm:px-10 py-6 flex items-center justify-between">
+      <header className="max-w-7xl mx-auto px-4 sm:px-10 py-4 sm:py-6 flex items-center justify-between gap-3">
         {/* Brand & Main Links */}
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-6 sm:gap-10">
           <div
             onClick={() => router.push("/dashboard")}
-            className="text-2xl font-extrabold tracking-tight text-white select-none cursor-pointer"
+            className="text-xl sm:text-2xl font-extrabold tracking-tight text-white select-none cursor-pointer"
           >
             Trace<span className="text-[#a6e795]"></span>
           </div>
@@ -193,12 +193,12 @@ export default function Dashboard() {
           {/* Profile Pill (Navigates to /profile) */}
           <div
             onClick={() => router.push("/profile")}
-            className="bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-zinc-700/90 rounded-full p-1.5 pr-3.5 flex items-center gap-2.5 text-xs text-zinc-200 shadow-[0_4px_20px_rgba(0,0,0,0.4)] cursor-pointer transition-all duration-300 group hover:-translate-y-0.5"
+            className="bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-zinc-700/90 rounded-full p-1 sm:p-1.5 pr-2.5 sm:pr-3.5 flex items-center gap-2 sm:gap-2.5 text-xs text-zinc-200 shadow-[0_4px_20px_rgba(0,0,0,0.4)] cursor-pointer transition-all duration-300 group hover:-translate-y-0.5"
             title="View Profile"
           >
             {/* Avatar with subtle glow ring */}
             <div className="relative p-0.5 rounded-full bg-gradient-to-tr from-[#a6e795]/50 via-emerald-500/20 to-transparent shrink-0">
-              <div className="w-6 h-6 rounded-full bg-zinc-900 overflow-hidden flex items-center justify-center font-bold text-white text-[10px]">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-zinc-900 overflow-hidden flex items-center justify-center font-bold text-white text-[10px]">
                 {userAvatarUrl ? (
                   <img
                     src={userAvatarUrl}
@@ -212,7 +212,7 @@ export default function Dashboard() {
             </div>
 
             {/* Username */}
-            <span className="font-bold text-zinc-100 tracking-tight truncate max-w-[90px] group-hover:text-white transition-colors">
+            <span className="font-bold text-zinc-100 tracking-tight truncate max-w-[70px] sm:max-w-[90px] group-hover:text-white transition-colors text-[11px] sm:text-xs">
               {firstName}
             </span>
 
@@ -220,8 +220,8 @@ export default function Dashboard() {
             <span className="h-3.5 w-px bg-zinc-800/90" />
 
             {/* Streak Badge */}
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[11px] font-semibold">
-              <Fire size={12} weight="fill" className="text-amber-400 animate-pulse" />
+            <div className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[10px] sm:text-[11px] font-semibold">
+              <Fire size={11} weight="fill" className="text-amber-400 animate-pulse" />
               <span>{currentStreak}d</span>
             </div>
           </div>
@@ -230,9 +230,9 @@ export default function Dashboard() {
           <button
             onClick={handleLogout}
             title="Sign Out"
-            className="w-8 h-8 rounded-full bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-rose-500/40 hover:bg-rose-500/10 text-zinc-400 hover:text-rose-400 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-md hover:-translate-y-0.5"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0C0E15]/80 backdrop-blur-xl border border-zinc-800/80 hover:border-rose-500/40 hover:bg-rose-500/10 text-zinc-400 hover:text-rose-400 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-md hover:-translate-y-0.5"
           >
-            <SignOut size={14} weight="bold" />
+            <SignOut size={13} weight="bold" />
           </button>
         </div>
       </header>
@@ -240,13 +240,13 @@ export default function Dashboard() {
       {/* ═══════════════════════════════════════════════════════════
           MAIN CONTENT AREA
       ═══════════════════════════════════════════════════════════ */}
-      <main className="max-w-4xl mx-auto px-6 pt-6 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6 space-y-6 sm:space-y-8 pb-32">
         {/* 2. GREETING HERO SECTION */}
         <section className="space-y-1.5">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
             {greeting} <span className="text-[#a6e795]">{firstName}.</span>
           </h1>
-          <p className="text-zinc-400 text-sm font-normal tracking-wide">
+          <p className="text-zinc-400 text-xs sm:text-sm font-normal tracking-wide">
             {reviews.length > 0
               ? `You have ${reviews.length} problem${
                   reviews.length === 1 ? "" : "s"
@@ -256,7 +256,7 @@ export default function Dashboard() {
         </section>
 
         {/* 3. METRIC CARDS GRID */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
           {/* Card 1: Due Today */}
           <div
             onClick={() => router.push("/review")}
@@ -311,16 +311,16 @@ export default function Dashboard() {
         </section>
 
         {/* 4. TODAY'S FOCUS (REVIEW QUEUE LIST) */}
-        <section className="rounded-2xl border border-zinc-800/80 bg-[#0F121A]/70 backdrop-blur-xl p-6 sm:p-7 shadow-2xl space-y-6">
+        <section className="rounded-2xl border border-zinc-800/80 bg-[#0F121A]/70 backdrop-blur-xl p-4 sm:p-7 shadow-2xl space-y-4 sm:space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-white tracking-tight">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
               Today's Focus
             </h2>
             {reviews.length > 0 && (
               <button
                 onClick={() => router.push("/review")}
-                className="border border-[#a6e795]/30 bg-[#a6e795]/10 text-[#a6e795] hover:bg-[#a6e795]/20 text-xs font-semibold px-4 py-2 rounded-full flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                className="self-start sm:self-auto border border-[#a6e795]/30 bg-[#a6e795]/10 text-[#a6e795] hover:bg-[#a6e795]/20 text-xs font-semibold px-4 py-2 rounded-full flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
               >
                 <span>Start Daily Review</span>
                 <ArrowRight size={13} weight="bold" />
@@ -360,9 +360,9 @@ export default function Dashboard() {
               {reviews.map((problem, idx) => (
                 <div
                   key={problem.id}
-                  className="py-3.5 sm:py-4 flex items-center justify-between text-xs sm:text-sm group"
+                  className="py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 text-xs sm:text-sm group"
                 >
-                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                  <div className="flex items-center gap-2.5 sm:gap-4 min-w-0 w-full sm:w-auto">
                     <span className="text-[#a6e795] font-semibold text-xs w-4 shrink-0">
                       {idx + 1}.
                     </span>
@@ -374,14 +374,14 @@ export default function Dashboard() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-6 shrink-0">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-6 shrink-0 w-full sm:w-auto pl-6 sm:pl-0">
                     <div className="flex items-center gap-2 text-xs text-zinc-400">
-                      <span className="text-zinc-400 hidden sm:inline">
+                      <span className="text-zinc-400 text-xs">
                         {problem.platform}
                       </span>
-                      <span className="text-zinc-600 hidden sm:inline">·</span>
+                      <span className="text-zinc-600">·</span>
                       <span
-                        className={`px-3 py-0.5 rounded-full text-[11px] font-semibold ${
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold ${
                           problem.difficulty === "HARD"
                             ? "bg-rose-500/10 text-rose-400 border border-rose-500/30"
                             : problem.difficulty === "MEDIUM"
@@ -393,13 +393,13 @@ export default function Dashboard() {
                       </span>
                       <span className="text-zinc-600">·</span>
                       <span className="text-zinc-400 text-xs">
-                        Spaced interval: {problem.intervalDays}d
+                        {problem.intervalDays}d interval
                       </span>
                     </div>
 
                     <button
                       onClick={() => router.push("/review")}
-                      className="text-xs font-semibold text-[#a6e795] hover:brightness-110 flex items-center gap-1 transition-colors cursor-pointer"
+                      className="text-xs font-semibold text-[#a6e795] hover:brightness-110 flex items-center gap-1 transition-colors cursor-pointer shrink-0"
                     >
                       <span>Review</span>
                       <ArrowRight size={12} weight="bold" />

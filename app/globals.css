@@ -123,9 +123,16 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    color-scheme: dark;
   }
 
   body {
     @apply bg-background text-foreground;
+    overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
   }
 }

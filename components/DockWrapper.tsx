@@ -12,6 +12,17 @@ export default function DockWrapper() {
     const [reviews, setReviews] = useState<Problem[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 640);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     // 1. Hide on landing page and login page
     const isPublicPage = pathname === "/" || pathname === "/login";
 
@@ -31,15 +42,17 @@ export default function DockWrapper() {
 
     if (isPublicPage) return null;
 
+    const iconSize = isMobile ? 18 : 20;
+
     return (
         <>
             <Dock
                 items={[
-                    { icon: <House size={20} />, label: "Home", onClick: () => router.push("/dashboard") },
+                    { icon: <House size={iconSize} />, label: "Home", onClick: () => router.push("/dashboard") },
                     {
                         icon: (
                             <div className="relative flex items-center justify-center">
-                                <Play size={20} />
+                                <Play size={iconSize} />
                                 {reviews.length > 0 && (
                                     <span className="absolute -top-1.5 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(244,63,94,0.5)]">
                                         {reviews.length}
@@ -50,13 +63,14 @@ export default function DockWrapper() {
                         label: reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
                         onClick: () => router.push("/review"),
                     },
-                    { icon: <Plus size={20} />, label: "Add Problem", onClick: () => setIsAddModalOpen(true) },
-                    { icon: <Archive size={20} />, label: "Progress Archive", onClick: () => router.push("/problems") },
-                    { icon: <User size={20} />, label: "Profile", onClick: () => router.push("/profile") },
+                    { icon: <Plus size={iconSize} />, label: "Add Problem", onClick: () => setIsAddModalOpen(true) },
+                    { icon: <Archive size={iconSize} />, label: "Progress Archive", onClick: () => router.push("/problems") },
+                    { icon: <User size={iconSize} />, label: "Profile", onClick: () => router.push("/profile") },
                 ]}
-                panelHeight={68}
-                baseItemSize={48}
-                magnification={68}
+                panelHeight={isMobile ? 56 : 68}
+                baseItemSize={isMobile ? 40 : 48}
+                magnification={isMobile ? 46 : 68}
+                distance={isMobile ? 100 : 200}
             />
 
             <AddProblemModal

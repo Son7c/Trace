@@ -198,30 +198,45 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
     PLATFORM_LABELS[currentProblem.platform?.toUpperCase()] || currentProblem.platform;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 pb-24 min-h-[90vh] flex flex-col justify-between select-none">
+    <div className="max-w-6xl mx-auto px-3 sm:px-8 py-4 sm:py-6 pb-32 min-h-dvh flex flex-col justify-between select-none">
       {/* ═══════════════════════════════════════════════════════════
             TOP HEADER BAR
         ═══════════════════════════════════════════════════════════ */}
-      <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-5 pb-6 border-b border-zinc-850/60">
-        {/* Left: Title & Subtitle (No brain icon) */}
-        <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-            Review Session
-          </h1>
-          <p className="text-xs text-zinc-400 font-medium mt-0.5">
-            Revisit. Reinforce. Retain.
-          </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 sm:pb-6 border-b border-zinc-850/60">
+        {/* Left: Title & Subtitle */}
+        <div className="flex items-center justify-between sm:block">
+          <div>
+            <h1 className="text-lg sm:text-2xl font-extrabold text-white tracking-tight">
+              Review Session
+            </h1>
+            <p className="text-[11px] sm:text-xs text-zinc-400 font-medium mt-0.5">
+              Revisit. Reinforce. Retain.
+            </p>
+          </div>
+
+          {/* End Session Button for mobile inline */}
+          <button
+            onClick={() => {
+              if (confirm("Are you sure you want to end this review session early?")) {
+                router.push("/dashboard");
+              }
+            }}
+            className="flex sm:hidden items-center gap-1.5 px-3 py-1.5 rounded-lg border border-zinc-800 hover:border-zinc-700 bg-zinc-900/80 text-xs text-zinc-300"
+          >
+            <X size={13} weight="bold" />
+            <span>Exit</span>
+          </button>
         </div>
 
         {/* Middle: Prominent, High-Visibility Progress Bar */}
-        <div className="flex flex-col items-center justify-center w-full max-w-xs sm:max-w-sm mx-auto">
-          <div className="w-full h-3 rounded-full bg-zinc-900 border border-zinc-700/80 p-0.5 shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)] overflow-hidden">
+        <div className="flex flex-col items-center justify-center w-full max-w-xs sm:max-w-sm mx-auto sm:mx-0">
+          <div className="w-full h-2.5 sm:h-3 rounded-full bg-zinc-900 border border-zinc-700/80 p-0.5 shadow-[inset_0_1px_3px_rgba(0,0,0,0.8)] overflow-hidden">
             <div
               className="h-full bg-[#a6e795] rounded-full shadow-[0_0_14px_rgba(166,231,149,0.8)] transition-all duration-300"
               style={{ width: `${Math.max(4, progressPercent)}%` }}
             />
           </div>
-          <div className="flex items-center justify-between w-full mt-1.5 px-0.5 text-xs font-mono">
+          <div className="flex items-center justify-between w-full mt-1 px-0.5 text-[11px] sm:text-xs font-mono">
             <span className="font-semibold text-zinc-200">
               {currentIndex + 1} of {problems.length}
             </span>
@@ -231,8 +246,8 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
           </div>
         </div>
 
-        {/* Right: End Session Button */}
-        <div className="flex md:justify-end">
+        {/* Right: End Session Button for desktop */}
+        <div className="hidden sm:flex justify-end">
           <button
             onClick={() => {
               if (confirm("Are you sure you want to end this review session early?")) {
@@ -250,9 +265,9 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
       {/* ═══════════════════════════════════════════════════════════
             MAIN REVIEW FLASHCARD & NAVIGATION ARROWS
         ═══════════════════════════════════════════════════════════ */}
-      <div className="my-auto py-6 flex items-center justify-between gap-4">
-        {/* Previous Button (Left) */}
-        <div className="flex flex-col items-center gap-1.5 shrink-0">
+      <div className="my-auto py-4 sm:py-6 flex items-center justify-between gap-2 sm:gap-4 w-full">
+        {/* Previous Button (Left - Desktop) */}
+        <div className="hidden sm:flex flex-col items-center gap-1.5 shrink-0">
           <button
             onClick={handlePrevious}
             disabled={currentIndex === 0}
@@ -270,7 +285,7 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
         {/* Center Flashcard */}
         <div
           key={currentProblem.id}
-          className="flex-1 max-w-2xl mx-auto rounded-2xl border border-zinc-800/80 bg-[#0c0f14]/90 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-md relative transition-all duration-300 animate-in fade-in zoom-in-95 duration-150"
+          className="flex-1 w-full max-w-2xl mx-auto rounded-2xl border border-zinc-800/80 bg-[#0c0f14]/90 p-4 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-md relative transition-all duration-300 animate-in fade-in zoom-in-95 duration-150"
         >
           {/* Card Top Header: Platform Logo + Difficulty Badge */}
           <div className="flex items-center justify-between gap-3 mb-4">
@@ -447,8 +462,8 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
           </div>
         </div>
 
-        {/* Next Button (Right) */}
-        <div className="flex flex-col items-center gap-1.5 shrink-0">
+        {/* Next Button (Right - Desktop) */}
+        <div className="hidden sm:flex flex-col items-center gap-1.5 shrink-0">
           <button
             onClick={handleNext}
             disabled={currentIndex === problems.length - 1}
@@ -464,26 +479,49 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
         </div>
       </div>
 
+      {/* Mobile Prev / Next Controls */}
+      <div className="flex sm:hidden items-center justify-between gap-2.5 w-full max-w-2xl mx-auto my-2">
+        <button
+          onClick={handlePrevious}
+          disabled={currentIndex === 0}
+          className="flex-1 py-2 px-3 rounded-xl border border-zinc-800 bg-[#0d1015] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 text-xs text-zinc-300 font-medium cursor-pointer active:scale-95"
+        >
+          <CaretLeft size={15} />
+          <span>Previous</span>
+        </button>
+        <span className="text-[11px] text-zinc-500 font-mono shrink-0 px-2">
+          {currentIndex + 1} / {problems.length}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={currentIndex === problems.length - 1}
+          className="flex-1 py-2 px-3 rounded-xl border border-zinc-800 bg-[#0d1015] disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center gap-1.5 text-xs text-zinc-300 font-medium cursor-pointer active:scale-95"
+        >
+          <span>Next</span>
+          <CaretRight size={15} />
+        </button>
+      </div>
+
       {/* ═══════════════════════════════════════════════════════════
             BOTTOM RATING ACTION BAR (Again, Hard, Good, Easy)
         ═══════════════════════════════════════════════════════════ */}
-      <div className="w-full max-w-3xl mx-auto mt-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="w-full max-w-3xl mx-auto mt-2 sm:mt-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
           {/* Rating 1: Again */}
           <button
             onClick={() => submitReview(Feedback.AGAIN)}
-            className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl border border-rose-900/50 hover:border-rose-500/80 bg-rose-950/15 hover:bg-rose-950/30 text-rose-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(244,63,94,0.15)] active:scale-95"
+            className="group relative flex items-center justify-between p-2.5 sm:p-4 rounded-xl border border-rose-900/50 hover:border-rose-500/80 bg-rose-950/15 hover:bg-rose-950/30 text-rose-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(244,63,94,0.15)] active:scale-95"
           >
             <div className="text-left">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
-                <ArrowCounterClockwise size={14} className="text-rose-400 shrink-0" />
+              <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
+                <ArrowCounterClockwise size={13} className="text-rose-400 shrink-0" />
                 <span>Again</span>
               </div>
-              <div className="text-[11px] text-rose-400/90 font-mono mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-rose-400/90 font-mono mt-0.5">
                 {calcNextInterval(Feedback.AGAIN)}
               </div>
             </div>
-            <span className="px-2 py-0.5 rounded bg-rose-950/60 border border-rose-800/60 text-[11px] font-mono font-bold text-rose-300">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded bg-rose-950/60 border border-rose-800/60 text-[10px] sm:text-[11px] font-mono font-bold text-rose-300">
               1
             </span>
           </button>
@@ -491,18 +529,18 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
           {/* Rating 2: Hard */}
           <button
             onClick={() => submitReview(Feedback.HARD)}
-            className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl border border-amber-900/50 hover:border-amber-500/80 bg-amber-950/15 hover:bg-amber-950/30 text-amber-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(251,146,60,0.15)] active:scale-95"
+            className="group relative flex items-center justify-between p-2.5 sm:p-4 rounded-xl border border-amber-900/50 hover:border-amber-500/80 bg-amber-950/15 hover:bg-amber-950/30 text-amber-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(251,146,60,0.15)] active:scale-95"
           >
             <div className="text-left">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
-                <Warning size={14} className="text-amber-400 shrink-0" />
+              <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
+                <Warning size={13} className="text-amber-400 shrink-0" />
                 <span>Hard</span>
               </div>
-              <div className="text-[11px] text-amber-400/90 font-mono mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-amber-400/90 font-mono mt-0.5">
                 {calcNextInterval(Feedback.HARD)}
               </div>
             </div>
-            <span className="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-800/60 text-[11px] font-mono font-bold text-amber-300">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded bg-amber-950/60 border border-amber-800/60 text-[10px] sm:text-[11px] font-mono font-bold text-amber-300">
               2
             </span>
           </button>
@@ -510,18 +548,18 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
           {/* Rating 3: Good (Medium) */}
           <button
             onClick={() => submitReview(Feedback.MEDIUM)}
-            className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl border border-sky-900/50 hover:border-sky-500/80 bg-sky-950/15 hover:bg-sky-950/30 text-sky-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(56,189,248,0.15)] active:scale-95"
+            className="group relative flex items-center justify-between p-2.5 sm:p-4 rounded-xl border border-sky-900/50 hover:border-sky-500/80 bg-sky-950/15 hover:bg-sky-950/30 text-sky-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(56,189,248,0.15)] active:scale-95"
           >
             <div className="text-left">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
-                <Check size={14} weight="bold" className="text-sky-400 shrink-0" />
+              <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
+                <Check size={13} weight="bold" className="text-sky-400 shrink-0" />
                 <span>Good</span>
               </div>
-              <div className="text-[11px] text-sky-400/90 font-mono mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-sky-400/90 font-mono mt-0.5">
                 {calcNextInterval(Feedback.MEDIUM)}
               </div>
             </div>
-            <span className="px-2 py-0.5 rounded bg-sky-950/60 border border-sky-800/60 text-[11px] font-mono font-bold text-sky-300">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded bg-sky-950/60 border border-sky-800/60 text-[10px] sm:text-[11px] font-mono font-bold text-sky-300">
               3
             </span>
           </button>
@@ -529,25 +567,25 @@ export default function ReviewSession({ problems }: ReviewSessionProps) {
           {/* Rating 4: Easy */}
           <button
             onClick={() => submitReview(Feedback.EASY)}
-            className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-xl border border-[#a6e795]/30 hover:border-[#a6e795] bg-[#a6e795]/10 hover:bg-[#a6e795]/20 text-[#a6e795] transition-all cursor-pointer shadow-sm hover:shadow-[0_0_20px_rgba(166,231,149,0.2)] active:scale-95"
+            className="group relative flex items-center justify-between p-2.5 sm:p-4 rounded-xl border border-emerald-900/50 hover:border-emerald-500/80 bg-emerald-950/15 hover:bg-emerald-950/30 text-emerald-400 transition-all cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(52,211,153,0.15)] active:scale-95"
           >
             <div className="text-left">
-              <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
-                <TrendUp size={14} weight="bold" className="text-[#a6e795] shrink-0" />
+              <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-bold text-zinc-100">
+                <TrendUp size={13} weight="bold" className="text-emerald-400 shrink-0" />
                 <span>Easy</span>
               </div>
-              <div className="text-[11px] text-[#a6e795]/90 font-mono mt-0.5">
+              <div className="text-[10px] sm:text-[11px] text-emerald-400/90 font-mono mt-0.5">
                 {calcNextInterval(Feedback.EASY)}
               </div>
             </div>
-            <span className="px-2 py-0.5 rounded bg-[#a6e795]/20 border border-[#a6e795]/40 text-[11px] font-mono font-bold text-[#a6e795]">
+            <span className="px-1.5 sm:px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 text-[10px] sm:text-[11px] font-mono font-bold text-emerald-300">
               4
             </span>
           </button>
         </div>
 
-        {/* Footer Shortcut Hints */}
-        <div className="mt-8 flex items-center justify-center text-xs text-zinc-500">
+        {/* Footer Shortcut Hints (Desktop only) */}
+        <div className="mt-4 sm:mt-6 hidden sm:flex items-center justify-center text-xs text-zinc-500">
           <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] text-zinc-500 font-mono">
             <span>Use</span>
             <span className="px-1.5 py-0.5 rounded border border-zinc-800 bg-zinc-900 text-zinc-400 font-bold">

@@ -52,7 +52,7 @@ export default function HeroSection() {
   }, [lenis]);
 
   return (
-    <main className="relative h-screen w-full overflow-hidden flex flex-col justify-between pt-24 pb-4">
+    <main className="relative min-h-dvh w-full overflow-hidden flex flex-col justify-between pt-20 sm:pt-24 pb-4">
       <div
         aria-hidden="true"
         className="absolute inset-0 z-0 opacity-90 pointer-events-none"
@@ -75,38 +75,38 @@ export default function HeroSection() {
       </div>
 
       {/* Main Content: Vertically Centered in remaining space */}
-      <div className="flex-1 flex flex-col justify-center relative z-10">
-        <div className="flex justify-start w-full px-8 md:px-16 lg:px-24">
-          {/* Main content column on the left with Direct GPU Parallax Ref */}
+      <div className="flex-1 flex flex-col justify-center relative z-10 my-auto py-6 sm:py-0">
+        <div className="flex justify-center sm:justify-start w-full px-5 sm:px-8 md:px-16 lg:px-24">
+          {/* Main content column centered on mobile, left-aligned on desktop */}
           <div
             ref={contentRef}
-            className="text-[#a6e795] flex flex-col w-full md:w-[70%] lg:w-[60%] justify-center select-none will-change-transform"
+            className="text-[#a6e795] flex flex-col items-center sm:items-start text-center sm:text-left w-full md:w-[70%] lg:w-[60%] justify-center select-none will-change-transform"
           >
             {/* Content Tag */}
-            <div>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#a6e795]/20 bg-[#0B0F14]/20 text-[#fff] text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] backdrop-blur-sm">
+            <div className="flex justify-center sm:justify-start w-full">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full border border-[#a6e795]/20 bg-[#0B0F14]/20 text-[#fff] text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] backdrop-blur-sm">
                 consistency &gt; motivation
               </span>
             </div>
 
             {/* Main Heading */}
-            <div className="mt-6 flex flex-col">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
+            <div className="mt-4 sm:mt-6 flex flex-col w-full">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.15] sm:leading-[1.1] drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
                 <span className="block">Small steps.</span>
                 <span className="block text-[#a6e795]">Compound mastery.</span>
               </h1>
             </div>
 
             {/* Description */}
-            <div className="mt-6">
-              <p className="text-zinc-200 text-sm md:text-base lg:text-lg leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] max-w-lg">
+            <div className="mt-4 sm:mt-6 w-full">
+              <p className="text-zinc-200 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] max-w-lg mx-auto sm:mx-0">
                 Trace helps you remember, revisit, and master what truly
                 matters.
               </p>
             </div>
 
             {/* CTA Button */}
-            <div className="mt-6">
+            <div className="mt-5 sm:mt-6 flex justify-center sm:justify-start w-full">
               <SpecularButton
                 size="md"
                 radius={18}
@@ -137,8 +137,8 @@ export default function HeroSection() {
             </div>
 
             {/* Secondary Badge info */}
-            <div className="mt-6">
-              <p className="text-white text-xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.98)]">
+            <div className="mt-4 sm:mt-6 w-full">
+              <p className="text-white text-base sm:text-xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.98)]">
                 Built for{" "}
                 <span className="text-[#a6e795] font-medium">developers.</span>{" "}
                 Backed by{" "}
@@ -152,11 +152,11 @@ export default function HeroSection() {
       {/* About section: Timeline with Direct GPU Parallax Ref */}
       <section
         ref={timelineRef}
-        className="relative w-full py-4 mb-10 z-10 will-change-transform"
+        className="relative w-full py-4 mb-4 sm:mb-10 z-10 will-change-transform"
       >
-        <div className="flex justify-center gap-8 md:gap-14 px-4 relative z-10">
+        <div className="grid grid-cols-2 sm:flex sm:justify-center gap-2 sm:gap-8 md:gap-14 px-4 relative z-10 max-w-4xl mx-auto">
           {/* Anchored to this marker row: 1rem padding + half of the 3rem icon. */}
-          <div className="absolute inset-x-0 top-4 h-12 z-0">
+          <div className="hidden sm:block absolute inset-x-0 top-4 h-12 z-0">
             <TimelineLine />
             <TimelineParticles />
           </div>
