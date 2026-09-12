@@ -4,6 +4,7 @@ import "./globals.css";
 import "lenis/dist/lenis.css";
 import { LenisProvider } from "@/components/providers/lenis-provider";
 import DockWrapper from "@/components/DockWrapper";
+import { Analytics } from '@vercel/analytics/next';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -50,6 +51,7 @@ export default function RootLayout({
         <LenisProvider>
           {children}
           <DockWrapper />
+          <Analytics />
         </LenisProvider>
       </body>
     </html>
