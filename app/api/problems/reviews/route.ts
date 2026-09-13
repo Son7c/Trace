@@ -19,14 +19,11 @@ export async function GET() {
   const endOfDay = new Date();
   endOfDay.setHours(23, 59, 59, 999);
 
-  const problems = await prisma.problem.findMany({
+  const count = await prisma.problem.count({
     where: {
       userId,
       nextRevisionDate: { lte: endOfDay },
     },
-    include: {
-      note: true,
-    },
   });
-  return Response.json(problems);
+  return Response.json(count);
 }

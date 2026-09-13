@@ -9,7 +9,7 @@ import type { Problem } from "@/prisma/generated/client/client";
 export default function DockWrapper() {
     const pathname = usePathname();
     const router = useRouter();
-    const [reviews, setReviews] = useState<Problem[]>([]);
+    const [reviewCount, setReviewCount] = useState<number>(0);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     const [isMobile, setIsMobile] = useState(false);
@@ -32,7 +32,7 @@ export default function DockWrapper() {
         const fetchReviews = async () => {
             try {
                 const res = await fetch("/api/problems/reviews");
-                if (res.ok) setReviews(await res.json());
+                if (res.ok) setReviewCount(await res.json());
             } catch (err) {
                 console.error(err);
             }
@@ -53,14 +53,14 @@ export default function DockWrapper() {
                         icon: (
                             <div className="relative flex items-center justify-center">
                                 <Play size={iconSize} />
-                                {reviews.length > 0 && (
+                                {reviewCount > 0 && (
                                     <span className="absolute -top-1.5 -right-2.5 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white shadow-[0_0_8px_rgba(244,63,94,0.5)]">
-                                        {reviews.length}
+                                        {reviewCount}
                                     </span>
                                 )}
                             </div>
                         ),
-                        label: reviews.length > 0 ? `Review (${reviews.length} due)` : "Start Review",
+                        label: reviewCount > 0 ? `Review (${reviewCount} due)` : "Start Review",
                         onClick: () => router.push("/review"),
                     },
                     { icon: <Plus size={iconSize} />, label: "Add Problem", onClick: () => setIsAddModalOpen(true) },
@@ -77,8 +77,12 @@ export default function DockWrapper() {
                 isOpen={isAddModalOpen}
                 onClose={() => setIsAddModalOpen(false)}
                 onSuccess={() => {
-                    // Re-check count when adding a problem
-                    fetch("/api/problems/reviews").then(r => r.json()).then(setReviews);
+                    // Re-check review count and refresh active server components
+                    fetch("/api/problems/reviews")
+                        .then((r) => r.json())
+                        .then((count) => setReviewCount(count))
+                        .catch(console.error);
+                    router.refresh();
                 }}
             />
         </>

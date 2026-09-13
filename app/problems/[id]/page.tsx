@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import type { Problem, Note as PrismaNote, RevisionLog, Feedback } from "@/prisma/generated/client/client";
 
 import RevisionStats from "@/components/reviews/RevisionStats";
@@ -37,10 +36,6 @@ import {
   CaretDown,
   FloppyDisk,
   CircleNotch,
-  House,
-  Plus,
-  Archive,
-  User,
 } from "@phosphor-icons/react";
 
 const PLATFORM_NAMES: Record<string, string> = {
@@ -56,7 +51,6 @@ const PLATFORM_NAMES: Record<string, string> = {
 export type ProblemWithDetails = Problem & {
   note?: PrismaNote | null;
   revisionLogs?: RevisionLog[];
-  questNo?: number | string | null;
 };
 
 const COMPLEXITY_OPTIONS = [
@@ -78,7 +72,6 @@ export default function ProblemPage() {
   const id = params?.id as string;
   const router = useRouter();
 
-  const { data: session } = authClient.useSession();
   const [problem, setProblem] = useState<ProblemWithDetails | null>(null);
   const [lang, setLang] = useState<string>("cpp");
   const [approach, setApproach] = useState<"brute" | "optimal">("optimal");
