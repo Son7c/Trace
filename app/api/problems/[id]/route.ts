@@ -105,7 +105,7 @@ export async function DELETE(
     });
     if (!session) {
       return Response.json({
-        message:"Unauthorized"
+        message: "Unauthorized"
       }, {
         status: 401,
       });
