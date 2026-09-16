@@ -36,6 +36,31 @@ export async function POST(request: Request) {
     );
   }
   const userId = session.user.id;
+
+  const daily_limit = 25;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const count = await prisma.problem.count({
+    where: {
+      userId,
+      createdAt: {
+        gte: today,
+      },
+    },
+  });
+
+  if (daily_limit <= count) {
+    return Response.json(
+    {
+      error: "Daily Limit reached",
+      message: "You've added 3 problems today. Focus on reviewing.",
+    },
+    {
+      status: 429,
+    }
+  );
+  }
+
   const res = await prisma.problem.create({
     data: {
       userId,

@@ -47,6 +47,11 @@ function CodeEditor({
     if (!problemId || isSaving) return;
 
     const currentText = editorRef.current ? editorRef.current.getValue() : code || "";
+    if (currentText.length > 10000) {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+      return;
+    }
     setIsSaving(true);
     setSaveStatus("idle");
 

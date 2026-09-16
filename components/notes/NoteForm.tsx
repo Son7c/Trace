@@ -167,6 +167,7 @@ export default function NoteForm({ id }: FormProps) {
             <label className="text-xs font-semibold text-zinc-300">Time Complexity</label>
             <input
               type="text"
+              maxLength={50}
               placeholder="e.g. O(N) or O(log N)"
               value={tc}
               onChange={(e) => setTc(e.target.value)}
@@ -177,6 +178,7 @@ export default function NoteForm({ id }: FormProps) {
             <label className="text-xs font-semibold text-zinc-300">Space Complexity</label>
             <input
               type="text"
+              maxLength={50}
               placeholder="e.g. O(1) or O(N)"
               value={sc}
               onChange={(e) => setSc(e.target.value)}
@@ -189,6 +191,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Core Intuition</label>
           <textarea
             rows={3}
+            maxLength={5000}
             placeholder="Mental model and core insight behind the solution..."
             value={intuition}
             onChange={(e) => setIntuition(e.target.value)}
@@ -200,6 +203,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Key Learning</label>
           <textarea
             rows={2}
+            maxLength={5000}
             placeholder="Key takeaway or concept to remember..."
             value={keyLearning}
             onChange={(e) => setKeyLearning(e.target.value)}
@@ -211,6 +215,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Mistakes & Edge Cases</label>
           <textarea
             rows={3}
+            maxLength={5000}
             placeholder="Edge cases to consider (one per line)..."
             value={mistakes}
             onChange={(e) => setMistakes(e.target.value)}
@@ -222,6 +227,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Interview Pitch / Walkthrough</label>
           <textarea
             rows={3}
+            maxLength={5000}
             placeholder="How you would explain this solution in an interview..."
             value={interview}
             onChange={(e) => setInterview(e.target.value)}
@@ -233,6 +239,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Brute Force Approach Code</label>
           <textarea
             rows={4}
+            maxLength={10000}
             placeholder="Brute force code snippet..."
             value={brute}
             onChange={(e) => setBrute(e.target.value)}
@@ -244,6 +251,7 @@ export default function NoteForm({ id }: FormProps) {
           <label className="text-xs font-semibold text-zinc-300">Optimized Approach Code</label>
           <textarea
             rows={4}
+            maxLength={10000}
             placeholder="Optimized approach code snippet..."
             value={optimized}
             onChange={(e) => setOptimized(e.target.value)}

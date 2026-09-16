@@ -900,6 +900,7 @@ function WritableCard({
   placeholder,
   value,
   onChange,
+  maxLength = 5000,
 }: {
   icon: React.ElementType;
   iconColor: string;
@@ -907,6 +908,7 @@ function WritableCard({
   placeholder: string;
   value: string;
   onChange: (val: string) => void;
+  maxLength?: number;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -933,6 +935,7 @@ function WritableCard({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        maxLength={maxLength}
         rows={2}
         className="w-full resize-none overflow-hidden bg-transparent text-xs text-zinc-300 placeholder:text-zinc-600 focus:outline-none leading-relaxed transition-colors selection:bg-[#A6E795]/20 selection:text-white text-left"
       />
@@ -1090,6 +1093,7 @@ function ComplexityOptionSelector({
             >
               <input
                 type="text"
+                maxLength={50}
                 value={customInput}
                 onChange={(e) => setCustomInput(e.target.value)}
                 placeholder="Custom e.g. O(N+M)"
