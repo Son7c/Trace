@@ -82,7 +82,6 @@ export default function DockWrapper() {
                         .then((r) => r.json())
                         .then((count) => setReviewCount(count))
                         .catch(console.error);
-                    router.refresh();
                 }}
             />
         </>
