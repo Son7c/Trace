@@ -1,6 +1,6 @@
 "use client";
 
-import { GithubLogo, TwitterLogo, ArrowUpRight } from "@phosphor-icons/react";
+import { GithubLogo, TwitterLogo,InstagramLogoIcon, ArrowUpRight } from "@phosphor-icons/react";
 
 export default function Footer() {
   return (
@@ -13,7 +13,7 @@ export default function Footer() {
             {/* Brand Name */}
             <div>
               <span className="text-xl font-bold tracking-tight text-white block">
-                TRACE
+                Trace
               </span>
               <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-semibold">
                 Memory Engine
@@ -30,7 +30,7 @@ export default function Footer() {
             <div className="flex items-center gap-4 pt-1">
               <div className="flex items-center gap-2">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Son7c/Trace.git"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -39,13 +39,13 @@ export default function Footer() {
                   <GithubLogo className="w-4 h-4" />
                 </a>
                 <a
-                  href="https://twitter.com"
+                  href="https://www.instagram.com/trace.io/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Twitter"
                   className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/20 transition-colors"
                 >
-                  <TwitterLogo className="w-4 h-4" />
+                  <InstagramLogoIcon className="w-4 h-4" />
                 </a>
               </div>
             </div>
