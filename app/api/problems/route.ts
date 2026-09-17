@@ -51,16 +51,64 @@ export async function POST(request: Request) {
 
   if (daily_limit <= count) {
     return Response.json(
-    {
-      error: "Daily Limit reached",
-      message: "You've added 3 problems today. Focus on reviewing.",
-    },
-    {
-      status: 429,
-    }
-  );
+      {
+        error: "Daily Limit reached",
+        message: "You've added 25 problems today. Focus on reviewing.",
+      },
+      {
+        status: 429,
+      },
+    );
   }
 
+  const cleanUrl = url.trim().replace(/\/+$/, "");
+
+  const existingProblem = await prisma.problem.findFirst({
+    where: {
+      userId,
+      OR: [
+        {
+          OR: [
+            {
+              url: {
+                equals: cleanUrl,
+                mode: "insensitive",
+              },
+            },
+            {
+              url: {
+                equals: url.trim(),
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        questNo
+          ? {
+              platform,
+              questNo,
+            }
+          : {
+              platform,
+              title: {
+                equals: title,
+                mode: "insensitive",
+              },
+            },
+      ],
+    },
+  });
+
+  if (existingProblem) {
+    return Response.json(
+      {
+        error: "This problem is already in your library.",
+      },
+      {
+        status: 409,
+      },
+    );
+  }
   const res = await prisma.problem.create({
     data: {
       userId,
