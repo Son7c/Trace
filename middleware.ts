@@ -24,7 +24,7 @@ const mutationLimiter = new Ratelimit({
 
 const readLimiter = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(70, "60s"),
+  limiter: Ratelimit.slidingWindow(50, "60s"),
   ephemeralCache: memoryCache,
   prefix: "@ratelimit:read",
   analytics: true,
@@ -34,22 +34,39 @@ function pickLimiter(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
   const method = request.method;
 
-  if (!pathName.startsWith("/api")) return null;
-  if (pathName.startsWith("/api/leetcode") || pathName.startsWith("/api/auth")) return sensitiveLimiter;
-  if (["POST", "PUT", "DELETE", "PATCH"].includes(method)) return mutationLimiter;
+  if (
+    pathName.startsWith("/login") ||
+    pathName.startsWith("/api/leetcode") ||
+    pathName.startsWith("/api/auth")
+  )
+    return sensitiveLimiter;
+  if (pathName.startsWith("/api")&&["POST", "PUT", "DELETE", "PATCH"].includes(method))
+    return mutationLimiter;
 
   return readLimiter;
 }
 
 export async function middleware(
   request: NextRequest,
-  context: NextFetchEvent
+  context: NextFetchEvent,
 ): Promise<Response | undefined> {
   if (request.method === "OPTIONS") return NextResponse.next();
 
   // 1. Zero-Cost Edge Bot Sieve: drops bots & empty user-agents before touching DB or Redis
-  const userAgent = (request.headers.get("user-agent") || "").toLowerCase().trim();
-  const blockedAgents = ["node", "axios", "curl", "python", "wget", "go-http", "postman", "httpie", "insomnia"];
+  const userAgent = (request.headers.get("user-agent") || "")
+    .toLowerCase()
+    .trim();
+  const blockedAgents = [
+    "node",
+    "axios",
+    "curl",
+    "python",
+    "wget",
+    "go-http",
+    "postman",
+    "httpie",
+    "insomnia",
+  ];
 
   if (!userAgent || blockedAgents.some((agent) => userAgent.includes(agent))) {
     return new NextResponse(
@@ -62,7 +79,7 @@ export async function middleware(
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   }
 
@@ -95,7 +112,10 @@ export async function middleware(
       if (res.pending) context.waitUntil(res.pending);
     } catch (error) {
       // Fail-open: if Upstash quota runs out or network blips, keep the site running for legitimate users
-      console.error("[RateLimiter Warning] Upstash check failed or quota exhausted:", error);
+      console.error(
+        "[RateLimiter Warning] Upstash check failed or quota exhausted:",
+        error,
+      );
     }
 
     if (!success) {
@@ -114,7 +134,7 @@ export async function middleware(
             "X-RateLimit-Remaining": remaining.toString(),
             "Retry-After": Math.ceil((reset - Date.now()) / 1000).toString(),
           },
-        }
+        },
       );
     }
   }
