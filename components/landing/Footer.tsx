@@ -111,7 +111,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://github.com"
+                    href="https://github.com/Son7c/Trace.git"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-white transition-colors flex items-center gap-1"
