@@ -18,6 +18,9 @@ export default async function Review() {
         lte: endOfDay,
       },
     },
+    orderBy:{
+      nextRevisionDate:"asc",
+    },
     include: {
       note: true,
     },
