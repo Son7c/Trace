@@ -187,7 +187,7 @@ export default function AddProblemModal({
                 Add Problem
               </h3>
               <p className="text-[11px] text-zinc-400 mt-1">
-                Paste problem URL or enter title
+                 Paste Question no.,problem link, or title
               </p>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function AddProblemModal({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-zinc-300">
-              Problem URL or Title
+              Question No., Title, or Link
             </label>
 
             <div className="relative flex items-center">
@@ -228,7 +228,7 @@ export default function AddProblemModal({
                 disabled={loading}
                 value={urlOrTitle}
                 onChange={(e) => setUrlOrTitle(e.target.value)}
-                placeholder="https://leetcode.com/problems/3sum/ or '3Sum'"
+                placeholder="e.g. 1, 'Two Sum', or https://leetcode.com/problems/..."
                 className="w-full bg-zinc-900/90 border border-zinc-800 focus:border-[#a6e795]/60 text-white text-xs sm:text-sm rounded-xl pl-10 pr-4 py-2.5 outline-none transition-colors placeholder:text-zinc-500 font-sans shadow-inner disabled:opacity-60"
               />
             </div>
