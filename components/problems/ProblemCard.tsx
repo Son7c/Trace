@@ -61,10 +61,10 @@ export default function ProblemCard({ problem, onEdit, onDelete }: ProblemCardPr
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
     const targetDate = new Date(nextDate);
-    targetDate.setHours(0, 0, 0, 0);
+    targetDate.setUTCHours(0, 0, 0, 0);
 
     const diffMs = targetDate.getTime() - today.getTime();
     const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));

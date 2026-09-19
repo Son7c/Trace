@@ -66,10 +66,10 @@ export default function ProblemsPage() {
     if (!nextDate) return "due_today";
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setUTCHours(0, 0, 0, 0);
 
     const target = new Date(nextDate);
-    target.setHours(0, 0, 0, 0);
+    target.setUTCHours(0, 0, 0, 0);
 
     const diffDays = Math.round((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 

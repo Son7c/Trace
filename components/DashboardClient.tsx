@@ -20,9 +20,9 @@ export type ProblemWithLogs = Problem & {
 };
 
 const dateKey = (date: Date): string => {
-    const y = date.getFullYear();
-    const m = date.getMonth() + 1;
-    const d = date.getDate();
+    const y = date.getUTCFullYear();
+    const m = date.getUTCMonth() + 1;
+    const d = date.getUTCDate();
     return `${y}-${m}-${d}`;
 };
 
@@ -41,7 +41,7 @@ export default function DashboardClient({
     const reviews = useMemo(() => {
         const endOfDay = new Date();
         endOfDay.setUTCHours(23, 59, 59, 999);
-        
+
         return problems.filter((p) => new Date(p.nextRevisionDate) <= endOfDay);
     }, [problems]);
 
@@ -97,7 +97,7 @@ export default function DashboardClient({
 
         let currentStreak = 0;
         const cursor = new Date();
-        cursor.setHours(0, 0, 0, 0);
+        cursor.setUTCHours(0, 0, 0, 0);
 
         // If today is not reviewed yet, check if yesterday was reviewed
         if (!dateSet.has(dateKey(cursor))) {

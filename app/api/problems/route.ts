@@ -39,7 +39,7 @@ export async function POST(request: Request) {
 
   const daily_limit = 25;
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
   const count = await prisma.problem.count({
     where: {
       userId,

@@ -9,7 +9,7 @@ export default async function Review() {
   if (!session) redirect("/login");
 
   const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 999);
+  endOfDay.setUTCHours(23, 59, 59, 999);
 
   const problems = await prisma.problem.findMany({
     where: {

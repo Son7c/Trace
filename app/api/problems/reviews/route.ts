@@ -17,7 +17,7 @@ export async function GET() {
   const userId = session.session.userId;
 
   const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 999);
+  endOfDay.setUTCHours(23, 59, 59, 999);
 
   const count = await prisma.problem.count({
     where: {

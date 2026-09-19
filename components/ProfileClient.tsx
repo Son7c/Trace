@@ -43,8 +43,8 @@ type TagMastery = {
 
 
 function dateKey(d: Date): string {
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-        d.getDate(),
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(
+        d.getUTCDate(),
     ).padStart(2, "0")}`;
 }
 
@@ -272,7 +272,7 @@ export default function ProfileClient({ user, problems }: { user: User, problems
     const currentStreak = useMemo(() => {
         if (revisionsByDate.size === 0) return 0;
         const cursor = new Date();
-        cursor.setHours(0, 0, 0, 0);
+        cursor.setUTCHours(0, 0, 0, 0);
         if (!revisionsByDate.has(dateKey(cursor))) {
             cursor.setDate(cursor.getDate() - 1);
         }
@@ -314,7 +314,7 @@ export default function ProfileClient({ user, problems }: { user: User, problems
     // Exact LeetCode Month-Segregated Heatmap Logic
     const heatmapData = useMemo(() => {
         const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        today.setUTCHours(0, 0, 0, 0);
 
         const maxCount = Math.max(1, ...Array.from(revisionsByDate.values()));
         const months = [];
@@ -382,7 +382,7 @@ export default function ProfileClient({ user, problems }: { user: User, problems
 
             for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
                 const date = new Date(year, monthIndex, dayNum);
-                date.setHours(0, 0, 0, 0);
+                date.setUTCHours(0, 0, 0, 0);
                 const key = dateKey(date);
                 const count = revisionsByDate.get(key) || 0;
                 const isFuture = date.getTime() > today.getTime();
