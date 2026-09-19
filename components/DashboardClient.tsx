@@ -40,7 +40,8 @@ export default function DashboardClient({
     // 1. Derive reviews due today in-memory (0 DB queries!)
     const reviews = useMemo(() => {
         const endOfDay = new Date();
-        endOfDay.setHours(23, 59, 59, 999);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+        
         return problems.filter((p) => new Date(p.nextRevisionDate) <= endOfDay);
     }, [problems]);
 
