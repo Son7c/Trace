@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  SheetProgress: 'SheetProgress',
   User: 'User',
   Problem: 'Problem',
   Note: 'Note',
@@ -406,10 +407,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "problem" | "note" | "revisionLog" | "session" | "account" | "verification"
+    modelProps: "sheetProgress" | "user" | "problem" | "note" | "revisionLog" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    SheetProgress: {
+      payload: Prisma.$SheetProgressPayload<ExtArgs>
+      fields: Prisma.SheetProgressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SheetProgressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SheetProgressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        findFirst: {
+          args: Prisma.SheetProgressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SheetProgressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        findMany: {
+          args: Prisma.SheetProgressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>[]
+        }
+        create: {
+          args: Prisma.SheetProgressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        createMany: {
+          args: Prisma.SheetProgressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SheetProgressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>[]
+        }
+        delete: {
+          args: Prisma.SheetProgressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        update: {
+          args: Prisma.SheetProgressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        deleteMany: {
+          args: Prisma.SheetProgressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SheetProgressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SheetProgressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>[]
+        }
+        upsert: {
+          args: Prisma.SheetProgressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SheetProgressPayload>
+        }
+        aggregate: {
+          args: Prisma.SheetProgressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSheetProgress>
+        }
+        groupBy: {
+          args: Prisma.SheetProgressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SheetProgressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SheetProgressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SheetProgressCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -967,6 +1042,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const SheetProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sheetId: 'sheetId',
+  problemId: 'problemId'
+} as const
+
+export type SheetProgressScalarFieldEnum = (typeof SheetProgressScalarFieldEnum)[keyof typeof SheetProgressScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1315,6 +1400,7 @@ export type PrismaClientOptions = ({
   queryPlanCacheMaxSize?: number
 }
 export type GlobalOmitConfig = {
+  sheetProgress?: Prisma.SheetProgressOmit
   user?: Prisma.UserOmit
   problem?: Prisma.ProblemOmit
   note?: Prisma.NoteOmit

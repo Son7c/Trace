@@ -34,17 +34,28 @@ enum Feedback {
   HARD
 }
 
+model SheetProgress {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sheetId   String
+  problemId String[] @default([])
+
+  @@unique([userId, sheetId])
+}
+
 model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  emailVerified Boolean
-  problems      Problem[]
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now())
-  sessions      Session[]
-  accounts      Account[]
+  id              String          @id @default(cuid())
+  name            String
+  email           String          @unique
+  emailVerified   Boolean
+  problems        Problem[]
+  image           String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @default(now())
+  sessions        Session[]
+  accounts        Account[]
+  sheetProgresses SheetProgress[]
 }
 
 model Problem {
@@ -52,7 +63,7 @@ model Problem {
   userId           String
   user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   title            String
-  questNo         String?
+  questNo          String?
   platform         Platform
   url              String
   tags             String[]
@@ -77,10 +88,10 @@ model Note {
   timeComplexity       String?
   spaceComplexity      String?
   mistakes             String? @db.Text
-  keyLearning          String?  @db.Text
+  keyLearning          String? @db.Text
   intuition            String? @db.Text
   language             String? @db.Text
-  interviewExplanation String?  @db.Text
+  interviewExplanation String? @db.Text
 }
 
 model RevisionLog {

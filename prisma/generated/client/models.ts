@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/SheetProgress'
 export type * from './models/User'
 export type * from './models/Problem'
 export type * from './models/Note'

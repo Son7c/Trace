@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Dock from "@/components/Dock";
 import AddProblemModal from "@/components/problems/AddProblemModal";
-import { House, Play, Plus, Archive, User } from "@phosphor-icons/react";
+import { House, Play, Plus, Archive, User, ListChecks } from "@phosphor-icons/react";
 import type { Problem } from "@/prisma/generated/client/client";
 
 export default function DockWrapper() {
@@ -64,6 +64,7 @@ export default function DockWrapper() {
                         onClick: () => router.push("/review"),
                     },
                     { icon: <Plus size={iconSize} />, label: "Add Problem", onClick: () => setIsAddModalOpen(true) },
+                    { icon: <ListChecks size={iconSize} />, label: "Curated Sheets", onClick: () => router.push("/sheets") },
                     { icon: <Archive size={iconSize} />, label: "Progress Archive", onClick: () => router.push("/problems") },
                     { icon: <User size={iconSize} />, label: "Profile", onClick: () => router.push("/profile") },
                 ]}

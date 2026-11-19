@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  SheetProgress: 'SheetProgress',
   User: 'User',
   Problem: 'Problem',
   Note: 'Note',
@@ -74,6 +75,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const SheetProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sheetId: 'sheetId',
+  problemId: 'problemId'
+} as const
+
+export type SheetProgressScalarFieldEnum = (typeof SheetProgressScalarFieldEnum)[keyof typeof SheetProgressScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {

@@ -18,6 +18,11 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+ * Model SheetProgress
+ * 
+ */
+export type SheetProgress = Prisma.SheetProgressModel
+/**
  * Model User
  * 
  */
