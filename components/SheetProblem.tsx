@@ -4,6 +4,7 @@ import { SheetSection } from "@/data/sheets";
 import { CaretRight } from "@phosphor-icons/react";
 import { useState } from "react";
 import CheckBox from "./CheckBox";
+import PlatformLogo from "@/components/problems/PlatformLogo";
 
 export default function SheetProblem({
   section,
@@ -116,13 +117,9 @@ export default function SheetProblem({
                         target="_blank"
                         rel="noopener noreferrer"
                         title={`Open in ${p.platform}`}
-                        className="p-0.5 hover:scale-110 transition-transform"
+                        className="p-1 rounded hover:bg-white/[0.08] hover:scale-110 transition-all flex items-center justify-center shrink-0"
                       >
-                        <img
-                          src={`/${p.platform}.svg`}
-                          alt={p.platform}
-                          className="w-4.5 h-4.5 object-contain"
-                        />
+                        <PlatformLogo platform={p.platform} size={18} />
                       </a>
                     </div>
                   </div>
