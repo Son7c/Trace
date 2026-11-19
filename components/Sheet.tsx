@@ -196,8 +196,8 @@ export default function Sheet({
                 }}
               />
 
-              {/* Faded Watermark Number */}
-              <div className="absolute top-2 right-4 text-7xl font-black font-mono text-white/[0.03] select-none pointer-events-none">
+              {/* Big Number of Questions */}
+              <div className="absolute top-2 right-4 text-7xl sm:text-8xl font-black font-mono tracking-tighter text-white/[0.12] select-none pointer-events-none">
                 {sheet.totalProblems}
               </div>
 
@@ -222,8 +222,8 @@ export default function Sheet({
                   </p>
                 </div>
 
-                {/* Big Counter */}
-                <div className="flex items-baseline gap-2 bg-[#18181C] px-4 py-2.5 rounded-xl border border-zinc-800/80 self-start sm:self-auto">
+                {/* Big Counter with frosted glass */}
+                <div className="flex items-baseline gap-2 bg-white/[0.04] backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/[0.08] self-start sm:self-auto shadow-lg">
                   <span className="text-2xl sm:text-3xl font-bold font-mono text-white">
                     {stats.solved}
                   </span>
