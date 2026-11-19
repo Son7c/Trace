@@ -217,7 +217,7 @@ export default function SheetsOverview({ progressList }: SheetsOverviewProps) {
                         <div className="space-y-4 relative z-10">
                           {/* Top Meta: Creator Pill + Status grouped on left, leaving top-right clear */}
                           <div className="flex items-center gap-2 pr-24">
-                            <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08]">
+                            <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-[#18181C] text-zinc-300 border border-zinc-800">
                               {card.creator}
                             </span>
 
@@ -229,12 +229,12 @@ export default function SheetsOverview({ progressList }: SheetsOverviewProps) {
                                   Completed
                                 </span>
                               ) : hasStarted ? (
-                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.04] text-zinc-300 border border-white/[0.08] text-[11px] font-semibold">
+                                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#18181C] text-zinc-300 border border-zinc-800 text-[11px] font-semibold">
                                   <span className="w-1.5 h-1.5 rounded-full bg-[#a6e795]" />
                                   {card.percentage}% Done
                                 </span>
                               ) : (
-                                <span className="text-zinc-500 text-[11px] font-medium px-2 py-0.5 rounded-full bg-white/[0.02] border border-white/[0.06]">
+                                <span className="text-zinc-500 text-[11px] font-medium px-2 py-0.5 rounded-full bg-zinc-800/40 border border-zinc-800">
                                   Not started
                                 </span>
                               )}
@@ -253,10 +253,10 @@ export default function SheetsOverview({ progressList }: SheetsOverviewProps) {
 
                           {/* Monochrome Breakdown */}
                           <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono text-zinc-400 pt-1">
-                            <span className="px-2 py-0.5 rounded bg-white/[0.03] text-zinc-300 border border-white/[0.08]">
+                            <span className="px-2 py-0.5 rounded bg-[#18181C] text-zinc-300 border border-zinc-800/80">
                               {card.totalCount} problems
                             </span>
-                            <span className="px-2 py-0.5 rounded bg-white/[0.03] text-zinc-300 border border-white/[0.08]">
+                            <span className="px-2 py-0.5 rounded bg-[#18181C] text-zinc-300 border border-zinc-800/80">
                               {card.topicsCount} topics
                             </span>
                             <span className="h-3 w-px bg-zinc-800 mx-1 hidden sm:inline" />
@@ -278,7 +278,7 @@ export default function SheetsOverview({ progressList }: SheetsOverviewProps) {
                             {card.sampleTopics.map((topic) => (
                               <span
                                 key={topic}
-                                className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.02] text-zinc-400 border border-white/[0.06]"
+                                className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#18181C] text-zinc-400 border border-zinc-800/80"
                               >
                                 {topic}
                               </span>

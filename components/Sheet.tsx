@@ -196,55 +196,54 @@ export default function Sheet({
                 }}
               />
 
-              {/* Big Number of Questions */}
-              <div className="absolute top-2 right-4 text-7xl sm:text-8xl font-black font-mono tracking-tighter text-white/[0.12] select-none pointer-events-none">
+              {/* Big Number of Questions in top-right */}
+              <div className="absolute top-3 right-5 sm:right-7 text-6xl sm:text-8xl font-black font-mono tracking-tighter text-white/[0.14] select-none pointer-events-none transition-all">
                 {sheet.totalProblems}
               </div>
 
-              <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-2 text-xs text-zinc-400 mb-1">
-                    <Link
-                      href="/sheets"
-                      className="hover:text-white transition-colors"
-                    >
-                      Sheets
-                    </Link>
-                    <span>/</span>
-                    <span style={{ color: theme.accentColor }}>{sheet.title}</span>
-                  </div>
-                  <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                    {sheet.title}
-                  </h1>
-                  <p className="text-zinc-400 text-xs sm:text-sm mt-1">
-                    Curated roadmap of {sheet.totalProblems} problems across{" "}
-                    {sheet.sections.length} core topics.
-                  </p>
+              {/* Title & Roadmap Info */}
+              <div className="relative z-10 pr-24 sm:pr-32">
+                <div className="flex items-center gap-2 text-xs text-zinc-400 mb-1">
+                  <Link
+                    href="/sheets"
+                    className="hover:text-white transition-colors"
+                  >
+                    Sheets
+                  </Link>
+                  <span>/</span>
+                  <span style={{ color: theme.accentColor }}>{sheet.title}</span>
                 </div>
+                <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                  {sheet.title}
+                </h1>
+                <p className="text-zinc-400 text-xs sm:text-sm mt-1 leading-relaxed">
+                  Curated roadmap of {sheet.totalProblems} problems across{" "}
+                  {sheet.sections.length} core topics.
+                </p>
+              </div>
 
-                {/* Big Counter with frosted glass */}
-                <div className="flex items-baseline gap-2 bg-white/[0.04] backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/[0.08] self-start sm:self-auto shadow-lg">
-                  <span className="text-2xl sm:text-3xl font-bold font-mono text-white">
-                    {stats.solved}
-                  </span>
-                  <span className="text-sm font-mono text-zinc-500">
-                    / {stats.total}
-                  </span>
+              {/* Overall Progress Section */}
+              <div className="relative z-10 space-y-2 pt-1">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-zinc-400">Progress:</span>
+                    <strong className="text-sm sm:text-base font-bold text-white font-mono">
+                      {stats.solved}
+                    </strong>
+                    <span className="text-zinc-500 font-mono">/ {stats.total} solved</span>
+                  </div>
                   <span
-                    className="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full"
+                    className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
                     style={{
                       backgroundColor: `${theme.accentColor}1A`,
                       color: theme.accentColor,
                       border: `1px solid ${theme.accentColor}33`,
                     }}
                   >
-                    {stats.percentage}%
+                    {stats.percentage}% Done
                   </span>
                 </div>
-              </div>
 
-              {/* Overall Progress Bar */}
-              <div className="relative z-10 space-y-1.5">
                 <div className="w-full h-2 rounded-full bg-zinc-800/80 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-emerald-500 to-[#a6e795] transition-all duration-500 rounded-full"
